@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GP Song Tools</title>
+  <meta name="description" content="One place to open every tool in the gp-songtools collection.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
+  <style>
+    :root {
+      --bg: #f6f5f2;
+      --surface: #ffffff;
+      --border: #e2dfd8;
+      --text: #1c1b19;
+      --muted: #6b675f;
+      --accent: #c2410c;
+      --accent-text: #ffffff;
+      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --surface: #1c1c1c;
+        --border: #2e2e2e;
+        --text: #f1efe9;
+        --muted: #a39f96;
+        --accent: #fb923c;
+        --accent-text: #1a0d03;
+        --shadow: none;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    main { max-width: 960px; margin: 0 auto; padding: 48px 16px 64px; }
+    header { margin-bottom: 32px; }
+    h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.01em; }
+    header p { margin: 0; color: var(--muted); }
+    .search {
+      margin-top: 24px;
+      width: 100%;
+      max-width: 360px;
+      padding: 10px 14px;
+      font: inherit;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .search:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: border-color .15s, transform .15s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .icon { font-size: 1.75rem; line-height: 1; margin-bottom: 12px; }
+    .card h2 { font-size: 1.125rem; margin: 0 0 4px; }
+    .card p { margin: 0 0 20px; color: var(--muted); flex: 1; }
+    .actions { display: flex; gap: 8px; align-items: center; }
+    .btn {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: .9375rem;
+      text-decoration: none;
+    }
+    .btn.primary { background: var(--accent); color: var(--accent-text); }
+    .btn.primary:hover { filter: brightness(1.08); }
+    .btn.ghost { color: var(--muted); }
+    .btn.ghost:hover { color: var(--text); }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .empty { color: var(--muted); display: none; }
+    footer { margin-top: 48px; color: var(--muted); font-size: .875rem; }
+    footer a { color: inherit; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>🎛️ GP Song Tools</h1>
+      <p>Every songwriting and production tool in one place.</p>
+      <input class="search" type="search" placeholder="Filter tools…" aria-label="Filter tools" id="search">
+    </header>
+
+    <ul class="grid" id="tools"></ul>
+    <p class="empty" id="empty">No tools match that filter.</p>
+
+    <footer>
+      Source for every tool lives in the
+      <a href="https://github.com/gp-songtools">gp-songtools GitHub organization</a>.
+    </footer>
+  </main>
+
+  <script>
+    // To add a tool, add an entry here. `url` is the live app, `repo` the GitHub repo name.
+    const ORG = "gp-songtools";
+    const TOOLS = [
+      {
+        name: "LyricPad",
+        repo: "lyricpad",
+        icon: "✍️",
+        description: "Lyrics assistant for drafting and refining song lyrics.",
+        url: "https://gp-songtools.github.io/lyricpad/"
+      },
+      {
+        name: "Suno Style Creator",
+        repo: "suno-style-creator",
+        icon: "🎨",
+        description: "Build style prompts for generating tracks in Suno.",
+        url: "https://gp-songtools.github.io/suno-style-creator/"
+      },
+      {
+        name: "EarPrint",
+        repo: "earprint",
+        icon: "👂",
+        description: "Music analyzer for breaking down a track's characteristics.",
+        url: "https://gp-songtools.github.io/earprint/"
+      },
+      {
+        name: "GP Master",
+        repo: "gp-master",
+        icon: "🎚️",
+        description: "Mastering tool for finishing and polishing your mixes.",
+        url: "https://gp-songtools.github.io/gp-master/"
+      }
+    ];
+
+    const list = document.getElementById("tools");
+    const empty = document.getElementById("empty");
+
+    function render(filter = "") {
+      const q = filter.trim().toLowerCase();
+      const shown = TOOLS.filter(t =>
+        !q || (t.name + " " + t.description).toLowerCase().includes(q));
+      list.innerHTML = "";
+      for (const t of shown) {
+        const li = document.createElement("li");
+        li.className = "card";
+        li.innerHTML = `
+          <div class="icon" aria-hidden="true"></div>
+          <h2></h2>
+          <p></p>
+          <div class="actions">
+            <a class="btn primary" target="_blank" rel="noopener">Open</a>
+            <a class="btn ghost" target="_blank" rel="noopener">Source</a>
+          </div>`;
+        li.querySelector(".icon").textContent = t.icon;
+        li.querySelector("h2").textContent = t.name;
+        li.querySelector("p").textContent = t.description;
+        const [open, src] = li.querySelectorAll("a");
+        open.href = t.url;
+        open.setAttribute("aria-label", `Open ${t.name}`);
+        src.href = `https://github.com/${ORG}/${t.repo}`;
+        src.setAttribute("aria-label", `${t.name} source on GitHub`);
+        list.appendChild(li);
+      }
+      empty.style.display = shown.length ? "none" : "block";
+    }
+
+    document.getElementById("search").addEventListener("input", e => render(e.target.value));
+    render();
+  </script>
+</body>
+</html>
