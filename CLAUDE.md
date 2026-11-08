@@ -31,7 +31,7 @@
 
 ## Current tools (names/descriptions from each repo's README)
 - `lyricpad` — Lyricpad
-- `suno-style-creator` — SunoPrompt AI
+- `suno-style-creator` — Suno Style Creator
 - `earprint` — Earprint
 - `gp-master` — GP Mastering
 
