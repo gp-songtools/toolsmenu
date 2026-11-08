@@ -8,8 +8,8 @@ Live site (once GitHub Pages is enabled): https://gp-songtools.github.io/toolsme
 
 | Tool | Description | App | Changelog |
 |------|-------------|-----|-----------|
-| [Lyricpad](https://github.com/gp-songtools/lyricpad) | Lyric writing with syllable counts, rhymes and thesaurus | https://gp-songtools.github.io/lyricpad/ | https://github.com/gp-songtools/lyricpad/commits/main/ (commit history) |
-| [Suno Style Creator](https://github.com/gp-songtools/suno-style-creator) | Suno style tags, structure and lyrics | https://gp-songtools.github.io/suno-style-creator/ | https://github.com/gp-songtools/suno-style-creator/commits/main/ (commit history) |
+| [Lyricpad](https://github.com/gp-songtools/lyricpad) | Lyric writing with syllable counts, rhymes and thesaurus | https://gp-songtools.github.io/lyricpad/ | https://github.com/gp-songtools/lyricpad/blob/main/CHANGELOG.md |
+| [Suno Style Creator](https://github.com/gp-songtools/suno-style-creator) | Suno style tags, structure and lyrics | https://gp-songtools.github.io/suno-style-creator/ | https://github.com/gp-songtools/suno-style-creator/blob/main/CHANGELOG.md |
 | [Earprint](https://github.com/gp-songtools/earprint) | Track analyzer with AI review | https://gp-songtools.github.io/earprint/ | https://github.com/gp-songtools/earprint/blob/main/CHANGELOG.md |
 | [GP Mastering](https://github.com/gp-songtools/gp-master) | Browser-based mastering | https://gp-songtools.github.io/gp-master/ | https://gp-songtools.github.io/gp-master/changelog.html |
 
