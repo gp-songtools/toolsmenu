@@ -29,11 +29,11 @@
 - Live app URL pattern: `https://gp-songtools.github.io/<repo>/`
 - Mirror every change in the `README.md` tool table
 
-## Current tools
-- `lyricpad` — LyricPad
-- `suno-style-creator` — Suno Style Creator
-- `earprint` — EarPrint
-- `gp-master` — GP Master (no homepage set on repo; Pages URL assumed)
+## Current tools (names/descriptions from each repo's README)
+- `lyricpad` — Lyricpad
+- `suno-style-creator` — SunoPrompt AI
+- `earprint` — Earprint
+- `gp-master` — GP Mastering
 
 ## Constraints
 - Keep it single-file; no frameworks, bundlers, or external scripts

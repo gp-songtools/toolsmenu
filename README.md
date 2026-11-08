@@ -8,10 +8,10 @@ Live site (once GitHub Pages is enabled): https://gp-songtools.github.io/toolsme
 
 | Tool | Description | App |
 |------|-------------|-----|
-| [LyricPad](https://github.com/gp-songtools/lyricpad) | Lyrics assistant | https://gp-songtools.github.io/lyricpad/ |
-| [Suno Style Creator](https://github.com/gp-songtools/suno-style-creator) | Style prompts for Suno | https://gp-songtools.github.io/suno-style-creator/ |
-| [EarPrint](https://github.com/gp-songtools/earprint) | Music analyzer | https://gp-songtools.github.io/earprint/ |
-| [GP Master](https://github.com/gp-songtools/gp-master) | Mastering tool | https://gp-songtools.github.io/gp-master/ |
+| [Lyricpad](https://github.com/gp-songtools/lyricpad) | Lyric writing with syllable counts, rhymes and thesaurus | https://gp-songtools.github.io/lyricpad/ |
+| [SunoPrompt AI](https://github.com/gp-songtools/suno-style-creator) | Suno style tags, structure and lyrics | https://gp-songtools.github.io/suno-style-creator/ |
+| [Earprint](https://github.com/gp-songtools/earprint) | Track analyzer with AI review | https://gp-songtools.github.io/earprint/ |
+| [GP Mastering](https://github.com/gp-songtools/gp-master) | Browser-based mastering | https://gp-songtools.github.io/gp-master/ |
 
 ## Adding a tool
 
