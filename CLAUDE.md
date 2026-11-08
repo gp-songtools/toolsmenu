@@ -25,7 +25,8 @@
 
 ## Adding / editing a tool
 - Edit the `TOOLS` array in `index.html` `<script>`
-- Fields: `name`, `repo` (repo name in org), `icon` (emoji), `description`, `url` (live app)
+- Fields: `name`, `repo` (repo name in org), `icon` (emoji), `description`, `url` (live app), `changelog`
+- `changelog`: hosted page > repo `CHANGELOG.md` > `https://github.com/gp-songtools/<repo>/commits/main/`
 - Live app URL pattern: `https://gp-songtools.github.io/<repo>/`
 - Mirror every change in the `README.md` tool table
 
