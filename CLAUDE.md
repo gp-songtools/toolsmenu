@@ -8,8 +8,8 @@
 ## Directory map
 - `index.html` — entire site: inline CSS, inline JS, `TOOLS` array
 - `README.md` — tool table, add-a-tool and publishing steps
-- `CLAUDE.md` — this file
-- `.git/` — `main` = deploy branch
+- `privacy.html` — Privacy & credits for every tool
+- `CLAUDE.md` — this file; `main` = deploy branch
 - (no other dirs; no `src/`, `dist/`, or tests)
 
 ## Commands
@@ -37,7 +37,9 @@
 - `gp-master` — GP Mastering
 
 ## Constraints
-- Keep it single-file; no frameworks, bundlers, or external scripts
+- No frameworks, bundlers, or external scripts, except the Cloudflare Web Analytics snippet
+- Every page ends with the Cloudflare Web Analytics snippet (token `2c5b0c69f74b496998f02d0e1f651bd5`, one site for all of `gp-songtools.github.io`)
+- `privacy.html` — suite-wide Privacy & credits page that every tool links to; update it when any tool changes what it sends, stores or credits
 - Cards render via `textContent`, not `innerHTML`, for tool data
 - Colors are CSS vars on `:root`; dark mode via `prefers-color-scheme`
 - Layout must work at 390px width with no horizontal scroll
