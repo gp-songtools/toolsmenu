@@ -53,7 +53,7 @@
   <a class="back" href="./">← All tools</a>
   <h1>Privacy &amp; credits</h1>
   <p class="meta">Last updated: November 9, 2026</p>
-  <p>This page covers every tool at <code>gp-songtools.github.io</code>: the tools menu, Lyricpad, Suno Style Creator, Earprint and GP Mastering. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
+  <p>This page covers every tool at <code>gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint and GP Mastering. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
 
   <nav class="toc" aria-label="On this page">
     <ul>
@@ -88,7 +88,7 @@
   <h3>Lyricpad</h3>
   <p>Lyrics and settings stay in your browser. Saving to Google Drive and AI line suggestions are optional. Lyricpad has its own <a href="https://gp-songtools.github.io/lyricpad/privacy.html">privacy policy</a> with the full details, including how it uses Google Drive.</p>
 
-  <h3>Suno Style Creator</h3>
+  <h3>GP Blueprint</h3>
   <ul>
     <li><b>Gemini:</b> when you press Generate, the artist, song, topic, pasted lyrics and any YouTube Music link go from your browser directly to Google's Gemini API under your own key. <a href="https://policies.google.com/privacy">Google's privacy policy</a> and the <a href="https://ai.google.dev/gemini-api/terms">Gemini API terms</a> apply.</li>
     <li><b>MusicAtlas (optional, on by default):</b> the artist and song names are sent to <a href="https://musicatlas.ai/">MusicAtlas</a> for audio analysis. The request passes through a small relay we run on Cloudflare Workers, because MusicAtlas cannot be called from a browser directly. The relay forwards the request and stores nothing. You can turn MusicAtlas off in the form.</li>
@@ -124,7 +124,7 @@
     <li><a href="https://github.com/anthropics/anthropic-sdk-typescript">Anthropic TypeScript SDK</a> (MIT licence).</li>
   </ul>
 
-  <h3>Suno Style Creator</h3>
+  <h3>GP Blueprint</h3>
   <ul>
     <li><a href="https://musicatlas.ai/">MusicAtlas</a> for audio analysis of real recordings.</li>
     <li><a href="https://react.dev/">React</a> (MIT), <a href="https://tailwindcss.com/">Tailwind CSS</a> (MIT), <a href="https://lucide.dev/">Lucide</a> icons (ISC) and the <a href="https://github.com/modelcontextprotocol/typescript-sdk">Model Context Protocol SDK</a> (MIT), built with <a href="https://vite.dev/">Vite</a> (MIT).</li>
