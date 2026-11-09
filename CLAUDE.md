@@ -32,7 +32,7 @@
 
 ## Current tools (names/descriptions from each repo's README)
 - `lyricpad` — Lyricpad
-- `suno-style-creator` — Suno Style Creator
+- `suno-style-creator` — GP Blueprint (formerly Suno Style Creator; never put "Suno" in its name)
 - `earprint` — Earprint
 - `gp-master` — GP Mastering
 
