@@ -53,7 +53,7 @@
   <a class="back" href="./">← All tools</a>
   <h1>Privacy &amp; credits</h1>
   <p class="meta">Last updated: November 9, 2026</p>
-  <p>This page covers every tool at <code>gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint and GP Mastering. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
+  <p>This page covers every tool at <code>gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint, GP Mastering and AuraLyrics Studio. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
 
   <nav class="toc" aria-label="On this page">
     <ul>
@@ -67,7 +67,7 @@
   </nav>
 
   <h2 id="stats">Visit statistics (all tools)</h2>
-  <p>Every page loads <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> so we can see how many people use each tool. It reports, in aggregate:</p>
+  <p>The pages of every tool except AuraLyrics Studio load <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> so we can see how many people use each tool. It reports, in aggregate:</p>
   <ul>
     <li>which page was visited, and the site you came from;</li>
     <li>your browser, operating system and device type;</li>
@@ -110,8 +110,18 @@
     <li><b>Downloads:</b> the MP3 and M4A encoders load from the cdnjs and jsDelivr code hosts, and fonts from Google Fonts. Like any host, they see your IP address.</li>
   </ul>
 
+  <h3>AuraLyrics Studio</h3>
+  <ul>
+    <li><b>Audio and video:</b> your song is played, visualised and exported as a video entirely in your browser. Nothing is uploaded for this.</li>
+    <li><b>In-browser transcription (optional):</b> the Whisper speech-recognition model runs on your device. The first time, the transcription library downloads from the jsDelivr code host and the model from Hugging Face; your audio stays on your device.</li>
+    <li><b>Cloud transcription (optional):</b> if you choose Groq or OpenAI, the audio (converted to 16 kHz mono) goes from your browser directly to that provider under your own API key. <a href="https://groq.com/privacy-policy/">Groq's</a> or <a href="https://openai.com/policies/privacy-policy/">OpenAI's</a> privacy policy applies.</li>
+    <li><b>Stored on your device:</b> your settings, custom colour palettes, any background or cover image you add, your chosen Whisper model and your Groq or OpenAI key, all in this browser's storage.</li>
+    <li><b>Downloads:</b> page styling loads from the Tailwind CSS code host and fonts from Google Fonts. Like any host, they see your IP address.</li>
+    <li><b>Visit statistics:</b> AuraLyrics Studio does not load Cloudflare Web Analytics yet.</li>
+  </ul>
+
   <h2 id="keys">Your API keys</h2>
-  <p>The AI features use your own Gemini or Claude API key. Keys are sent only to the provider they belong to, straight from your browser. They are kept in memory and forgotten when you close the tab, unless you tick the tool's "Remember" option, which saves the key in this browser's storage on this device only. Because all the tools share the <code>gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so don't tick Remember on a shared computer.</p>
+  <p>The AI features use your own Gemini or Claude API key. Keys are sent only to the provider they belong to, straight from your browser. They are kept in memory and forgotten when you close the tab, unless you tick the tool's "Remember" option, which saves the key in this browser's storage on this device only. Because all the tools share the <code>gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so don't tick Remember on a shared computer. AuraLyrics Studio always saves your Groq or OpenAI key in this browser (there is no Remember option), so use it only on your own device, and clear the key field or the site data when you are done.</p>
 
   <h2 id="credits">Credits</h2>
   <p>These tools build on other people's work, credited here with thanks.</p>
@@ -141,6 +151,14 @@
     <li>Stem separation models: <code>Kim_Vocal_2</code> by <a href="https://github.com/KimberleyJensen">Kimberley Jensen</a>; <code>kuielab_a_drums</code> and <code>kuielab_a_bass</code> from <a href="https://github.com/kuielab/mdx-net">KUIELab-MDX-Net</a> by KUIELab. Distributed by <a href="https://github.com/Anjok07/ultimatevocalremovergui">Ultimate Vocal Remover</a> (Anjok07 and aufr33). The model files carry no licence of their own, so they are used with credit, free of charge, and never in anything paid.</li>
     <li><a href="https://github.com/microsoft/onnxruntime">ONNX Runtime Web</a> (MIT), <a href="https://github.com/zhuker/lamejs">lamejs</a> (LGPL-3.0), <a href="https://github.com/Vanilagy/mp4-muxer">mp4-muxer</a> (MIT) and the <a href="https://fonts.google.com/specimen/Instrument+Sans">Instrument Sans</a> font (SIL Open Font License).</li>
     <li>Full details are in GP Mastering's <a href="https://gp-songtools.github.io/gp-master/help.html#credits">help page</a>.</li>
+  </ul>
+
+  <h3>AuraLyrics Studio</h3>
+  <ul>
+    <li>Speech recognition: <a href="https://github.com/openai/whisper">Whisper</a> by OpenAI (MIT licence, code and model weights), run in the browser with <a href="https://github.com/xenova/transformers.js">Transformers.js</a> by Xenova (Apache-2.0) using its <code>Xenova/whisper-*.en</code> model conversions.</li>
+    <li>Optional cloud transcription by <a href="https://groq.com/">Groq</a> (<code>whisper-large-v3</code>) or <a href="https://openai.com/">OpenAI</a> (<code>whisper-1</code>).</li>
+    <li><a href="https://tailwindcss.com/">Tailwind CSS</a> (MIT).</li>
+    <li>Fonts: <a href="https://fonts.google.com/specimen/Inter">Inter</a>, <a href="https://fonts.google.com/specimen/Montserrat">Montserrat</a>, <a href="https://fonts.google.com/specimen/Orbitron">Orbitron</a>, <a href="https://fonts.google.com/specimen/Cinzel">Cinzel</a> and <a href="https://fonts.google.com/specimen/Space+Grotesk">Space Grotesk</a> (SIL Open Font License), served by Google Fonts.</li>
   </ul>
 
   <h2 id="contact">Changes and contact</h2>
