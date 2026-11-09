@@ -14,6 +14,10 @@ Live site (once GitHub Pages is enabled): https://gp-songtools.github.io/toolsme
 | [GP Mastering](https://github.com/gp-songtools/gp-master) | Browser-based mastering | https://gp-songtools.github.io/gp-master/ | https://gp-songtools.github.io/gp-master/changelog.html |
 | [AuraLyrics Studio](https://github.com/gp-songtools/auralyrics-studio) | Music visualizer and lyric video maker | https://gp-songtools.github.io/auralyrics-studio/ | https://gp-songtools.github.io/auralyrics-studio/changelog.html |
 
+## About page
+
+`about.html` presents every tool and how they hand work to each other, with screenshots in `img/` (WebP, about 1600 px wide). Keep it in step when tools gain headline features or new hand-offs.
+
 ## Privacy & credits
 
 `privacy.html` covers every tool: Cloudflare Web Analytics (on every page), what each tool sends where, and credits. Every tool links to it; update it when a tool changes what it sends, stores or credits.
