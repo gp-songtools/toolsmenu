@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About GP Song Tools</title>
+  <meta name="description" content="Five free tools that take a song from first idea to finished lyric video, all in your browser, and hand your work from one to the next.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
+  <style>
+    :root {
+      --bg: #f6f5f2;
+      --surface: #ffffff;
+      --border: #e2dfd8;
+      --text: #1c1b19;
+      --muted: #6b675f;
+      --accent: #c2410c;
+      --accent-text: #ffffff;
+      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 28px rgba(0,0,0,.07);
+      --bp: #7c3aed;   /* GP Blueprint */
+      --lp: #b4532a;   /* Lyricpad */
+      --gen: #6b675f;  /* your generator */
+      --ep: #d83a72;   /* Earprint */
+      --gm: #00796b;   /* GP Mastering */
+      --al: #db2777;   /* AuraLyrics Studio */
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --surface: #1c1c1c;
+        --border: #2e2e2e;
+        --text: #f1efe9;
+        --muted: #a39f96;
+        --accent: #fb923c;
+        --accent-text: #1a0d03;
+        --shadow: none;
+        --bp: #a78bfa;
+        --lp: #e08a5f;
+        --gen: #a39f96;
+        --ep: #ff6b9c;
+        --gm: #3ccfbf;
+        --al: #f472b6;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    a { color: var(--accent); }
+    main { max-width: 1080px; margin: 0 auto; padding: 24px 16px 72px; }
+    .back { display: inline-block; color: var(--muted); text-decoration: none; font-size: .9375rem; }
+    .back:hover { color: var(--text); }
+
+    /* Hero */
+    .hero { padding: 40px 0 8px; max-width: 760px; }
+    .eyebrow { font-size: .8125rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 12px; }
+    h1 { font-size: clamp(2.1rem, 6vw, 3.4rem); line-height: 1.08; letter-spacing: -.025em; margin: 0 0 18px; }
+    .lede { font-size: 1.1875rem; color: var(--muted); margin: 0 0 26px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn { display: inline-block; padding: 11px 18px; border-radius: 10px; font-weight: 650; text-decoration: none; font-size: 1rem; }
+    .btn.primary { background: var(--accent); color: var(--accent-text); }
+    .btn.primary:hover { filter: brightness(1.08); }
+    .btn.ghost { border: 1px solid var(--border); color: var(--text); background: var(--surface); }
+    .btn.ghost:hover { border-color: var(--accent); }
+
+    /* Pipeline */
+    .flow { list-style: none; margin: 44px 0 8px; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; counter-reset: step; }
+    .flow li { position: relative; background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--c); border-radius: 12px; padding: 14px 12px 12px; box-shadow: var(--shadow); }
+    .flow li::after { content: "→"; position: absolute; right: -11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; z-index: 1; }
+    .flow li:last-child::after { content: none; }
+    .flow .verb { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--c); }
+    .flow a, .flow .name { display: block; font-weight: 700; color: var(--text); text-decoration: none; line-height: 1.25; margin-top: 2px; }
+    .flow a:hover { color: var(--c); }
+    .flow .what { display: block; font-size: .8125rem; color: var(--muted); line-height: 1.4; margin-top: 4px; }
+    .flow .ext { border-top-style: dashed; }
+
+    h2 { font-size: clamp(1.6rem, 4vw, 2.1rem); letter-spacing: -.015em; line-height: 1.15; margin: 0 0 10px; }
+    .section-intro { color: var(--muted); max-width: 720px; margin: 0 0 28px; }
+    section.block { margin-top: 84px; }
+
+    /* Tool features */
+    .tool { display: grid; grid-template-columns: 1fr 1.25fr; gap: 36px; align-items: center; margin: 0 0 64px; }
+    .tool:nth-of-type(even) { grid-template-columns: 1.25fr 1fr; }
+    .tool:nth-of-type(even) .copy { order: 2; }
+    .tool .tag { display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+    .tool h3 { font-size: 1.625rem; margin: 0 0 6px; letter-spacing: -.01em; }
+    .tool h3 a { color: inherit; text-decoration: none; }
+    .tool h3 a:hover { color: var(--c); }
+    .tool .pitch { font-size: 1.0625rem; margin: 0 0 14px; }
+    .tool ul { margin: 0 0 16px; padding-left: 0; list-style: none; }
+    .tool li { position: relative; padding-left: 20px; margin: 0 0 8px; color: var(--text); }
+    .tool li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 8px; height: 8px; border-radius: 2px; background: var(--c); }
+    .tool .open { font-weight: 650; color: var(--c); text-decoration: none; }
+    .tool .open:hover { text-decoration: underline; }
+    figure { margin: 0; }
+    .shot { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow); background: var(--surface); }
+    figcaption { font-size: .8125rem; color: var(--muted); margin-top: 8px; }
+
+    /* Hand-offs */
+    .handoffs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .handoff { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+    .route { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 10px; font-weight: 700; }
+    .pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: .875rem; color: #fff; background: var(--c); }
+    @media (prefers-color-scheme: dark) { .pill { color: #121212; } }
+    .route .arrow { color: var(--muted); }
+    .handoff h3 { font-size: 1.1875rem; margin: 0 0 6px; }
+    .handoff p { margin: 0 0 10px; color: var(--muted); }
+    .handoff ol { margin: 0; padding-left: 20px; }
+    .handoff li { margin: 0 0 6px; }
+    .duo { display: grid; grid-template-columns: 1.45fr 1fr; gap: 16px; align-items: start; margin: 0 0 16px; }
+    .duo .shot { max-height: 520px; object-fit: cover; object-position: top; }
+    b, strong { font-weight: 650; }
+
+    /* Principles */
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .principle { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 18px 14px; }
+    .principle .icon { font-size: 1.5rem; line-height: 1; }
+    .principle h3 { font-size: 1.0625rem; margin: 10px 0 4px; }
+    .principle p { margin: 0; color: var(--muted); font-size: .9375rem; }
+
+    .closing { margin-top: 84px; text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 40px 20px; box-shadow: var(--shadow); }
+    .closing h2 { margin-bottom: 8px; }
+    .closing p { color: var(--muted); margin: 0 auto 22px; max-width: 560px; }
+    .closing .cta { justify-content: center; }
+    footer { margin-top: 48px; color: var(--muted); font-size: .875rem; text-align: center; }
+    footer a { color: inherit; }
+
+    @media (max-width: 900px) {
+      .flow { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      .flow li:nth-child(3)::after { content: none; }
+      .tool, .tool:nth-of-type(even) { grid-template-columns: 1fr; gap: 18px; margin-bottom: 56px; }
+      .tool:nth-of-type(even) .copy { order: 0; }
+      .handoffs, .principles { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      body { font-size: 16px; }
+      .flow { grid-template-columns: repeat(2, 1fr); }
+      .flow li:nth-child(3)::after { content: "→"; }
+      .flow li:nth-child(even)::after { content: none; }
+      .duo { grid-template-columns: 1fr; }
+      section.block { margin-top: 64px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <a class="back" href="./">← All tools</a>
+
+  <header class="hero">
+    <p class="eyebrow">About GP Song Tools</p>
+    <h1>From first idea to finished lyric video, without leaving your browser.</h1>
+    <p class="lede">Five free tools that each do one job brilliantly, and pass your work to the next one. Plan the sound, write the words, check the track, master it and make the video. No accounts, no uploads you didn't ask for, nothing to install.</p>
+    <div class="cta">
+      <a class="btn primary" href="./">Open the tools</a>
+      <a class="btn ghost" href="#handoffs">See how they connect</a>
+    </div>
+  </header>
+
+  <ol class="flow" aria-label="The GP Song Tools workflow">
+    <li style="--c: var(--bp)"><span class="verb">1 · Plan</span><a href="#blueprint">GP Blueprint</a><span class="what">Style, structure and stems</span></li>
+    <li style="--c: var(--lp)"><span class="verb">2 · Write</span><a href="#lyricpad">Lyricpad</a><span class="what">Lyrics that fit the plan</span></li>
+    <li class="ext" style="--c: var(--gen)"><span class="verb">3 · Generate</span><span class="name">Your AI music app</span><span class="what">Paste the prompt and lyrics into Suno or similar</span></li>
+    <li style="--c: var(--ep)"><span class="verb">4 · Analyze</span><a href="#earprint">Earprint</a><span class="what">Measure it, review it</span></li>
+    <li style="--c: var(--gm)"><span class="verb">5 · Finish</span><a href="#gpmastering">GP Mastering</a><span class="what">Fix, master, split stems</span></li>
+    <li style="--c: var(--al)"><span class="verb">6 · Share</span><a href="#auralyrics">AuraLyrics Studio</a><span class="what">A lyric video, ready to post</span></li>
+  </ol>
+
+  <section class="block" aria-labelledby="tools-h">
+    <h2 id="tools-h">Meet the tools</h2>
+    <p class="section-intro">Each one is fast, focused and runs entirely on your device. Here's what they can do.</p>
+
+    <article class="tool" id="blueprint" style="--c: var(--bp)">
+      <div class="copy">
+        <span class="tag">1 · Plan</span>
+        <h3><a href="https://gp-songtools.github.io/gp-blueprint/">GP Blueprint</a></h3>
+        <p class="pitch">Name an artist you love and get a complete plan for a new song in their style, ready to paste into Suno.</p>
+        <ul>
+          <li>A rich <b>style prompt</b>, up to Suno's 1,000 characters, with no artist names to get rejected.</li>
+          <li><b>Stem prompts</b> for each instrument group, so you can generate layers one at a time.</li>
+          <li>A <b>section-by-section structure</b>: bars, seconds, line counts, rhyme scheme and syllables for every section, on a coloured timeline.</li>
+          <li>Original <b>lyrics written to fit</b> that structure exactly.</li>
+          <li><b>Grounded in real audio</b>: MusicAtlas measures the actual recording's tempo and key, and Gemini can listen to a YouTube Music link itself.</li>
+        </ul>
+        <a class="open" href="https://gp-songtools.github.io/gp-blueprint/">Open GP Blueprint →</a>
+      </div>
+      <figure>
+        <img class="shot" src="img/blueprint.webp" width="1600" height="1000" loading="lazy" alt="GP Blueprint showing a generated Suno style prompt for a French house track, with stem prompts below">
+      </figure>
+    </article>
+
+    <article class="tool" id="lyricpad" style="--c: var(--lp)">
+      <div class="copy">
+        <span class="tag">2 · Write</span>
+        <h3><a href="https://gp-songtools.github.io/lyricpad/">Lyricpad</a></h3>
+        <p class="pitch">A calm, fast lyric editor that counts every syllable while you type.</p>
+        <ul>
+          <li><b>Live syllable counts</b> beside every line, with ranges for words like "fire" and a per-word breakdown.</li>
+          <li><b>Rhyme finder</b> with perfect, near and vowel rhymes. Double-click any word in your lyrics.</li>
+          <li><b>Thesaurus</b> with a "must rhyme with" filter, for the word that means the right thing and lands on the rhyme.</li>
+          <li><b>AI line suggestions</b> with Claude or Gemini: rewrite a line or write the next one, to a syllable count, rhyme, start or end.</li>
+          <li><b>Saves to your Google Drive</b>, with auto-save. Lyricpad can only see the files it created.</li>
+        </ul>
+        <a class="open" href="https://gp-songtools.github.io/lyricpad/">Open Lyricpad →</a>
+      </div>
+      <figure>
+        <img class="shot" src="img/lyricpad.webp" width="1600" height="1000" loading="lazy" alt="Lyricpad with a verse and chorus, syllable counts in the margin, and rhymes for 'glow' in the side panel">
+      </figure>
+    </article>
+
+    <article class="tool" id="earprint" style="--c: var(--ep)">
+      <div class="copy">
+        <span class="tag">4 · Analyze</span>
+        <h3><a href="https://gp-songtools.github.io/earprint/">Earprint</a></h3>
+        <p class="pitch">Drop in a track and see what it's made of, then get an honest second opinion.</p>
+        <ul>
+          <li><b>Measured in your browser</b>: tempo, key with its Camelot code, loudness and loudness range.</li>
+          <li>An <b>energy timeline</b>, a <b>character radar</b>, a <b>mood map</b> and the track's <b>pitch profile</b>.</li>
+          <li>An <b>AI review</b> with a just-for-fun 0–10 rating, specific ideas to make it better, genres, moods, instruments and lyric themes.</li>
+          <li>Gemini can <b>listen</b> to your file or to a YouTube link.</li>
+          <li><b>Edits for GP Mastering</b>: exact, time-coded fixes you can paste straight in.</li>
+        </ul>
+        <a class="open" href="https://gp-songtools.github.io/earprint/">Open Earprint →</a>
+      </div>
+      <figure>
+        <img class="shot" src="img/earprint.webp" width="1600" height="1000" loading="lazy" alt="Earprint showing tempo 123.6 BPM, key A minor (8A), loudness readouts, an energy timeline, a character radar, a mood map and a pitch profile">
+      </figure>
+    </article>
+
+    <article class="tool" id="gpmastering" style="--c: var(--gm)">
+      <div class="copy">
+        <span class="tag">5 · Finish</span>
+        <h3><a href="https://gp-songtools.github.io/gp-master/">GP Mastering</a></h3>
+        <p class="pitch">A serious mastering studio that runs in a browser tab, and your audio never leaves your computer.</p>
+        <ul>
+          <li><b>Full master, light polish or loudness only</b>, to any loudness target, finished with a true-peak limiter.</li>
+          <li><b>Reference tracks</b>: load up to five songs you love and it aims for their tone and width. It even warns you when the references disagree.</li>
+          <li><b>Stem separation</b> into vocals, drums, bass and other, right on your device. Rebalance the mix or download each stem.</li>
+          <li><b>Region tools</b> on a beat grid that can follow a drifting tempo: volume automation, filter sweeps, reverb and delay throws, risers, pitch shifts, and repeating or cutting whole bars.</li>
+          <li>A <b>level-matched A/B</b> player, a mono check for phone speakers, and export to WAV, MP3 or M4A.</li>
+        </ul>
+        <a class="open" href="https://gp-songtools.github.io/gp-master/">Open GP Mastering →</a>
+      </div>
+      <figure>
+        <img class="shot" src="img/gpmaster.webp" width="1600" height="1000" loading="lazy" alt="GP Mastering's Listen card with a song's waveform on a numbered bar grid and Original / Mastered comparison buttons">
+      </figure>
+    </article>
+
+    <article class="tool" id="auralyrics" style="--c: var(--al)">
+      <div class="copy">
+        <span class="tag">6 · Share</span>
+        <h3><a href="https://gp-songtools.github.io/auralyrics-studio/">AuraLyrics Studio</a></h3>
+        <p class="pitch">Turn your finished song into a lyric video that moves with the music.</p>
+        <ul>
+          <li><b>Audio-reactive visualizers</b>: Pulse Rings, Mirror Bars, Inferno Spectrum, Spiral Burst, VU Meter, LED Meter, Dot Spectrum and more.</li>
+          <li>A <b>spinning vinyl turntable</b> with your cover art, floating particles, background images and your own <b>colour palettes</b>.</li>
+          <li><b>Drag-and-resize layout editor</b> for the visualizer, turntable and lyrics.</li>
+          <li><b>Lyrics timed for you</b>: Whisper transcribes the vocals in your browser, or use Groq or OpenAI, and "Align to my lyrics" keeps your exact words.</li>
+          <li><b>Export MP4 or WebM</b> in 1080p, 720p, square or vertical for Shorts, Reels and TikTok, at up to 60 fps.</li>
+        </ul>
+        <a class="open" href="https://gp-songtools.github.io/auralyrics-studio/">Open AuraLyrics Studio →</a>
+      </div>
+      <figure>
+        <img class="shot" src="img/auralyrics.webp" width="1600" height="1000" loading="lazy" alt="AuraLyrics Studio playing a demo song with a glowing radial visualizer, a spinning turntable and the lyric 'Riding through the neon light'">
+      </figure>
+    </article>
+  </section>
+
+  <section class="block" id="handoffs" aria-labelledby="handoffs-h">
+    <h2 id="handoffs-h">Better together</h2>
+    <p class="section-intro">The tools speak each other's language. Copy in one, paste in the next, and your work carries on, with the details intact.</p>
+
+    <div class="duo">
+      <figure>
+        <img class="shot" src="img/blueprint-structure.webp" width="1100" height="1015" loading="lazy" alt="GP Blueprint's Song Structure and Meter card listing Intro, Verse 1, Chorus and Breakdown with bars, line counts, rhyme schemes and syllables, and a Copied button">
+        <figcaption>Press Copy on GP Blueprint's Song Structure…</figcaption>
+      </figure>
+      <figure>
+        <img class="shot" src="img/lyricpad-structure.webp" width="750" height="500" loading="lazy" alt="Lyricpad's 'Write a whole song from a structure' box with the pasted structure, reading 4 sections, 8 lines to write, 123 BPM, G major">
+        <figcaption>…paste it into Lyricpad, and it knows exactly what to write: 4 sections, 8 lines, 123 BPM in G major.</figcaption>
+      </figure>
+    </div>
+
+    <div class="handoffs">
+      <article class="handoff">
+        <p class="route"><span class="pill" style="--c: var(--bp)">GP Blueprint</span><span class="arrow">→</span><span class="pill" style="--c: var(--lp)">Lyricpad</span></p>
+        <h3>A plan becomes a full set of lyrics</h3>
+        <p>Blueprint's structure lists every section's lines, syllables and rhyme scheme. Lyricpad reads it and writes a whole song about your topic to fit, checking every line's syllables itself.</p>
+        <ol>
+          <li>In GP Blueprint, press <b>Copy</b> on Song Structure &amp; Meter.</li>
+          <li>In Lyricpad, open <b>Suggest lines › Write a whole song from a structure</b> and paste.</li>
+          <li>Press <b>Write lyrics</b>, then edit with live counts and rhymes.</li>
+        </ol>
+      </article>
+
+      <article class="handoff">
+        <p class="route"><span class="pill" style="--c: var(--ep)">Earprint</span><span class="arrow">→</span><span class="pill" style="--c: var(--gm)">GP Mastering</span></p>
+        <h3>A review becomes real fixes</h3>
+        <p>When Gemini listens to your file, Earprint lists exact edits: a level dip here, a filter sweep into the drop, a riser before the chorus, a bar to repeat. GP Mastering imports them as regions at those exact times, ready to accept or tweak.</p>
+        <ol>
+          <li>In Earprint, press <b>Copy for GP Mastering</b>.</li>
+          <li>In GP Mastering, load the same file and open <b>AI suggestions › Paste suggestions from another tool</b>.</li>
+          <li>Paste and press <b>Import</b>. Edits for one instrument land on that stem.</li>
+        </ol>
+      </article>
+
+      <article class="handoff">
+        <p class="route"><span class="pill" style="--c: var(--lp)">Lyricpad</span><span class="arrow">→</span><span class="pill" style="--c: var(--al)">AuraLyrics Studio</span></p>
+        <h3>Your words, timed to the music</h3>
+        <p>Your section tags help while writing, but you don't want them on screen. Copy the lyrics clean and let AuraLyrics time them to your track.</p>
+        <ol>
+          <li>In Lyricpad, choose <b>Copy ▾ › Copy without [tags]</b>.</li>
+          <li>In AuraLyrics Studio, paste into the lyric editor.</li>
+          <li>Use <b>Auto-Align</b>, or Whisper with <b>Align to my lyrics</b> to keep every word exactly as you wrote it.</li>
+        </ol>
+      </article>
+
+      <article class="handoff">
+        <p class="route"><span class="pill" style="--c: var(--gm)">GP Mastering</span><span class="arrow">→</span><span class="pill" style="--c: var(--al)">AuraLyrics Studio</span></p>
+        <h3>Your finished master, on screen</h3>
+        <p>Export your master as a WAV or MP3 and drop it into AuraLyrics. The visualizers react to the final mix, so the video hits as hard as the song.</p>
+        <ol>
+          <li>In GP Mastering, press <b>Master full song</b> and save the file.</li>
+          <li>In AuraLyrics Studio, drop it onto <b>Audio Creation Upload</b>.</li>
+          <li>Pick a look, then <b>Export Video</b>.</li>
+        </ol>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="why-h">
+    <h2 id="why-h">Built the way tools should be</h2>
+    <p class="section-intro">Every GP Song Tool follows the same rules.</p>
+    <div class="principles">
+      <div class="principle"><div class="icon" aria-hidden="true">🔒</div><h3>Your music stays yours</h3><p>Everything runs in your browser. Audio is only ever sent to an AI service when you press the button that asks it to listen.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🔑</div><h3>Your own AI keys</h3><p>AI features use your own Gemini, Claude, Groq or OpenAI key, sent straight to that provider and nowhere else. Gemini and Groq both have free tiers.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🚪</div><h3>No accounts, no installs</h3><p>Open a link and start. There's nothing to sign up for and nothing to download, on desktop or phone.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🆓</div><h3>Free to use</h3><p>Every tool here is free. The visit counter is anonymous, uses no cookies and never sees your work.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🧭</div><h3>Honest about what it does</h3><p>Plain-language help pages, a changelog for every tool, and a <a href="privacy.html">privacy page</a> that lists exactly what goes where.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🛠️</div><h3>Open on GitHub</h3><p>The code for every tool is <a href="https://github.com/gp-songtools">public on GitHub</a>, so you can see exactly how it works.</p></div>
+    </div>
+  </section>
+
+  <section class="closing" aria-labelledby="go-h">
+    <h2 id="go-h">Your next song starts here</h2>
+    <p>Pick any tool and start where you are. They work great on their own, and even better together.</p>
+    <div class="cta">
+      <a class="btn primary" href="./">Open the tools</a>
+      <a class="btn ghost" href="https://gp-songtools.github.io/gp-blueprint/">Start with a Blueprint</a>
+    </div>
+  </section>
+
+  <footer>
+    <a href="./">All tools</a> · <a href="privacy.html">Privacy &amp; credits</a> · <a href="https://github.com/gp-songtools">GitHub</a>
+  </footer>
+</main>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2c5b0c69f74b496998f02d0e1f651bd5"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
