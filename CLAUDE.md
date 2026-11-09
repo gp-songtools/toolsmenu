@@ -35,7 +35,7 @@
 - `gp-blueprint` — GP Blueprint (formerly Suno Style Creator; never put "Suno" in its name)
 - `earprint` — Earprint
 - `gp-master` — GP Mastering
-- `auralyrics-studio` — AuraLyrics Studio (no changelog yet: links to commit history; no analytics snippet yet)
+- `auralyrics-studio` — AuraLyrics Studio
 
 ## Constraints
 - No frameworks, bundlers, or external scripts, except the Cloudflare Web Analytics snippet

@@ -67,7 +67,7 @@
   </nav>
 
   <h2 id="stats">Visit statistics (all tools)</h2>
-  <p>The pages of every tool except AuraLyrics Studio load <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> so we can see how many people use each tool. It reports, in aggregate:</p>
+  <p>Every page loads <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> so we can see how many people use each tool. It reports, in aggregate:</p>
   <ul>
     <li>which page was visited, and the site you came from;</li>
     <li>your browser, operating system and device type;</li>
@@ -115,13 +115,12 @@
     <li><b>Audio and video:</b> your song is played, visualised and exported as a video entirely in your browser. Nothing is uploaded for this.</li>
     <li><b>In-browser transcription (optional):</b> the Whisper speech-recognition model runs on your device. The first time, the transcription library downloads from the jsDelivr code host and the model from Hugging Face; your audio stays on your device.</li>
     <li><b>Cloud transcription (optional):</b> if you choose Groq or OpenAI, the audio (converted to 16 kHz mono) goes from your browser directly to that provider under your own API key. <a href="https://groq.com/privacy-policy/">Groq's</a> or <a href="https://openai.com/policies/privacy-policy/">OpenAI's</a> privacy policy applies.</li>
-    <li><b>Stored on your device:</b> your settings, custom colour palettes, any background or cover image you add, your chosen Whisper model and your Groq or OpenAI key, all in this browser's storage.</li>
+    <li><b>Stored on your device:</b> your settings, custom colour palettes, any background or cover image you add and your chosen Whisper model, in this browser's storage. Your Groq or OpenAI key is saved there only if you tick "Remember key on this device".</li>
     <li><b>Downloads:</b> page styling loads from the Tailwind CSS code host and fonts from Google Fonts. Like any host, they see your IP address.</li>
-    <li><b>Visit statistics:</b> AuraLyrics Studio does not load Cloudflare Web Analytics yet.</li>
   </ul>
 
   <h2 id="keys">Your API keys</h2>
-  <p>The AI features use your own Gemini or Claude API key. Keys are sent only to the provider they belong to, straight from your browser. They are kept in memory and forgotten when you close the tab, unless you tick the tool's "Remember" option, which saves the key in this browser's storage on this device only. Because all the tools share the <code>gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so don't tick Remember on a shared computer. AuraLyrics Studio always saves your Groq or OpenAI key in this browser (there is no Remember option), so use it only on your own device, and clear the key field or the site data when you are done.</p>
+  <p>The AI features use your own Gemini, Claude, Groq or OpenAI API key. Keys are sent only to the provider they belong to, straight from your browser. They are kept in memory and forgotten when you close the tab, unless you tick the tool's "Remember" option, which saves the key in this browser's storage on this device only. Because all the tools share the <code>gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so don't tick Remember on a shared computer.</p>
 
   <h2 id="credits">Credits</h2>
   <p>These tools build on other people's work, credited here with thanks.</p>
