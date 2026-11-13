@@ -53,7 +53,7 @@
   <a class="back" href="./">← All tools</a>
   <h1>Privacy &amp; credits</h1>
   <p class="meta">Last updated: November 9, 2026</p>
-  <p>This page covers every tool at <code>gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint, GP Mastering and AuraLyrics Studio. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
+  <p>This page covers every tool at <code>gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint, GP Mastering, AuraLyrics Studio and Randomash. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
 
   <nav class="toc" aria-label="On this page">
     <ul>
@@ -119,6 +119,15 @@
     <li><b>Downloads:</b> page styling loads from the Tailwind CSS code host and fonts from Google Fonts. Like any host, they see your IP address.</li>
   </ul>
 
+  <h3>Randomash</h3>
+  <ul>
+    <li><b>Dry run</b> is on by default: it shows the request and its cost and sends nothing.</li>
+    <li><b>Generating:</b> with Dry run off, when you press Generate, the prompt and your settings (tempo, key, seed and so on) go from your browser directly to Google's Gemini API under your own key, and the music comes back. <a href="https://policies.google.com/privacy">Google's privacy policy</a> and the <a href="https://ai.google.dev/gemini-api/terms">Gemini API terms</a> apply. Google marks generated music with its SynthID watermark.</li>
+    <li><b>Stem splitting (optional):</b> runs on your device with GP Mastering's splitter, which downloads its models from this site the first time.</li>
+    <li><b>Stored on your device:</b> your history, clips and trims in this browser's database, your settings and your balance estimate in browser storage, and your key only if you tick "Remember key". If you choose an output folder (Chrome or Edge), runs are also saved there, on your own disk.</li>
+    <li><b>Downloads:</b> fonts load from Google Fonts, which sees your IP address.</li>
+  </ul>
+
   <h2 id="keys">Your API keys</h2>
   <p>The AI features use your own Gemini, Claude, Groq or OpenAI API key. Keys are sent only to the provider they belong to, straight from your browser. They are kept in memory and forgotten when you close the tab unless the tool's "Remember" option is on, which saves the key in this browser's storage on this device only. That option starts on in Lyricpad and off in the other tools. Because all the tools share the <code>gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so turn Remember off on a shared computer.</p>
 
@@ -158,6 +167,13 @@
     <li>Optional cloud transcription by <a href="https://groq.com/">Groq</a> (<code>whisper-large-v3</code>) or <a href="https://openai.com/">OpenAI</a> (<code>whisper-1</code>).</li>
     <li><a href="https://tailwindcss.com/">Tailwind CSS</a> (MIT).</li>
     <li>Fonts: <a href="https://fonts.google.com/specimen/Inter">Inter</a>, <a href="https://fonts.google.com/specimen/Montserrat">Montserrat</a>, <a href="https://fonts.google.com/specimen/Orbitron">Orbitron</a>, <a href="https://fonts.google.com/specimen/Cinzel">Cinzel</a> and <a href="https://fonts.google.com/specimen/Space+Grotesk">Space Grotesk</a> (SIL Open Font License), served by Google Fonts.</li>
+  </ul>
+
+  <h3>Randomash</h3>
+  <ul>
+    <li>Music by Google's <a href="https://deepmind.google/models/lyria/">Lyria 3</a> models through the Gemini API.</li>
+    <li>Stem splitting by GP Mastering's splitter, with the MDX-Net models and ONNX Runtime Web credited under GP Mastering above.</li>
+    <li>The <a href="https://fonts.google.com/specimen/Instrument+Sans">Instrument Sans</a> font (SIL Open Font License), served by Google Fonts.</li>
   </ul>
 
   <h2 id="contact">Changes and contact</h2>
