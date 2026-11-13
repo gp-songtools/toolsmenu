@@ -52,7 +52,7 @@
 <main>
   <a class="back" href="./">← All tools</a>
   <h1>Privacy &amp; credits</h1>
-  <p class="meta">Last updated: November 9, 2026</p>
+  <p class="meta">Last updated: November 13, 2026</p>
   <p>This page covers every tool at <code>gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint, GP Mastering, AuraLyrics Studio and Randomash. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
 
   <nav class="toc" aria-label="On this page">
@@ -104,7 +104,8 @@
 
   <h3>GP Mastering</h3>
   <ul>
-    <li><b>Audio</b> is processed in your browser and never uploaded, including stem separation.</li>
+    <li><b>Audio</b> is processed in your browser and never uploaded, except by the two optional features below.</li>
+    <li><b>Stem separation on your own server (optional):</b> stem separation runs in your browser unless you choose <b>Separate on: My server</b>. Then, when you press Separate, the section you chose goes as 16-bit audio to the server address you entered, and the stems come back. That is a server you run yourself (for example on Modal, whose own privacy terms then apply); GP Song Tools has no server of its own and never sees it. Its access token is sent only to that server, and is kept like an API key (see <a href="#keys">Your API keys</a>).</li>
     <li><b>AI suggestions (optional):</b> only when you press Analyze, a compressed copy of the song goes from your browser directly to Google's Gemini API under your own key.</li>
     <li><b>Stored on your device:</b> settings, saved setups and reference measurements (numbers only, never audio) in browser storage, and separated stems in your browser's database so they don't need separating again.</li>
     <li><b>Downloads:</b> the MP3 and M4A encoders load from the cdnjs and jsDelivr code hosts, and fonts from Google Fonts. Like any host, they see your IP address.</li>
@@ -129,7 +130,7 @@
   </ul>
 
   <h2 id="keys">Your API keys</h2>
-  <p>The AI features use your own Gemini, Claude, Groq or OpenAI API key. Keys are sent only to the provider they belong to, straight from your browser. They are kept in memory and forgotten when you close the tab unless the tool's "Remember" option is on, which saves the key in this browser's storage on this device only. That option starts on in Lyricpad and off in the other tools. Because all the tools share the <code>gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so turn Remember off on a shared computer.</p>
+  <p>The AI features use your own Gemini, Claude, Groq or OpenAI API key. Keys are sent only to the provider they belong to, straight from your browser. GP Mastering&rsquo;s separation server token is handled the same way and sent only to your own server. They are kept in memory and forgotten when you close the tab unless the tool's "Remember" option is on, which saves the key in this browser's storage on this device only. That option starts on in Lyricpad and off in the other tools. Because all the tools share the <code>gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so turn Remember off on a shared computer.</p>
 
   <h2 id="credits">Credits</h2>
   <p>These tools build on other people's work, credited here with thanks.</p>
