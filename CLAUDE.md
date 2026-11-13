@@ -32,6 +32,7 @@
 
 ## Current tools (names/descriptions from each repo's README)
 - `lyricpad` — Lyricpad
+- `gp-randomash` — Randomash (uses GP Mastering's stem splitter)
 - `gp-blueprint` — GP Blueprint (formerly Suno Style Creator; never put "Suno" in its name)
 - `earprint` — Earprint
 - `gp-master` — GP Mastering

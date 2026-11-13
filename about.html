@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About GP Song Tools</title>
-  <meta name="description" content="Five free tools that take a song from first idea to finished lyric video, all in your browser, and hand your work from one to the next.">
+  <meta name="description" content="Six free tools that take a song from first idea to finished lyric video, all in your browser, and hand your work from one to the next.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
   <style>
     :root {
@@ -19,6 +19,7 @@
       --bp: #7c3aed;   /* GP Blueprint */
       --lp: #b4532a;   /* Lyricpad */
       --gen: #6b675f;  /* your generator */
+      --rm: #b45309;   /* Randomash */
       --ep: #d83a72;   /* Earprint */
       --gm: #00796b;   /* GP Mastering */
       --al: #db2777;   /* AuraLyrics Studio */
@@ -36,6 +37,7 @@
         --bp: #a78bfa;
         --lp: #e08a5f;
         --gen: #a39f96;
+        --rm: #fbbf24;
         --ep: #ff6b9c;
         --gm: #3ccfbf;
         --al: #f472b6;
@@ -152,7 +154,7 @@
   <header class="hero">
     <p class="eyebrow">About GP Song Tools</p>
     <h1>From first idea to finished lyric video, without leaving your browser.</h1>
-    <p class="lede">Five free tools that each do one job brilliantly, and pass your work to the next one. Plan the sound, write the words, check the track, master it and make the video. No accounts, no uploads you didn't ask for, nothing to install.</p>
+    <p class="lede">Six free tools that each do one job brilliantly, and pass your work to the next one. Plan the sound, write the words, generate the music, check the track, master it and make the video. No accounts, no uploads you didn't ask for, nothing to install.</p>
     <div class="cta">
       <a class="btn primary" href="./">Open the tools</a>
       <a class="btn ghost" href="#handoffs">See how they connect</a>
@@ -162,7 +164,7 @@
   <ol class="flow" aria-label="The GP Song Tools workflow">
     <li style="--c: var(--bp)"><span class="verb">1 · Plan</span><a href="#blueprint">GP Blueprint</a><span class="what">Style, structure and stems</span></li>
     <li style="--c: var(--lp)"><span class="verb">2 · Write</span><a href="#lyricpad">Lyricpad</a><span class="what">Lyrics that fit the plan</span></li>
-    <li class="ext" style="--c: var(--gen)"><span class="verb">3 · Generate</span><span class="name">Your AI music app</span><span class="what">Paste the prompt and lyrics into Suno or similar</span></li>
+    <li style="--c: var(--rm)"><span class="verb">3 · Generate</span><a href="#randomash">Randomash</a><span class="what">Blend genres into Lyria 3 music, or use Suno</span></li>
     <li style="--c: var(--ep)"><span class="verb">4 · Analyze</span><a href="#earprint">Earprint</a><span class="what">Measure it, review it</span></li>
     <li style="--c: var(--gm)"><span class="verb">5 · Finish</span><a href="#gpmastering">GP Mastering</a><span class="what">Fix, master, split stems</span></li>
     <li style="--c: var(--al)"><span class="verb">6 · Share</span><a href="#auralyrics">AuraLyrics Studio</a><span class="what">A lyric video, ready to post</span></li>
@@ -208,6 +210,26 @@
       </div>
       <figure>
         <img class="shot" src="img/lyricpad.webp" width="1600" height="1000" loading="lazy" alt="Lyricpad with a verse and chorus, syllable counts in the margin, and rhymes for 'glow' in the side panel">
+      </figure>
+    </article>
+
+    <article class="tool" id="randomash" style="--c: var(--rm)">
+      <div class="copy">
+        <span class="tag">3 · Generate</span>
+        <h3><a href="https://gp-songtools.github.io/gp-randomash/">Randomash</a></h3>
+        <p class="pitch">A genre blender for Google's Lyria 3. Mash doom metal into jazz fusion, or klezmer into post-rock, and hear what happens.</p>
+        <ul>
+          <li><b>138 genres in 14 families</b>. Hover any chip to see exactly what it adds to the prompt.</li>
+          <li><b>🎲 Surprise me</b> picks a mix with an interesting <b>clash</b>, rated smooth, interesting or chaotic, so you find blends you'd never have tried.</li>
+          <li><b>Shape it</b>: tempo, energy, 16 moods, any key or one of the seven modes, arrangement, and a seed you can lock to repeat a recipe.</li>
+          <li><b>30-second clips or full songs</b>, instrumental or with <b>vocals</b> in the style of the main genre: growled, rapped, toasting, scat and more.</li>
+          <li><b>Stems</b> as separate parts, or split in your browser by GP Mastering's own splitter. <b>Trim</b> any clip to a bar-perfect loop.</li>
+          <li><b>Dry run</b> is on by default, so you see the exact request and cost before you spend anything. A balance tracker keeps an eye on your Google credit.</li>
+        </ul>
+        <a class="open" href="https://gp-songtools.github.io/gp-randomash/">Open Randomash →</a>
+      </div>
+      <figure>
+        <img class="shot" src="img/randomash.webp" width="1600" height="1000" loading="lazy" alt="Randomash with psychedelic rock and doom metal in the current mix, rated clash 0.33 smooth, above the genre picker's Electronic, Hip-hop, Rock and Metal families">
       </figure>
     </article>
 
@@ -328,6 +350,28 @@
           <li>Pick a look, then <b>Export Video</b>.</li>
         </ol>
       </article>
+
+      <article class="handoff">
+        <p class="route"><span class="pill" style="--c: var(--rm)">Randomash</span><span class="arrow">→</span><span class="pill" style="--c: var(--gm)">GP Mastering's splitter</span></p>
+        <h3>Stems without leaving the page</h3>
+        <p>Randomash doesn't have its own stem splitter. It borrows GP Mastering's, running the same models in your browser, so a generated mix comes back as drums, bass, other and (with vocals on) vocals.</p>
+        <ol>
+          <li>In Randomash, tick <b>Stems</b>, then <b>Use the gp-master stem splitter instead</b>.</li>
+          <li>Press <b>Generate</b>. The first time, the models download once.</li>
+          <li>Each stem gets its own player and download link.</li>
+        </ol>
+      </article>
+
+      <article class="handoff">
+        <p class="route"><span class="pill" style="--c: var(--rm)">Randomash</span><span class="arrow">→</span><span class="pill" style="--c: var(--ep)">Earprint</span></p>
+        <h3>Find out what you just made</h3>
+        <p>A wild genre mash can surprise you. Drop the clip into Earprint to see its real tempo, key and mood, and get a second opinion before you build on it.</p>
+        <ol>
+          <li>In Randomash, use the clip's <b>download</b> link.</li>
+          <li>In Earprint, press <b>Choose audio file</b> and pick it.</li>
+          <li>Read the measurements, or ask for an AI review.</li>
+        </ol>
+      </article>
     </div>
   </section>
 
@@ -336,7 +380,7 @@
     <p class="section-intro">Every GP Song Tool follows the same rules.</p>
     <div class="principles">
       <div class="principle"><div class="icon" aria-hidden="true">🔒</div><h3>Your music stays yours</h3><p>Everything runs in your browser. Audio is only ever sent to an AI service when you press the button that asks it to listen.</p></div>
-      <div class="principle"><div class="icon" aria-hidden="true">🔑</div><h3>Your own AI keys</h3><p>AI features use your own Gemini, Claude, Groq or OpenAI key, sent straight to that provider and nowhere else. Gemini and Groq both have free tiers.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🔑</div><h3>Your own AI keys</h3><p>AI features use your own Gemini, Claude, Groq or OpenAI key, sent straight to that provider and nowhere else. Gemini and Groq both have free tiers; Randomash's Lyria music models need billing turned on.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🚪</div><h3>No accounts, no installs</h3><p>Open a link and start. There's nothing to sign up for and nothing to download, on desktop or phone.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🆓</div><h3>Free to use</h3><p>Every tool here is free. The visit counter is anonymous, uses no cookies and never sees your work.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🧭</div><h3>Honest about what it does</h3><p>Plain-language help pages, a changelog for every tool, and a <a href="privacy.html">privacy page</a> that lists exactly what goes where.</p></div>
