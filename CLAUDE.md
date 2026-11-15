@@ -34,6 +34,7 @@
 - `lyricpad` — Lyricpad
 - `gp-randomash` — Randomash (uses GP Mastering's stem splitter)
 - `gp-blueprint` — GP Blueprint (formerly Suno Style Creator; never put "Suno" in its name)
+- `ideawizard` — Idea Wizard (reads GP Blueprint's structure and Earprint's "Copy for Idea Wizard" text)
 - `earprint` — Earprint
 - `gp-master` — GP Mastering
 - `auralyrics-studio` — AuraLyrics Studio
