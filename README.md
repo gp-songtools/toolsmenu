@@ -10,6 +10,7 @@ Live site (once GitHub Pages is enabled): https://gp-songtools.github.io/toolsme
 |------|-------------|-----|-----------|
 | [Lyricpad](https://github.com/gp-songtools/lyricpad) | Lyric writing with syllable counts, rhymes and thesaurus | https://gp-songtools.github.io/lyricpad/ | https://gp-songtools.github.io/lyricpad/changelog.html |
 | [GP Blueprint](https://github.com/gp-songtools/gp-blueprint) | Suno style tags, structure and lyrics | https://gp-songtools.github.io/gp-blueprint/ | https://gp-songtools.github.io/gp-blueprint/changelog.html |
+| [Idea Wizard](https://github.com/gp-songtools/ideawizard) | Song ideas from GP Blueprint and Earprint, with drill-down | https://gp-songtools.github.io/ideawizard/ | https://gp-songtools.github.io/ideawizard/changelog.html |
 | [Randomash](https://github.com/gp-songtools/gp-randomash) | Genre blender for Lyria 3 music generation | https://gp-songtools.github.io/gp-randomash/ | https://gp-songtools.github.io/gp-randomash/changelog.html |
 | [Earprint](https://github.com/gp-songtools/earprint) | Track analyzer with AI review | https://gp-songtools.github.io/earprint/ | https://gp-songtools.github.io/earprint/changelog.html |
 | [GP Mastering](https://github.com/gp-songtools/gp-master) | Browser-based mastering | https://gp-songtools.github.io/gp-master/ | https://gp-songtools.github.io/gp-master/changelog.html |
