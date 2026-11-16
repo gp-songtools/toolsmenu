@@ -52,7 +52,7 @@
 <main>
   <a class="back" href="./">← All tools</a>
   <h1>Privacy &amp; credits</h1>
-  <p class="meta">Last updated: November 15, 2026</p>
+  <p class="meta">Last updated: November 16, 2026</p>
   <p>This page covers every tool at <code>gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint, GP Mastering, AuraLyrics Studio, Randomash and Idea Wizard. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
 
   <nav class="toc" aria-label="On this page">
@@ -113,7 +113,7 @@
 
   <h3>AuraLyrics Studio</h3>
   <ul>
-    <li><b>Audio and video:</b> your song is played, visualised and exported as a video entirely in your browser. Nothing is uploaded for this.</li>
+    <li><b>Audio and video:</b> your song is played, visualised and exported as a video entirely in your browser. Nothing is uploaded for this. When a fast render starts, the video library (Mediabunny) downloads from the jsDelivr code host, which sees your IP address.</li>
     <li><b>In-browser transcription (optional):</b> the Whisper speech-recognition model runs on your device. The first time, the transcription library downloads from the jsDelivr code host and the model from Hugging Face; your audio stays on your device.</li>
     <li><b>Cloud transcription (optional):</b> if you choose Groq or OpenAI, the audio (converted to 16 kHz mono) goes from your browser directly to that provider under your own API key. <a href="https://groq.com/privacy-policy/">Groq's</a> or <a href="https://openai.com/policies/privacy-policy/">OpenAI's</a> privacy policy applies.</li>
     <li><b>Stored on your device:</b> your settings, custom colour palettes, any background or cover image you add and your chosen Whisper model, in this browser's storage. Your Groq or OpenAI key is saved there only if you tick "Remember key on this device".</li>
@@ -173,6 +173,7 @@
   <h3>AuraLyrics Studio</h3>
   <ul>
     <li>Speech recognition: <a href="https://github.com/openai/whisper">Whisper</a> by OpenAI (MIT licence, code and model weights), run in the browser with <a href="https://github.com/xenova/transformers.js">Transformers.js</a> by Xenova (Apache-2.0) using its <code>Xenova/whisper-*.en</code> model conversions.</li>
+    <li><a href="https://mediabunny.dev/">Mediabunny</a> 1.63.0 (MPL-2.0), loaded from jsDelivr only when a fast render starts. It builds the video file in your browser; nothing is uploaded.</li>
     <li>Optional cloud transcription by <a href="https://groq.com/">Groq</a> (<code>whisper-large-v3</code>) or <a href="https://openai.com/">OpenAI</a> (<code>whisper-1</code>).</li>
     <li><a href="https://tailwindcss.com/">Tailwind CSS</a> (MIT).</li>
     <li>Fonts: <a href="https://fonts.google.com/specimen/Inter">Inter</a>, <a href="https://fonts.google.com/specimen/Montserrat">Montserrat</a>, <a href="https://fonts.google.com/specimen/Orbitron">Orbitron</a>, <a href="https://fonts.google.com/specimen/Cinzel">Cinzel</a> and <a href="https://fonts.google.com/specimen/Space+Grotesk">Space Grotesk</a> (SIL Open Font License), served by Google Fonts.</li>
