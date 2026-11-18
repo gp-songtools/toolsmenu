@@ -126,7 +126,8 @@ No dependency below is required. Every tool works the same as today when a secti
 
 **Not in the spec:**
 - Earprint → GP Mastering edits stay in their own JSON.
-- Randomash and GP Mastering work on audio and don't use the file.
+- GP Mastering works on audio and doesn't use the file.
+- Randomash doesn't read or write the browser copy. Its **Download song spec (loop)** makes a new file for a loop, laid out like `templates/blank-sound.songspec.md`: `request: sound`, `loop: true`, `instrumental: true`, `bpm`, `key` (major or minor only) and `bpm_key_by: gp-randomash`, its prompt (vocals and length wording removed) as Sound, and its genres and settings in Notes.
 
 ## 5. Sharing between tools
 

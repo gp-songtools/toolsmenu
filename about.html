@@ -249,6 +249,7 @@
           <li><b>Shape it</b>: tempo, energy, 16 moods, any key or one of the seven modes, arrangement, and a seed you can lock to repeat a recipe.</li>
           <li><b>30-second clips or full songs</b>, instrumental or with <b>vocals</b> in the style of the main genre: growled, rapped, toasting, scat and more.</li>
           <li><b>Stems</b> as separate parts, or split in your browser by GP Mastering's own splitter. <b>Trim</b> any clip to a bar-perfect loop.</li>
+          <li><b>Download song spec (loop)</b> turns the current mix into an instrumental Suno loop spec, ready for Spec to Suno.</li>
           <li><b>Dry run</b> is on by default, so you see the exact request and cost before you spend anything. A balance tracker keeps an eye on your Google credit.</li>
         </ul>
         <a class="open" href="https://gp-songtools.github.io/gp-randomash/">Open Randomash →</a>
@@ -457,6 +458,17 @@
           <li>In Randomash, tick <b>Stems</b>, then <b>Use the gp-master stem splitter instead</b>.</li>
           <li>Press <b>Generate</b>. The first time, the models download once.</li>
           <li>Each stem gets its own player and download link.</li>
+        </ol>
+      </article>
+
+      <article class="handoff">
+        <p class="route"><span class="pill" style="--c: var(--rm)">Randomash</span><span class="arrow">→</span><span class="pill" style="--c: var(--accent)">Spec to Suno</span></p>
+        <h3>Your genre mash as a Suno loop</h3>
+        <p>Like a blend? Take it to Suno as a loop. Randomash writes a song spec for a sound, not a full song: always instrumental, with your tempo, key and the prompt as its loop description.</p>
+        <ol>
+          <li>In Randomash, pick a mix and press <b>Download song spec (loop)</b>.</li>
+          <li>Give the file to <a href="songspec/spec-to-suno/">Spec to Suno</a> in Claude.</li>
+          <li>Check the request and make the loop.</li>
         </ol>
       </article>
 
