@@ -4,6 +4,7 @@
 - Static landing page linking every tool in the `gp-songtools` GitHub org
 - No build step, no dependencies, no package.json
 - Deployed via GitHub Pages: `main` branch, `/ (root)` → https://gp-songtools.github.io/toolsmenu/
+- `.nojekyll` at the root: files are published exactly as they are (song spec files start with `---`, which Jekyll would otherwise turn into pages)
 
 ## Directory map
 - `index.html` — entire site: inline CSS, inline JS, `TOOLS` array
