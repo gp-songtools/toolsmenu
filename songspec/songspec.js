@@ -13,7 +13,7 @@
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
   else root.SongSpec = factory();
-})(typeof self !== 'undefined' ? self : this, function () {
+})(typeof globalThis !== 'undefined' ? globalThis : typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
   const VERSION = '1.0.0';
@@ -468,7 +468,12 @@
     /** The current spec text, or '' (none yet, or storage blocked). */
     load() { try { return localStorage.getItem(STORE_KEY) || ''; } catch { return ''; } },
     /** Save text; returns false when storage is blocked or full. */
-    save(text) { try { localStorage.setItem(STORE_KEY, text); return true; } catch { return false; } },
+    save(text) {
+      try { localStorage.setItem(STORE_KEY, text); } catch { return false; }
+      // The browser tells other tabs; tell this one too (panels and readers in the same page).
+      try { window.dispatchEvent(new CustomEvent('songspec-change', { detail: text })); } catch { /* not a browser */ }
+      return true;
+    },
     /**
      * Read the newest copy, let fn change it, save. Always re-reads first, so two tabs never
      * overwrite each other's sections. Returns the changed doc.
@@ -479,12 +484,14 @@
       store.save(serialize(doc));
       return doc;
     },
-    /** Call cb(text) when another tab changes the spec. Returns an unsubscribe function. */
+    /** Call cb(text) whenever the spec changes, in this tab or another. Returns an unsubscribe function. */
     onChange(cb) {
       if (typeof window === 'undefined') return () => {};
       const h = (e) => { if (e.key === STORE_KEY) cb(e.newValue || ''); };
+      const here = (e) => cb(e.detail || '');
       window.addEventListener('storage', h);
-      return () => window.removeEventListener('storage', h);
+      window.addEventListener('songspec-change', here);
+      return () => { window.removeEventListener('storage', h); window.removeEventListener('songspec-change', here); };
     },
   };
 
