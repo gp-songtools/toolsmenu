@@ -377,5 +377,26 @@ test('CLI: validate bad file exits 1 with ERROR', () => {
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
+// Regression: adding a new section after one that doesn't end in a blank line (or in a newline,
+// or that is only a heading) must leave that section byte for byte as it was.
+for (const [name, text] of [
+  ['unknown last section, no blank line', '---\nschema_version: 1\n---\n\n## My extra\nkeep me\n'],
+  ['unknown last section, no newline', '---\nschema_version: 1\n---\n\n## My extra\nkeep me'],
+  ['heading-only last section, no newline', '---\nschema_version: 1\n---\n\n## Structure'],
+  ['CRLF, no blank line', '---\r\nschema_version: 1\r\n---\r\n\r\n## My extra\r\nkeep me\r\n'],
+]) {
+  test(`insert keeps the previous section intact: ${name}`, () => {
+    const doc = S.parse(text);
+    const before = doc.sections.map((x) => x.head + x.lines.join(''));
+    S.setSection(doc, 'lyrics', '[Verse]\nla la', { by: 'lyricpad' });
+    const out = S.serialize(doc);
+    assert.ok(out.startsWith(text), 'the original text must be an untouched prefix');
+    const re = S.parse(out);
+    assert.equal(S.section(re, 'lyrics').body, '[Verse]\nla la');
+    assert.deepEqual(doc.sections.filter((x) => x.id !== 'lyrics').map((x) => x.head + x.lines.join('')), before);
+    assert.match(out.slice(text.length), /^(\r?\n)+## Lyrics/);
+  });
+}
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed) process.exit(1);
