@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Spec to Suno</title>
-  <meta name="description" content="Download Spec to Suno: a page you publish in Claude that sends a song spec to your Suno account.">
+  <meta name="description" content="Send a song spec to your Suno account from Claude, with a Claude skill or a page you publish in Claude.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
   <style>
     :root {
@@ -38,6 +38,13 @@
     a { color: var(--accent); }
     h1 { font-size: 2rem; line-height: 1.2; margin: 8px 0 4px; letter-spacing: -0.01em; }
     h2 { font-size: 1.375rem; margin: 40px 0 8px; padding-top: 16px; border-top: 1px solid var(--border); }
+    h3 { font-size: 1.0625rem; margin: 24px 0 6px; }
+    .choose { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; margin: 20px 0 0; }
+    .choose h2 { border: 0; margin: 0 0 6px; padding: 0; font-size: 1.125rem; }
+    .choose ul { margin: 0; }
+    .tpl { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+    .btn.ghost { border: 1px solid var(--border); color: var(--text); background: var(--surface); }
+    .btn.ghost:hover { border-color: var(--accent); }
     p, li { margin: 0 0 10px; }
     ul, ol { padding-left: 22px; margin: 0 0 12px; }
     code { font: 0.875em ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 4px; overflow-wrap: anywhere; }
@@ -60,15 +67,24 @@
   <h1>Spec to Suno</h1>
   <p class="meta">Send a song spec to Suno from Claude</p>
 
+  <div class="choose">
+    <h2 id="which">Which should I use?</h2>
+    <ul>
+      <li><a href="#skill">The Claude skill</a> is simpler for casual use: one upload, then ask for a song in any chat.</li>
+      <li><a href="#page">The page</a> is a form with sliders and a request preview. It needs to be published as a page in your own Claude.</li>
+    </ul>
+  </div>
+
+  <h2 id="page">Option 1: the page (spec-to-suno.html)</h2>
   <div class="download">
     <a class="btn primary" href="spec-to-suno.html.download" download="spec-to-suno.html">Download spec-to-suno.html</a>
     <p>A single page you publish in your own Claude account. It only works there: opened straight from your computer or another website, it just tells you to open it in claude.ai.</p>
   </div>
 
-  <h2 id="what">What it does</h2>
+  <h3 id="what">What it does</h3>
   <p>It loads a song spec file, lets you adjust Suno settings (tempo, key, title, excluded styles, vocal gender, duration, Max mode, weirdness, style influence, variety), shows you the exact request, and sends it to your Suno account. It can also request loops. Suno's results include clip IDs and links to the songs and cover art.</p>
 
-  <h2 id="need">What you need</h2>
+  <h3 id="need">What you need</h3>
   <ul>
     <li>A Claude account that can publish pages.</li>
     <li>A sign-up for the Suno MCP, Suno's connector for Claude. Without it, the page can't connect to Suno.</li>
@@ -77,7 +93,7 @@
   </ul>
   <p>Everything is billed to your own Suno account and Claude usage.</p>
 
-  <h2 id="setup">Setup</h2>
+  <h3 id="setup">Setup</h3>
   <ol>
     <li>Download <code>spec-to-suno.html</code> from this page.</li>
     <li>Open a Claude chat and attach the file.</li>
@@ -88,10 +104,7 @@
     <li>Open the page, choose your song spec file, adjust settings, and press <b>Generate</b>. Check the request shown, then press <b>Send to Suno</b>.</li>
   </ol>
 
-  <h2 id="blank">Blank spec files</h2>
-  <p>You can download blank song, cover and loop templates from inside the page, or follow the format in <a href="https://github.com/gp-songtools/toolsmenu/blob/main/songspec/SPEC.md" target="_blank" rel="noopener">songspec/SPEC.md</a>. The GP Song Tools can also fill one in for you: each has a Song spec panel with a Download button.</p>
-
-  <h2 id="limits">Limits</h2>
+  <h3 id="limits">Limits</h3>
   <ul>
     <li>Cover art appears as links, not images, because published pages can't load images from other sites.</li>
     <li>It does not play audio. Open the song link on suno.com to listen.</li>
@@ -100,6 +113,57 @@
   </ul>
 
   <p class="safe">The page contains no passwords or keys, and it only sends requests you confirm.</p>
+
+  <h2 id="skill">Option 2: the Claude skill (suno-from-spec.zip)</h2>
+  <p class="meta">Suno from a song spec: a Claude skill</p>
+  <div class="download">
+    <a class="btn primary" href="suno-from-spec.zip" download="suno-from-spec.zip">Download suno-from-spec.zip</a>
+    <p>A skill you add to your own Claude account. Upload the ZIP as it is: don't unzip it.</p>
+  </div>
+
+  <h3 id="skill-what">What it does</h3>
+  <p>After you add it to Claude, attach a song spec file in a chat and ask for a song, cover or loop. Claude asks about each Suno setting (or uses the spec's values, or suggests settings), shows you the exact request, waits for your OK, then sends it to your Suno account and plays both results in the chat. Suno's results include clip IDs and links to the songs and cover art.</p>
+
+  <h3 id="skill-need">What you need</h3>
+  <ul>
+    <li>A Claude account that allows custom skills.</li>
+    <li>A sign-up for the Suno MCP, Suno's connector for Claude. Without it, the skill can't connect to Suno.</li>
+    <li>The Suno connector added in Claude (Settings, then Connectors).</li>
+    <li>A Suno plan for what you want to make. Loops need a Pro plan or higher.</li>
+  </ul>
+  <p>Everything is billed to your own Suno account.</p>
+
+  <h3 id="skill-setup">Setup</h3>
+  <ol>
+    <li>Download <code>suno-from-spec.zip</code> from this page. Do not unzip it.</li>
+    <li>In Claude, open <b>Customize</b>, then <b>Skills</b>, and add or upload a skill. Choose the ZIP file.</li>
+    <li>Make sure the skill is switched on in the skills list.</li>
+    <li>Turn on the Suno connector in Claude's connector settings.</li>
+    <li>Start a new chat, attach a song spec file, and ask:
+      <p class="ask">“Make a song from this spec.”</p>
+    </li>
+    <li>Answer Claude's questions about the settings, check the request it shows, and say yes to send it.</li>
+  </ol>
+
+  <h3 id="skill-limits">Limits</h3>
+  <ul>
+    <li>Cover art comes as links. Claude gives you the link; it doesn't show the picture in chat.</li>
+    <li>The song player appears in the chat when your Claude app supports it. It may not appear everywhere.</li>
+    <li>Custom skills belong to one person. If you want a friend to use it, send them this page, and they upload their own copy.</li>
+    <li>Menu names change over time. If a step doesn't match your screen, check Claude's help page <a href="https://support.claude.com/en/articles/12512180-use-skills-in-claude" target="_blank" rel="noopener">Use skills in Claude</a>.</li>
+    <li>It has only been tested by its author. If something doesn't work for you, this page can't say why.</li>
+  </ul>
+
+  <p class="safe">The skill contains no passwords or keys, and it only sends requests you confirm.</p>
+
+  <h2 id="blank">Blank spec files</h2>
+  <p>Both options read the same song spec files. Start from a blank template, or follow the format in <a href="https://github.com/gp-songtools/toolsmenu/blob/main/songspec/SPEC.md" target="_blank" rel="noopener">songspec/SPEC.md</a>.</p>
+  <div class="tpl">
+    <a class="btn ghost" href="../templates/blank-song.songspec.md" download="blank-song.songspec.md">Blank song</a>
+    <a class="btn ghost" href="../templates/blank-cover.songspec.md" download="blank-cover.songspec.md">Blank cover</a>
+    <a class="btn ghost" href="../templates/blank-sound.songspec.md" download="blank-sound.songspec.md">Blank loop (sound)</a>
+  </div>
+  <p>A cover needs the Suno clip ID in <code>cover_source</code>, and a loop needs a description in its Sound section. The page offers the same templates inside it. The GP Song Tools can also fill a spec in for you: each has a Song spec panel with a Download button.</p>
 </main>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2c5b0c69f74b496998f02d0e1f651bd5"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
