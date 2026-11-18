@@ -5,7 +5,7 @@ One Markdown file per song that every GP Song Tool can read, and that each tool 
 - **Format:** [SPEC.md](SPEC.md). Read this first: settings, sections, who writes what, the marker line, and the rules.
 - **Example:** [example.songspec.md](example.songspec.md)
 - **Library:** [songspec.js](songspec.js). No dependencies. Use it as a `<script>`, an import, or from Node.
-- **Tests:** `node test.js`
+- **Tests:** `node test.js` (library). **Chain test:** from a folder holding all the repos, `node toolsmenu/songspec/chain-test.mjs` passes one file through every tool, in every order, and checks each tool leaves everything it doesn't own unchanged. Each tool also has its own tests (see its CLAUDE.md).
 
 ## Check a file
 
