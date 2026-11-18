@@ -15,12 +15,15 @@ Live site (once GitHub Pages is enabled): https://gp-songtools.github.io/toolsme
 | [Earprint](https://github.com/gp-songtools/earprint) | Track analyzer with AI review | https://gp-songtools.github.io/earprint/ | https://gp-songtools.github.io/earprint/changelog.html |
 | [GP Mastering](https://github.com/gp-songtools/gp-master) | Browser-based mastering | https://gp-songtools.github.io/gp-master/ | https://gp-songtools.github.io/gp-master/changelog.html |
 | [AuraLyrics Studio](https://github.com/gp-songtools/auralyrics-studio) | Music visualizer and lyric video maker | https://gp-songtools.github.io/auralyrics-studio/ | https://gp-songtools.github.io/auralyrics-studio/changelog.html |
+| [Spec to Suno](https://github.com/gp-songtools/toolsmenu/tree/main/songspec/spec-to-suno) | Download-only page you publish in Claude to send a song spec to Suno | https://gp-songtools.github.io/toolsmenu/songspec/spec-to-suno/ | https://github.com/gp-songtools/toolsmenu/commits/main/songspec/spec-to-suno |
 
 ## About page
 
 `about.html` presents every tool and how they hand work to each other, with screenshots in `img/` (WebP, about 1600 px wide). Keep it in step when tools gain headline features or new hand-offs.
 
 ## Song spec
+
+`songspec/spec-to-suno/` holds **Spec to Suno**: `index.html` (instructions) and `spec-to-suno.html.download`, the page itself, kept byte for byte as its author supplied it (sha256 `2efe2127428e3ea335cf9711988d0d3a5909c431fc1bf608204c779f7c143422`; never edit it). It is offered only as a download: the `.download` name makes GitHub Pages serve it as a file, never as a page, and the link's `download="spec-to-suno.html"` gives it its real name.
 
 `songspec/` holds the song spec: one Markdown file per song that every tool reads and writes its own part of. See [songspec/README.md](songspec/README.md).
 

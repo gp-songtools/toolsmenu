@@ -11,6 +11,7 @@
 - `privacy.html` — Privacy & credits for every tool
 - `about.html` + `img/` — About page (features, hand-offs) and its WebP screenshots
 - `songspec/` — the song spec shared by all tools: `SPEC.md` (format), `songspec.js` (library; tools keep byte-identical copies, check with `check-copies.js`), `test.js` (`node songspec/test.js`), `example.songspec.md`
+- `songspec/spec-to-suno/` — Spec to Suno: `index.html` (instructions page, menu card links here) and `spec-to-suno.html.download` (the owner's file, byte-identical, sha256 `2efe2127428e3ea335cf9711988d0d3a5909c431fc1bf608204c779f7c143422`; never edit, embed or link it as a page; offered only via `<a download="spec-to-suno.html">`; the `.download` name makes GitHub Pages serve it as a file)
 - `CLAUDE.md` — this file; `main` = deploy branch; no `src/`, `dist/` or tests
 
 ## Commands

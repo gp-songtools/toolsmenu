@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spec to Suno</title>
+  <meta name="description" content="Download Spec to Suno: a page you publish in Claude that sends a song spec to your Suno account.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  <style>
+    :root {
+      --bg: #f6f5f2;
+      --surface: #ffffff;
+      --border: #e2dfd8;
+      --text: #1c1b19;
+      --muted: #6b675f;
+      --accent: #c2410c;
+      --accent-text: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --surface: #1c1c1c;
+        --border: #2e2e2e;
+        --text: #f1efe9;
+        --muted: #a39f96;
+        --accent: #fb923c;
+        --accent-text: #1a0d03;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+    a { color: var(--accent); }
+    h1 { font-size: 2rem; line-height: 1.2; margin: 8px 0 4px; letter-spacing: -0.01em; }
+    h2 { font-size: 1.375rem; margin: 40px 0 8px; padding-top: 16px; border-top: 1px solid var(--border); }
+    p, li { margin: 0 0 10px; }
+    ul, ol { padding-left: 22px; margin: 0 0 12px; }
+    code { font: 0.875em ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 4px; overflow-wrap: anywhere; }
+    .meta { color: var(--muted); margin: 0 0 20px; }
+    .back { display: inline-block; margin-bottom: 8px; color: var(--muted); text-decoration: none; }
+    .back:hover { color: var(--text); }
+    .download { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin: 20px 0 8px; }
+    .download p { margin: 8px 0 0; color: var(--muted); font-size: .9375rem; }
+    .btn { display: inline-block; padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: .9375rem; text-decoration: none; }
+    .btn.primary { background: var(--accent); color: var(--accent-text); }
+    .btn.primary:hover { filter: brightness(1.08); }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .ask { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 10px 14px; margin: 6px 0 0; }
+    .safe { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; margin-top: 24px; }
+  </style>
+</head>
+<body>
+<main>
+  <a class="back" href="../../">← All tools</a>
+  <h1>Spec to Suno</h1>
+  <p class="meta">Send a song spec to Suno from Claude</p>
+
+  <div class="download">
+    <a class="btn primary" href="spec-to-suno.html.download" download="spec-to-suno.html">Download spec-to-suno.html</a>
+    <p>A single page you publish in your own Claude account. It only works there: opened straight from your computer or another website, it just tells you to open it in claude.ai.</p>
+  </div>
+
+  <h2 id="what">What it does</h2>
+  <p>It loads a song spec file, lets you adjust Suno settings (tempo, key, title, excluded styles, vocal gender, duration, Max mode, weirdness, style influence, variety), shows you the exact request, and sends it to your Suno account. It can also request loops. Suno's results include clip IDs and links to the songs and cover art.</p>
+
+  <h2 id="need">What you need</h2>
+  <ul>
+    <li>A Claude account that can publish pages.</li>
+    <li>The Suno connector added in Claude (Settings, then Connectors).</li>
+    <li>A Suno plan for what you want to make. Loops need a Pro plan or higher.</li>
+  </ul>
+  <p>Everything is billed to your own Suno account and Claude usage.</p>
+
+  <h2 id="setup">Setup</h2>
+  <ol>
+    <li>Download <code>spec-to-suno.html</code> from this page.</li>
+    <li>Open a Claude chat and attach the file.</li>
+    <li>Ask Claude:
+      <p class="ask">“Publish this attached HTML file as a page, and let it use my Suno connector. It needs these Suno tools: audio-create, audio-covers-create, sounds-create, audio-retrieve and account-usage. It also needs the ability to ask Claude for suggestions, and to offer file downloads.”</p>
+    </li>
+    <li>Claude may ask you to confirm, because the page asks to use your Suno connector. Confirm that you want it.</li>
+    <li>Open the page, choose your song spec file, adjust settings, and press <b>Generate</b>. Check the request shown, then press <b>Send to Suno</b>.</li>
+  </ol>
+
+  <h2 id="blank">Blank spec files</h2>
+  <p>You can download blank song, cover and loop templates from inside the page, or follow the format in <a href="https://github.com/gp-songtools/toolsmenu/blob/main/songspec/SPEC.md" target="_blank" rel="noopener">songspec/SPEC.md</a>. The GP Song Tools can also fill one in for you: each has a Song spec panel with a Download button.</p>
+
+  <h2 id="limits">Limits</h2>
+  <ul>
+    <li>Cover art appears as links, not images, because published pages can't load images from other sites.</li>
+    <li>It does not play audio. Open the song link on suno.com to listen.</li>
+    <li>It must be published from your own Claude account. If you share someone else's published copy, it may not be able to reach your Suno connector.</li>
+    <li>It has only been tested with its author's Claude setup. If publishing doesn't work for you, this page can't say why.</li>
+  </ul>
+
+  <p class="safe">The page contains no passwords or keys, and it only sends requests you confirm.</p>
+</main>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2c5b0c69f74b496998f02d0e1f651bd5"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

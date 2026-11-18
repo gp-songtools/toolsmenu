@@ -142,6 +142,12 @@
     <li><b>Song spec:</b> <b>Use</b> copies GP Blueprint's style prompt and structure or Earprint's analysis from the shared song spec into the boxes, which then go to the AI provider like anything you paste. <b>Save to song spec</b> stores the idea and its song structure in the shared song spec in your browser.</li>
   </ul>
 
+  <h3>Spec to Suno</h3>
+  <ul>
+    <li><b>Download only:</b> this site just offers the file. It doesn't run here and nothing is sent from this site.</li>
+    <li><b>In Claude:</b> you publish it as a page in your own Claude account, where it runs. It reads the song spec file you choose and, only after you confirm a request, sends that request to your own Suno account through the Suno connector you added in Claude. Anthropic's and Suno's privacy terms apply to that. The page contains no passwords or keys.</li>
+  </ul>
+
   <h2 id="keys">Your API keys</h2>
   <p>The AI features use your own Gemini, Claude, Groq or OpenAI API key. Keys are sent only to the provider they belong to, straight from your browser. GP Mastering&rsquo;s separation server token is handled the same way and sent only to your own server. They are kept in memory and forgotten when you close the tab unless the tool's "Remember" option is on, which saves the key in this browser's storage on this device only. That option starts on in Lyricpad and off in the other tools. Because all the tools share the <code>gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so turn Remember off on a shared computer.</p>
 

@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spec to Suno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column, 860px. Spec loader, settings panel, request + preview, results. */
+:root {
+  --bg: #f4f2ee; --surface: #fffefb; --ink: #1d2024; --muted: #5d636b; --line: #d9d5cc;
+  --accent: #0e6f68; --accent-ink: #ffffff; --warn: #b3261e; --ok: #2d6a2d; --caution: #8a5a00;
+  --display: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16191c; --surface: #1f2327; --ink: #e8e6e1; --muted: #9aa1a8; --line: #343a40;
+    --accent: #4cc3b8; --accent-ink: #0b1a18; --warn: #ff8a80; --ok: #8fd28f; --caution: #e6b450;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16191c; --surface: #1f2327; --ink: #e8e6e1; --muted: #9aa1a8; --line: #343a40;
+  --accent: #4cc3b8; --accent-ink: #0b1a18; --warn: #ff8a80; --ok: #8fd28f; --caution: #e6b450;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); }
+main { max-width: 860px; margin: 0 auto; padding: 28px 16px 72px; display: flex; flex-direction: column; gap: 20px; }
+h1 { font: 700 30px/1.1 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 600 18px/1.2 var(--display); margin: 0 0 12px; text-wrap: balance; }
+h3 { font: 600 15px/1.3 var(--display); margin: 0; }
+.sub { color: var(--muted); margin: 6px 0 0; max-width: 64ch; }
+section { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 500; color: var(--muted); }
+label.chk { flex-direction: row; align-items: center; gap: 8px; color: var(--ink); font-size: 14px; font-weight: 400; }
+input[type="text"], input[type="number"], select { font: 15px var(--body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; width: 100%; }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+input[type="range"] { accent-color: var(--accent); width: 100%; }
+input:disabled, select:disabled { opacity: .5; }
+input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+input[type="file"]:focus-visible + .filebtn { outline: 2px solid var(--accent); outline-offset: 2px; }
+button, .filebtn { font: 600 14px var(--body); border-radius: 6px; padding: 9px 16px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); cursor: pointer; display: inline-block; }
+button.ghost, .filebtn { background: transparent; color: var(--accent); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.drop { border: 1px dashed var(--line); border-radius: 8px; padding: 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; position: relative; }
+.drop.over { border-color: var(--accent); background: var(--bg); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field > .head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.hint { font-size: 12px; color: var(--muted); }
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.note { color: var(--muted); font-size: 13px; margin: 0; }
+.msg { border-left: 3px solid var(--warn); padding: 8px 12px; background: var(--bg); border-radius: 0 6px 6px 0; font-size: 14px; margin: 0; }
+.msg.ok { border-color: var(--ok); }
+.msg.caution { border-color: var(--caution); }
+.mono { font-family: var(--mono); font-size: 12.5px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; }
+td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
+.tag { font: 500 11px var(--mono); border: 1px solid var(--line); border-radius: 99px; padding: 1px 8px; color: var(--muted); white-space: nowrap; }
+.tag.sent { color: var(--ok); border-color: var(--ok); }
+.tag.never { color: var(--caution); border-color: var(--caution); }
+pre { font: 12.5px/1.5 var(--mono); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px; margin: 4px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 280px; overflow: auto; }
+ul.plain { margin: 4px 0 0; padding-left: 20px; }
+ul.plain li { margin: 2px 0; }
+.preview { border: 2px solid var(--accent); border-radius: 10px; padding: 16px; margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+.clip { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.group { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 14px; }
+.group:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+.art { width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); }
+details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
+.sl-val { font: 500 12px var(--mono); color: var(--muted); min-width: 4ch; text-align: right; }
+@media (max-width: 640px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: no-preference) { button { transition: opacity .15s; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Spec to Suno</h1>
+    <p class="sub">Load a song spec, adjust the settings, check the exact request, then send it to Suno. Every send is previewed first.</p>
+  </header>
+
+  <section aria-labelledby="h-spec">
+    <h2 id="h-spec">Spec</h2>
+    <div class="drop" id="drop">
+      <input id="file" type="file" accept=".md,.txt,text/markdown,text/plain">
+      <label for="file" class="filebtn">Choose a spec file</label>
+      <span id="fname" class="note">No file loaded. You can also drop one here.</span>
+    </div>
+    <div id="specSummary"></div>
+    <div class="row" style="margin-top:14px">
+      <span class="note">Download a blank template:</span>
+      <button type="button" class="ghost" data-tpl="song">Song</button>
+      <button type="button" class="ghost" data-tpl="cover">Cover</button>
+      <button type="button" class="ghost" data-tpl="sound">Sound or loop</button>
+    </div>
+    <p class="note" id="dlStatus" role="status"></p>
+  </section>
+
+  <section aria-labelledby="h-set">
+    <h2 id="h-set">Settings</h2>
+    <p class="note" style="margin-bottom:14px">Anything you set here replaces the same setting in the spec. Anything left unset uses the spec's value, and if the spec has none, Suno's default.</p>
+
+    <div class="grid2">
+      <div class="field">
+        <div class="head"><label for="tempo">Tempo (BPM)</label>
+          <label class="chk" for="ovT"><input type="checkbox" id="ovT"> Override spec</label></div>
+        <input type="number" id="tempo" min="1" max="300" step="1" inputmode="numeric">
+        <span class="hint" id="effT"></span>
+      </div>
+      <div class="field">
+        <div class="head"><label for="key">Key</label>
+          <label class="chk" for="ovK"><input type="checkbox" id="ovK"> Override spec</label></div>
+        <select id="key"></select>
+        <span class="hint" id="effK"></span>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:16px">
+      <div class="field"><label for="title">Song title (optional)</label><input type="text" id="title" autocomplete="off" maxlength="256"></div>
+      <div class="field"><label for="neg">Exclude styles</label><input type="text" id="neg" autocomplete="off" placeholder="e.g. polka, accordion"></div>
+    </div>
+
+    <div class="grid3" style="margin-top:16px">
+      <div class="field"><label for="gender">Vocal gender</label>
+        <select id="gender"><option value="">Auto</option><option value="male">Male</option><option value="female">Female</option></select></div>
+      <div class="field"><label for="durText">Duration</label>
+        <div class="row" style="flex-wrap:nowrap"><label class="chk" for="durAuto"><input type="checkbox" id="durAuto" checked> Auto</label>
+        <input type="text" id="durText" placeholder="3:30 or 210" disabled aria-label="Duration in minutes and seconds, or seconds"></div>
+        <span class="hint">15 s to 6 min</span></div>
+      <div class="field"><label for="maxMode">Max mode</label>
+        <label class="chk" for="maxMode"><input type="checkbox" id="maxMode"> Use Max mode</label>
+        <span class="hint">Spends extra credits per song.</span></div>
+    </div>
+
+    <div class="grid3" style="margin-top:16px" id="sliders"></div>
+
+    <div class="row" style="margin-top:18px">
+      <button type="button" id="suggest" disabled>Suggest options</button>
+      <span class="note" id="suggestNote">Asks Claude which settings suit the loaded spec.</span>
+    </div>
+    <div id="suggestOut" role="status" aria-live="polite"></div>
+  </section>
+
+  <section aria-labelledby="h-go">
+    <h2 id="h-go">Send</h2>
+    <div class="row between">
+      <label class="chk" for="loop"><input type="checkbox" id="loop"> Loop: request a loop instead of a song (song settings are ignored)</label>
+      <button type="button" id="go" disabled>Generate</button>
+    </div>
+    <div class="field" id="loopBox" hidden style="margin-top:12px">
+      <label for="loopDesc">Loop description (optional, up to 500 characters)</label>
+      <input type="text" id="loopDesc" autocomplete="off" maxlength="500">
+      <span class="hint">Used instead of the spec's Sound section. Leave blank to use the Sound section.</span>
+    </div>
+    <p class="note" id="status" role="status" style="margin-top:10px">Load a spec to begin.</p>
+    <div id="previewBox"></div>
+  </section>
+
+  <section aria-labelledby="h-res">
+    <h2 id="h-res">Results</h2>
+    <div id="results"><p class="note">Nothing generated yet.</p></div>
+  </section>
+</main>
+
+<script id="core">
+/* ===== Core: pure functions, no DOM ===== */
+const FLAT = ['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+const SHARP = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const NOTE_BASE = { C:0, D:2, E:4, F:5, G:7, A:9, B:11 };
+const MODELS = ['v6-mini','v6','v6-wild'];
+const NEVER_SEND = ['idea','idea structure','reference','analysis','structure','stems','notes'];
+const SETTING_KEYS = ['schema_version','request','title','model','instrumental','voice_id','vocal_gender','weirdness','style_influence','variety','audio_influence','duration','max_mode','cover_source','loop','bpm','key','bpm_key_by'];
+const SECTION_ORDER = ['Idea','Idea structure','Reference (never send to Suno)','Analysis','Style','Negative style','Structure','Stems','Lyrics','Sound','Notes'];
+const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+function sectionKey(n) { return n.toLowerCase().replace(/\s*\(.*\)\s*$/, '').replace(/\s+/g, ' ').trim(); }
+
+function parseSpec(text) {
+  text = String(text).replace(/^﻿/, '').replace(/\r\n?/g, '\n');
+  const lines = text.split('\n');
+  const settings = {}, warnings = [], unknownKeys = [];
+  let i = 0;
+  while (i < lines.length && lines[i].trim() === '') i++;
+  if (lines[i] !== undefined && lines[i].trim() === '---') {
+    let j = i + 1;
+    for (; j < lines.length && lines[j].trim() !== '---'; j++) {
+      const m = lines[j].match(/^\s*([A-Za-z_][\w-]*)\s*:\s*(.*?)\s*$/);
+      if (!m) continue;
+      let v = m[2];
+      if (v.length >= 2 && ((v[0] === '"' && v.endsWith('"')) || (v[0] === "'" && v.endsWith("'")))) v = v.slice(1, -1);
+      const k = m[1].toLowerCase();
+      settings[k] = v;
+      if (!SETTING_KEYS.includes(k)) unknownKeys.push(m[1]);
+    }
+    if (j >= lines.length) warnings.push('The settings block starts with --- but never closes.');
+    i = j + 1;
+  } else {
+    warnings.push('No settings block (--- lines) at the top, so only the sections are used.');
+  }
+  const sections = [];
+  let cur = null;
+  for (; i < lines.length; i++) {
+    const h = lines[i].match(/^##\s+(?!#)(.+?)\s*$/);
+    if (h) { cur = { name: h[1], key: sectionKey(h[1]), lines: [] }; sections.push(cur); }
+    else if (cur) cur.lines.push(lines[i]);
+  }
+  const byKey = {};
+  sections.forEach(s => {
+    s.body = s.lines.join('\n').replace(/<!--[\s\S]*?-->/g, '').replace(/^\s+|\s+$/g, '');
+    if (byKey[s.key] === undefined) byKey[s.key] = s.body;
+    else warnings.push('Section "' + s.name + '" appears twice, so the first one is used.');
+  });
+  return { settings, sections, byKey, warnings, unknownKeys };
+}
+
+function parseKey(s) {
+  if (s === undefined || s === null) return null;
+  s = String(s).trim();
+  const m = s.match(/^([A-Ga-g])\s*([#b♯♭]?)\s*[-\s]?\s*(major|maj|minor|min|m|M)?\s*$/);
+  if (!m) return null;
+  const L = m[1].toUpperCase();
+  const acc = (m[2] === '#' || m[2] === '♯') ? '#' : (m[2] === 'b' || m[2] === '♭') ? 'b' : '';
+  let mode = 'major';
+  const t = m[3];
+  if (t) mode = (t === 'M') ? 'major' : (t === 'm' || t.toLowerCase() === 'min' || t.toLowerCase() === 'minor') ? 'minor' : 'major';
+  const idx = (NOTE_BASE[L] + (acc === '#' ? 1 : acc === 'b' ? -1 : 0) + 12) % 12;
+  return { idx, mode, text: L + acc + ' ' + mode };
+}
+
+function keyRegex(k, flags) {
+  const names = Array.from(new Set([FLAT[k.idx], SHARP[k.idx]])).map(escRe).join('|');
+  const mode = k.mode === 'minor' ? '(?:[Mm]inor|[Mm]in|m)' : '(?:[Mm]ajor|[Mm]aj)';
+  return new RegExp('(?<![A-Za-z#])(?:' + names + ')\\s*' + mode + '(?![A-Za-z])', flags || '');
+}
+function bpmRegex(n, flags) { return new RegExp('(?<![\\d.])' + n + '\\s*BPM\\b', flags || 'i'); }
+
+function parseBool(v) {
+  if (v === undefined || v === null || String(v).trim() === '') return undefined;
+  const s = String(v).trim().toLowerCase();
+  if (['true', 'yes', 'on', '1'].includes(s)) return true;
+  if (['false', 'no', 'off', '0'].includes(s)) return false;
+  return null;
+}
+function numOf(v) {
+  if (v === undefined || v === null || String(v).trim() === '') return undefined;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : NaN;
+}
+function parseDuration(t) {
+  t = String(t || '').trim();
+  if (!t) return undefined;
+  let m = t.match(/^(\d+):(\d{1,2})$/);
+  if (m) return Number(m[1]) * 60 + Number(m[2]);
+  m = t.match(/^(\d+)\s*(s|sec|secs|seconds)?$/i);
+  if (m) return Number(m[1]);
+  return NaN;
+}
+
+/* form: {loop, overrideTempo, tempo, overrideKey, keyIdx, keyMode, title, neg, gender,
+          durationAuto, durationText, maxMode, weird:{on,val}, sinf:{on,val}, variety:{on,val}, instrumentalChoice}
+   ctx:  {allowedModels: string[]|null} */
+function resolve(spec, form, ctx) {
+  ctx = ctx || {};
+  const S = spec.settings, sec = spec.byKey;
+  const errors = [], warnings = [], changes = [], defaults = [], notSent = [];
+  let conflict = false;
+
+  let request = (S.request || 'song').trim().toLowerCase();
+  if (!['song', 'cover', 'sound'].includes(request)) {
+    errors.push('Setting "request" is "' + S.request + '". Use song, cover or sound.');
+    request = 'song';
+  }
+  if (form.loop && request !== 'sound') {
+    changes.push('Loop is checked, so this goes to the loop tool and the song settings are ignored.');
+    request = 'sound';
+  }
+
+  // tempo and key
+  let specBpm = numOf(S.bpm);
+  if (specBpm !== undefined && (!Number.isInteger(specBpm) || specBpm < 1 || specBpm > 300)) {
+    errors.push('Setting "bpm" must be a whole number from 1 to 300.');
+    specBpm = undefined;
+  }
+  const specKey = S.key ? parseKey(S.key) : null;
+  if (S.key && !specKey) warnings.push('Could not read the key "' + S.key + '". Use a form like "Ab minor".');
+  let bpm = specBpm, bpmSource = specBpm !== undefined ? 'spec' : null;
+  if (form.overrideTempo) {
+    const t = numOf(form.tempo);
+    if (t === undefined) warnings.push('Tempo override is checked but the field is empty, so the spec value is used.');
+    else if (!Number.isInteger(t) || t < 1 || t > 300) errors.push('Tempo must be a whole number from 1 to 300.');
+    else { bpm = t; bpmSource = 'form'; }
+  }
+  let key = specKey, keyText = specKey ? specKey.text : null, keySource = specKey ? 'spec' : null;
+  if (form.overrideKey) {
+    if (form.keyIdx === '' || form.keyIdx === null || form.keyIdx === undefined) warnings.push('Key override is checked but no key is chosen, so the spec value is used.');
+    else { key = { idx: Number(form.keyIdx), mode: form.keyMode }; keyText = FLAT[key.idx] + ' ' + key.mode; keySource = 'form'; }
+  }
+
+  function applyBpmKey(text, limit, where) {
+    if (!text) return text;
+    if (bpmSource === 'form' && specBpm !== undefined && bpm !== specBpm) {
+      let n = 0;
+      text = text.replace(bpmRegex(specBpm, 'gi'), () => { n++; return bpm + ' BPM'; });
+      if (n) changes.push('Replaced "' + specBpm + ' BPM" with "' + bpm + ' BPM" in the ' + where + '.');
+    }
+    if (keySource === 'form' && specKey && (specKey.idx !== key.idx || specKey.mode !== key.mode)) {
+      let n = 0;
+      text = text.replace(keyRegex(specKey, 'g'), () => { n++; return keyText; });
+      if (n) changes.push('Replaced "' + specKey.text + '" with "' + keyText + '" in the ' + where + '.');
+    }
+    const add = [];
+    if (bpm !== undefined && !bpmRegex(bpm).test(text)) add.push(bpm + ' BPM');
+    if (key && !keyRegex(key).test(text)) add.push(keyText);
+    if (add.length) {
+      const a = add.join(', ');
+      const next = /[.!?]$/.test(text) ? text + ' ' + a + '.' : text + ', ' + a;
+      if (next.length <= limit) { text = next; changes.push('Added "' + a + '" to the end of the ' + where + '.'); }
+      else warnings.push('Did not add "' + a + '" to the ' + where + ': it would pass ' + limit + ' characters.');
+    }
+    return text;
+  }
+
+  const title = ((form.title || '').trim() || (S.title || '').trim());
+  if (title.length > 256) errors.push('Title is ' + title.length + ' characters. The limit is 256.');
+
+  const model = (S.model || '').trim();
+  if (model && request !== 'sound') {
+    if (!MODELS.includes(model)) errors.push('Model "' + model + '" is not one of ' + MODELS.join(', ') + '.');
+    else if (ctx.allowedModels && !ctx.allowedModels.includes(model)) errors.push('Model "' + model + '" is not on your plan. Allowed: ' + ctx.allowedModels.join(', ') + '.');
+  }
+
+  let tool, args = {};
+
+  if (request === 'sound') {
+    tool = 'sounds-create';
+    let desc = (form.loopDesc || '').trim() || sec.sound || '';
+    if ((form.loopDesc || '').trim() && sec.sound) changes.push('Using the loop description from this form instead of the Sound section.');
+    if (!desc && sec.style) { desc = sec.style; changes.push('No Sound section, so the Style text is used as the loop description.'); }
+    if (!desc) errors.push('A loop needs a Sound section in the spec (or a Style to use in its place).');
+    desc = applyBpmKey(desc, 500, 'description');
+    if (desc && desc.length > 500) errors.push('The loop description is ' + desc.length + ' characters. The limit is 500. ' + (sec.sound ? 'Shorten the Sound section.' : 'Add a Sound section of up to 500 characters to the spec.'));
+    args.description = desc;
+    args.loop = form.loop ? true : (parseBool(S.loop) === true);
+    if (title) args.title = title;
+    if (bpm !== undefined) args.tempo = bpm;
+    if (key) { args.key = SHARP[key.idx] + (key.mode === 'minor' ? 'm' : ''); }
+    if (args.tempo !== undefined || args.key) changes.push('Also sent tempo and key as the loop tool\'s own fields.');
+    ['Lyrics', 'Negative style'].forEach(n => { if (sec[n.toLowerCase()]) notSent.push(n + ' (not used for loops)'); });
+  } else {
+    let style = applyBpmKey(sec.style || '', 1000, 'style');
+    let lyrics = sec.lyrics || '';
+    let neg = (form.neg || '').trim() || sec['negative style'] || '';
+    if (neg && !style) { changes.push('Excluded styles dropped, since there is no Style text for them to steer away from.'); neg = ''; }
+    if (style.length > 1000) errors.push('Style is ' + style.length + ' characters. The limit is 1000.');
+    if (lyrics.length > 5000) errors.push('Lyrics are ' + lyrics.length + ' characters. The limit is 5000.');
+    if (neg.length > 1000) errors.push('Excluded styles are ' + neg.length + ' characters. The limit is 1000.');
+    if (sec.sound) notSent.push('Sound (only used for loops)');
+
+    const voice = (S.voice_id || '').trim();
+    let gender = (form.gender || '').trim() || (S.vocal_gender || '').trim().toLowerCase();
+    if (gender && !['male', 'female'].includes(gender)) { errors.push('Vocal gender must be male or female.'); gender = ''; }
+    if (gender && voice) errors.push('Vocal gender and a voice ID can\'t be combined. Clear one.');
+
+    let duration;
+    const dRaw = form.durationAuto ? numOf(S.duration) : parseDuration(form.durationText);
+    if (dRaw !== undefined) {
+      if (!Number.isInteger(dRaw) || dRaw < 15 || dRaw > 360) errors.push('Duration must be a whole number of seconds from 15 to 360.');
+      else duration = dRaw;
+    }
+
+    function ctl(name, f, int, max) {
+      let v = (f && f.on) ? Number(f.val) : numOf(S[name]);
+      if (v === undefined) return undefined;
+      if (Number.isNaN(v) || v < 0 || v > max || (int && !Number.isInteger(v))) {
+        errors.push(name + ' must be ' + (int ? 'a whole number' : 'a number') + ' from 0 to ' + max + '.');
+        return undefined;
+      }
+      return v;
+    }
+    const controls = {};
+    const w = ctl('weirdness', form.weird, false, 1); if (w !== undefined) controls.weirdness = w;
+    const si = ctl('style_influence', form.sinf, false, 1); if (si !== undefined) controls.style_influence = si;
+    const va = ctl('variety', form.variety, true, 4); if (va !== undefined) controls.variety = va;
+    const ai = ctl('audio_influence', null, false, 1);
+    if (ai !== undefined) {
+      if (request === 'song' && !voice) errors.push('audio_influence on a new song needs a voice_id.');
+      else controls.audio_influence = ai;
+    }
+    const maxMode = !!form.maxMode || parseBool(S.max_mode) === true;
+    if (parseBool(S.max_mode) === null) errors.push('Setting "max_mode" must be true or false.');
+
+    if (request === 'song') {
+      tool = 'audio-create';
+      let instr = parseBool(S.instrumental);
+      if (instr === null) { errors.push('Setting "instrumental" must be true or false.'); instr = undefined; }
+      if (lyrics && instr === true) {
+        if (form.instrumentalChoice === 'lyrics') { instr = false; changes.push('The spec says instrumental but has lyrics. You chose to keep the lyrics.'); }
+        else if (form.instrumentalChoice === 'instrumental') { lyrics = ''; changes.push('The spec says instrumental but has lyrics. You chose to keep it instrumental, so the lyrics are not sent.'); }
+        else { conflict = true; errors.push('The spec is marked instrumental but also has lyrics. Choose which to keep.'); }
+      }
+      if (!lyrics && instr !== true) { instr = true; changes.push('No lyrics, so instrumental is on.'); }
+      if (!lyrics && !style) errors.push('Nothing to send: the spec has no Style and no Lyrics.');
+      if (title) args.title = title;
+      if (style) args.style = style;
+      if (lyrics) args.lyrics = lyrics;
+      if (instr === true) args.instrumental = true;
+      if (neg) args.negative_style = neg;
+      if (model) args.model = model;
+      if (voice) args.voice_id = voice;
+      if (gender) args.vocal_gender = gender;
+      if (duration !== undefined) args.duration = duration;
+      if (Object.keys(controls).length) args.controls = controls;
+      if (maxMode) args.max_mode = true;
+      if (voice && args.instrumental) warnings.push('A voice always sings, so Suno will add vocals even though the song is marked instrumental.');
+    } else {
+      tool = 'audio-covers-create';
+      const src = (S.cover_source || '').trim();
+      if (!src) errors.push('A cover needs the "cover_source" setting (the Suno clip ID to cover).');
+      args.id = src;
+      if (title) args.title = title;
+      if (style) args.style = style;
+      if (lyrics) args.lyrics = lyrics;
+      else if (!voice) warnings.push('A cover with no lyrics comes out instrumental.');
+      if (!style && !lyrics) warnings.push('No Style and no Lyrics, so Suno will cover the clip with little direction.');
+      if (neg) args.negative_style = neg;
+      if (model) args.model = model;
+      if (voice) args.voice_id = voice;
+      if (gender) { notSent.push('Vocal gender (the cover tool has no such option)'); }
+      if (duration !== undefined) args.duration = duration;
+      if (Object.keys(controls).length) args.controls = controls;
+      if (maxMode) args.max_mode = true;
+    }
+
+    const optional = [['model', 'model'], ['voice_id', 'voice_id'], ['duration', 'duration'], ['negative_style', 'negative_style'], ['weirdness', 'weirdness'], ['style_influence', 'style_influence'], ['variety', 'variety'], ['audio_influence', 'audio_influence'], ['max_mode', 'max_mode']];
+    if (request === 'song') optional.push(['vocal_gender', 'vocal_gender']);
+    optional.forEach(([k, label]) => {
+      const present = (args[k] !== undefined) || (args.controls && args.controls[k] !== undefined);
+      if (!present) defaults.push(label);
+    });
+  }
+
+  // Sections that are never sent
+  spec.sections.forEach(s => { if (NEVER_SEND.includes(s.key)) notSent.push(s.name + ' (' + s.body.length + ' characters)'); });
+
+  // Names from Reference must not appear anywhere in the request
+  const names = [];
+  (sec.reference || '').split('\n').forEach(l => {
+    const m = l.match(/^\s*(?:artist|song)\s*:\s*(.+?)\s*$/i);
+    if (m) names.push(m[1]);
+  });
+  const fields = { title: args.title, style: args.style, lyrics: args.lyrics, 'excluded styles': args.negative_style, description: args.description };
+  names.filter(n => n.length >= 2).forEach(n => {
+    const re = new RegExp('(?<![A-Za-z0-9])' + escRe(n) + '(?![A-Za-z0-9])', 'i');
+    Object.keys(fields).forEach(f => { if (fields[f] && re.test(fields[f])) errors.push('"' + n + '" (named in the Reference section) appears in the ' + f + '. Remove it from the spec before sending.'); });
+  });
+
+  const needsMaxConfirm = args.max_mode === true;
+  return { request, tool, args, errors, warnings, changes, defaults, notSent, conflict, needsMaxConfirm, effective: { bpm, keyText } };
+}
+
+function templateText(kind) {
+  const set = { schema_version: '1', request: kind, title: '', bpm: '', key: '', bpm_key_by: '', instrumental: '', model: '', voice_id: '', vocal_gender: '', weirdness: '', style_influence: '', variety: '', audio_influence: '', duration: '', max_mode: '', cover_source: '', loop: kind === 'sound' ? 'true' : '' };
+  let out = '---\n' + Object.keys(set).map(k => k + ': ' + set[k]).join('\n') + '\n---\n\n# Song spec\n';
+  SECTION_ORDER.forEach(n => { out += '\n## ' + n + '\n\n'; });
+  return out;
+}
+</script>
+
+<script id="ui">
+/* ===== UI ===== */
+const SERVER = 'Suno';
+const NO_MCP = 'Open this page in claude.ai with the Suno connector added to send requests.';
+const $ = id => document.getElementById(id);
+const el = (tag, props, ...kids) => {
+  const e = document.createElement(tag);
+  if (props) Object.keys(props).forEach(k => { if (k === 'class') e.className = props[k]; else if (k === 'text') e.textContent = props[k]; else if (k.startsWith('on')) e.addEventListener(k.slice(2), props[k]); else e.setAttribute(k, props[k]); });
+  kids.flat().forEach(c => { if (c !== null && c !== undefined) e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+  return e;
+};
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+let mcp = null, sample = null, downloads = null, spec = null, fileName = '', usage = null, currentPreview = null;
+if (window.claude && window.claude.use) {
+  window.claude.use('mcp').then(m => { mcp = m; if (!m) say('status', NO_MCP, 'warn'); }).catch(() => {});
+  window.claude.use('sample').then(s => { sample = s; refreshButtons(); }).catch(() => {});
+  window.claude.use('downloads').then(d => { downloads = d; if (!d) $('dlStatus').textContent = 'Downloads are not available in this view.'; }).catch(() => {});
+} else { setTimeout(() => say('status', NO_MCP, 'warn'), 0); }
+
+function say(id, text, kind) {
+  const e = $(id); e.textContent = text;
+  e.className = kind === 'warn' ? 'msg' : kind === 'ok' ? 'msg ok' : 'note';
+}
+
+/* key menu */
+(function () {
+  const sel = $('key');
+  sel.appendChild(el('option', { value: '', text: 'Choose a key' }));
+  ['major', 'minor'].forEach(mode => {
+    for (let i = 0; i < 12; i++) {
+      const name = FLAT[i] === SHARP[i] ? FLAT[i] : SHARP[i] + ' / ' + FLAT[i];
+      sel.appendChild(el('option', { value: i + '|' + mode, text: name + ' ' + mode }));
+    }
+  });
+})();
+
+/* sliders */
+const sliderDefs = [
+  { id: 'weird', label: 'Weirdness', min: 0, max: 1, step: 0.01, pct: true },
+  { id: 'sinf', label: 'Style influence', min: 0, max: 1, step: 0.01, pct: true },
+  { id: 'variety', label: 'Variety', min: 0, max: 4, step: 1, pct: false }
+];
+sliderDefs.forEach(d => {
+  const on = el('input', { type: 'checkbox', id: d.id + 'On' });
+  const rng = el('input', { type: 'range', id: d.id, min: d.min, max: d.max, step: d.step, value: d.pct ? 0.5 : 1, disabled: '' });
+  const val = el('span', { class: 'sl-val', id: d.id + 'Val' });
+  const show = () => { val.textContent = d.pct ? Math.round(rng.value * 100) + '%' : rng.value; };
+  show();
+  on.addEventListener('change', () => { rng.disabled = !on.checked; });
+  rng.addEventListener('input', show);
+  rng._show = show;
+  $('sliders').appendChild(el('div', { class: 'field' },
+    el('div', { class: 'head' }, el('label', { for: d.id, text: d.label }), el('label', { class: 'chk', for: d.id + 'On' }, on, 'Set')),
+    el('div', { class: 'row', style: 'flex-wrap:nowrap' }, rng, val),
+    el('span', { class: 'hint', text: d.id === 'variety' ? 'Whole numbers, 0 to 4. Unset leaves it to Suno.' : 'Unset leaves it to Suno.' })));
+});
+
+$('durAuto').addEventListener('change', () => { $('durText').disabled = $('durAuto').checked; });
+
+function readForm() {
+  const k = $('key').value.split('|');
+  const sl = id => ({ on: $(id + 'On').checked, val: $(id).value });
+  return {
+    loop: $('loop').checked, loopDesc: $('loopDesc').value,
+    overrideTempo: $('ovT').checked, tempo: $('tempo').value,
+    overrideKey: $('ovK').checked, keyIdx: k[0] === '' ? '' : k[0], keyMode: k[1] || 'major',
+    title: $('title').value, neg: $('neg').value, gender: $('gender').value,
+    durationAuto: $('durAuto').checked, durationText: $('durText').value,
+    maxMode: $('maxMode').checked,
+    weird: sl('weird'), sinf: sl('sinf'), variety: sl('variety'),
+    instrumentalChoice: (currentPreview && currentPreview.choice) || null
+  };
+}
+
+function refreshButtons() {
+  $('go').disabled = !spec;
+  $('suggest').disabled = !spec || !sample;
+  if (!sample) $('suggestNote').textContent = spec ? 'Suggestions are not available in this view.' : 'Load a spec first.';
+}
+function refreshEffective() {
+  if (!spec) { $('effT').textContent = ''; $('effK').textContent = ''; return; }
+  const f = readForm();
+  const sb = numOf(spec.settings.bpm), sk = spec.settings.key ? parseKey(spec.settings.key) : null;
+  const t = (f.overrideTempo && numOf(f.tempo) !== undefined) ? numOf(f.tempo) + ' BPM (from this form)' : (sb !== undefined ? sb + ' BPM (from the spec)' : 'none set');
+  const kk = (f.overrideKey && f.keyIdx !== '') ? FLAT[f.keyIdx] + ' ' + f.keyMode + ' (from this form)' : (sk ? sk.text + ' (from the spec)' : 'none set');
+  $('effT').textContent = 'Using: ' + t; $('effK').textContent = 'Using: ' + kk;
+}
+['ovT', 'ovK', 'tempo', 'key'].forEach(id => $(id).addEventListener('input', refreshEffective));
+
+/* spec loading */
+async function loadFile(file) {
+  if (!file) return;
+  let text;
+  try { text = await file.text(); } catch (e) { say('status', 'Could not read that file.', 'warn'); return; }
+  spec = parseSpec(text); fileName = file.name;
+  $('fname').textContent = file.name;
+  const sb = numOf(spec.settings.bpm), sk = spec.settings.key ? parseKey(spec.settings.key) : null;
+  if (sb !== undefined && Number.isFinite(sb)) $('tempo').value = sb;
+  if (sk) $('key').value = sk.idx + '|' + sk.mode;
+  renderSummary(); refreshEffective(); refreshButtons();
+  say('status', 'Spec loaded. Adjust settings if you like, then press Generate.', 'note');
+  closePreview();
+}
+$('file').addEventListener('change', e => loadFile(e.target.files[0]));
+const drop = $('drop');
+['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => loadFile(e.dataTransfer.files[0]));
+
+function renderSummary() {
+  const box = $('specSummary'); box.textContent = '';
+  if (!spec) return;
+  const S = spec.settings;
+  const keys = Object.keys(S).filter(k => S[k] !== '');
+  const t1 = el('table', null, el('tr', null, el('th', { text: 'Setting' }), el('th', { text: 'Value' })),
+    keys.length ? keys.map(k => el('tr', null, el('td', { class: 'k', text: k }), el('td', { text: S[k] }))) : el('tr', null, el('td', { colspan: 2, class: 'note', text: 'No settings filled in.' })));
+  const rows = spec.sections.map(s => {
+    const never = NEVER_SEND.includes(s.key);
+    const usedBy = { style: 'Style', 'negative style': 'Excluded styles', lyrics: 'Lyrics', sound: 'Loops only' }[s.key];
+    return el('tr', null, el('td', { text: s.name }), el('td', { class: 'mono', text: String(s.body.length) }),
+      el('td', null, el('span', { class: 'tag ' + (never ? 'never' : usedBy ? 'sent' : ''), text: never ? 'never sent' : usedBy ? 'sent: ' + usedBy : 'not used' })));
+  });
+  const t2 = el('table', null, el('tr', null, el('th', { text: 'Section' }), el('th', { text: 'Characters' }), el('th', { text: 'Use' })), rows);
+  box.appendChild(el('div', { class: 'grid2', style: 'margin-top:14px' }, el('div', null, t1), el('div', null, t2)));
+  spec.warnings.forEach(w => box.appendChild(el('p', { class: 'msg caution', style: 'margin-top:10px', text: w })));
+  if (spec.unknownKeys.length) box.appendChild(el('p', { class: 'note', style: 'margin-top:10px', text: 'Unknown settings, ignored: ' + spec.unknownKeys.join(', ') }));
+}
+
+/* template downloads */
+document.querySelectorAll('[data-tpl]').forEach(b => b.addEventListener('click', async () => {
+  const kind = b.getAttribute('data-tpl'), d = $('dlStatus');
+  if (!downloads) { d.textContent = 'Downloads are not available in this view.'; return; }
+  try {
+    await downloads.save({ filename: 'blank-' + kind + '.songspec.md', data: templateText(kind) });
+    d.textContent = 'Saved blank-' + kind + '.songspec.md.';
+  } catch (e) {
+    d.textContent = e && e.code === 'declined' ? 'Download cancelled.' : e && e.code === 'rate_limited' ? 'Wait a moment, then try again.' : 'Could not save the file (' + ((e && e.code) || 'unknown') + ').';
+  }
+}));
+
+/* suggest options */
+$('suggest').addEventListener('click', async () => {
+  if (!spec || !sample) return;
+  const out = $('suggestOut'); out.textContent = ''; $('suggest').disabled = true;
+  out.appendChild(el('p', { class: 'note', text: 'Thinking...' }));
+  const f = readForm(), S = spec.settings, B = spec.byKey;
+  const prompt = [
+    'You advise on Suno song-generation settings. Given this song spec, suggest settings.',
+    'Tempo: ' + (S.bpm || 'unknown') + ' BPM. Key: ' + (S.key || 'unknown') + '. Instrumental: ' + (B.lyrics ? 'no, it has lyrics' : 'yes, no lyrics') + '.',
+    'STYLE TEXT:\n' + (B.style || '(none)').slice(0, 1200),
+    'LYRICS (excerpt):\n' + (B.lyrics || '(none)').slice(0, 2500),
+    'IDEA (excerpt):\n' + (B.idea || '(none)').slice(0, 1200),
+    'Settings: weirdness 0 to 1 (higher drifts further from convention); style_influence 0 to 1 (higher follows the style text more strictly); variety a whole number 0 to 4 (how far the style tags are reinterpreted); vocal_gender male or female; duration_seconds 15 to 360; negative_style a short list of styles to avoid.',
+    'Reply with only a JSON object like {"weirdness":0.4,"style_influence":0.75,"variety":1,"vocal_gender":"male","duration_seconds":210,"negative_style":"polka, accordion","reasons":{"weirdness":"one short sentence","style_influence":"...","variety":"...","vocal_gender":"...","duration_seconds":"...","negative_style":"..."}}.',
+    'Use null for anything better left to Suno\'s default. Do not name any artist or song anywhere in the reply. Keep each reason under 20 words.'
+  ].join('\n\n');
+  try {
+    const s = await sample.json(prompt, { modelTier: 'default' });
+    if (!s || typeof s !== 'object') throw { code: 'invalid_json' };
+    const applied = [];
+    const setSl = (id, v, int, max) => { if (typeof v === 'number' && v >= 0 && v <= max && (!int || Number.isInteger(v))) { $(id + 'On').checked = true; $(id).disabled = false; $(id).value = v; $(id)._show(); applied.push(id); } };
+    setSl('weird', s.weirdness, false, 1); setSl('sinf', s.style_influence, false, 1); setSl('variety', s.variety, true, 4);
+    if (s.vocal_gender === 'male' || s.vocal_gender === 'female') { $('gender').value = s.vocal_gender; applied.push('gender'); }
+    if (Number.isInteger(s.duration_seconds) && s.duration_seconds >= 15 && s.duration_seconds <= 360) {
+      $('durAuto').checked = false; $('durText').disabled = false;
+      $('durText').value = Math.floor(s.duration_seconds / 60) + ':' + String(s.duration_seconds % 60).padStart(2, '0'); applied.push('duration');
+    }
+    if (typeof s.negative_style === 'string' && s.negative_style.trim() && !$('neg').value.trim()) { $('neg').value = s.negative_style.trim().slice(0, 300); applied.push('negative'); }
+    out.textContent = '';
+    out.appendChild(el('p', { class: 'msg ok', text: applied.length ? 'Suggestions filled into the settings above. Change anything you disagree with.' : 'Claude had no usable suggestions for this spec.' }));
+    const r = s.reasons && typeof s.reasons === 'object' ? s.reasons : {};
+    const li = Object.keys(r).filter(k => typeof r[k] === 'string').map(k => el('li', null, el('b', { text: k.replace(/_/g, ' ') + ': ' }), r[k]));
+    if (li.length) out.appendChild(el('ul', { class: 'plain' }, li));
+  } catch (e) {
+    out.textContent = '';
+    const code = e && e.code;
+    const t = code === 'not_granted' ? 'Claude wasn\'t allowed for this page, so suggestions are off.' : code === 'rate_limited' ? 'Too many requests right now. Try again in a minute.' : code === 'invalid_json' ? 'Claude\'s reply wasn\'t usable. Press Suggest options again.' : 'Suggestions failed (' + (code || 'unknown') + '). Try again.';
+    out.appendChild(el('p', { class: 'msg', text: t }));
+  } finally { $('suggest').disabled = !spec || !sample; }
+});
+
+/* errors from Suno calls */
+function errText(e) {
+  const code = e && e.code;
+  switch (code) {
+    case 'server_not_connected': return 'Suno isn\'t connected to this view. Add the Suno connector in claude.ai Settings, then reload.';
+    case 'needs_reauth': return 'Your Suno connection expired. Reconnect Suno in claude.ai Settings, then try again.';
+    case 'approval_required': case 'consent_required': return 'This page needs your approval to use Suno. Press the button again and allow it.';
+    case 'not_in_manifest': return 'Suno access was declined for this page. Reopen it in claude.ai and allow Suno.';
+    case 'blocked_by_policy': return 'Your organization blocks this Suno tool.';
+    case 'selection_required': return 'You have more than one Suno connector. Choose one when prompted, then try again.';
+    case 'tool_error': return 'Suno refused the request: ' + (String(e.message || '').slice(0, 300) || 'no detail given') + '. Nothing was sent to the song queue.';
+    case 'server_unavailable': case 'upstream_error': return 'Suno didn\'t answer. The request may have gone through, so check your library on suno.com before sending again. Pressing Send again reuses the same request key, so it won\'t duplicate.';
+    default: return 'Something went wrong (' + (code || 'unknown') + '). ' + (e && e.message ? String(e.message).slice(0, 200) : '');
+  }
+}
+function parseLoose(res) {
+  const p = res && res.payload;
+  if (p && typeof p === 'object') return p;
+  const text = typeof p === 'string' ? p : ((res && res.content || []).find(b => b.type === 'text') || {}).text || '';
+  const first = text.indexOf('{');
+  if (first >= 0) {
+    let depth = 0, inStr = false, esc = false;
+    for (let i = first; i < text.length; i++) {
+      const c = text[i];
+      if (inStr) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') inStr = false; continue; }
+      if (c === '"') inStr = true;
+      else if (c === '{') depth++;
+      else if (c === '}') { depth--; if (depth === 0) { try { return JSON.parse(text.slice(first, i + 1)); } catch (_) { break; } } }
+    }
+  }
+  return { _text: text };
+}
+function clipIds(obj, res) {
+  if (obj && Array.isArray(obj.clip_ids) && obj.clip_ids.length) return obj.clip_ids;
+  const m = JSON.stringify(res || {}).match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/g) || [];
+  return Array.from(new Set(m)).slice(0, 2);
+}
+
+/* generate and preview */
+$('go').addEventListener('click', async () => {
+  if (!spec) return;
+  if (!mcp) { say('status', NO_MCP, 'warn'); return; }
+  $('go').disabled = true; say('status', 'Checking your plan...', 'note');
+  let allowed = null; usage = null;
+  try {
+    const u = parseLoose(await mcp.callTool(SERVER, 'account-usage', {}, { cache: false }));
+    usage = u; if (Array.isArray(u.allowed_models)) allowed = u.allowed_models;
+  } catch (e) {
+    if (e && ['server_not_connected', 'needs_reauth', 'approval_required', 'consent_required', 'not_in_manifest', 'selection_required', 'blocked_by_policy'].includes(e.code)) {
+      say('status', errText(e), 'warn'); $('go').disabled = false; return;
+    }
+  }
+  currentPreview = { choice: null, allowed, idem: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)) };
+  renderPreview();
+  say('status', 'Check the request below, then send it.', 'note');
+  $('go').disabled = false;
+});
+
+function closePreview() { currentPreview = null; $('previewBox').textContent = ''; }
+
+function renderPreview() {
+  const box = $('previewBox'); box.textContent = '';
+  const p = currentPreview; if (!p) return;
+  const r = resolve(spec, readForm(), { allowedModels: p.allowed });
+  p.r = r;
+  const wrap = el('div', { class: 'preview' });
+  wrap.appendChild(el('div', { class: 'row between' }, el('h3', { text: 'Request to send' }), el('span', { class: 'tag', text: r.tool || 'no tool' })));
+  if (r.errors.length) {
+    wrap.appendChild(el('div', null, el('b', { text: 'Fix these before sending' }), el('ul', { class: 'plain' }, r.errors.map(e => el('li', { text: e })))));
+  }
+  if (r.conflict) {
+    const mk = (v, label) => el('label', { class: 'chk', for: 'ch-' + v }, el('input', { type: 'radio', name: 'choice', id: 'ch-' + v, value: v, onchange: () => { p.choice = v; renderPreview(); } }), label);
+    wrap.appendChild(el('div', { class: 'field' }, mk('lyrics', 'Keep the lyrics and make a vocal song'), mk('instrumental', 'Keep it instrumental and drop the lyrics')));
+  }
+  const args = r.args || {};
+  const small = [], big = [];
+  Object.keys(args).forEach(k => {
+    const v = args[k];
+    if (k === 'controls') Object.keys(v).forEach(c => small.push(['controls.' + c, String(v[c])]));
+    else if (typeof v === 'string' && v.length > 60) big.push([k, v]);
+    else small.push([k, String(v)]);
+  });
+  if (small.length) wrap.appendChild(el('table', null, small.map(([k, v]) => el('tr', null, el('td', { class: 'k', text: k }), el('td', { text: v })))));
+  big.forEach(([k, v]) => wrap.appendChild(el('div', null, el('b', { text: k }), el('span', { class: 'hint', text: '  ' + v.length + ' characters' }), el('pre', { text: v }))));
+  const lists = [['Changes made to the spec\'s values', r.changes], ['Warnings', r.warnings], ['Left to Suno\'s defaults', r.defaults.length ? [r.defaults.join(', ')] : []], ['Not sent', r.notSent]];
+  lists.forEach(([t, items]) => { if (items && items.length) wrap.appendChild(el('div', null, el('b', { text: t }), el('ul', { class: 'plain' }, items.map(i => el('li', { text: i }))))); });
+  const credits = usage && usage.suno_account && usage.suno_account.credits_remaining;
+  wrap.appendChild(el('p', { class: 'note', text: (r.tool === 'sounds-create' ? 'This makes 2 loops and uses credits (about 1 per loop).' : 'This makes 2 songs and uses credits.') + (credits !== undefined ? ' You have ' + credits + ' song credits left.' : '') }));
+  let mx = null;
+  if (r.needsMaxConfirm) {
+    mx = el('input', { type: 'checkbox', id: 'mxOk' });
+    wrap.appendChild(el('label', { class: 'chk', for: 'mxOk' }, mx, 'Yes, use Max mode. It spends a multiple of the usual credits.'));
+  }
+  const send = el('button', { type: 'button', id: 'sendBtn', text: 'Send to Suno' });
+  const upd = () => { send.disabled = r.errors.length > 0 || (mx && !mx.checked); };
+  if (mx) mx.addEventListener('change', upd); upd();
+  send.addEventListener('click', () => doSend(r, send));
+  wrap.appendChild(el('div', { class: 'row' }, send, el('button', { type: 'button', class: 'ghost', text: 'Cancel', onclick: closePreview })));
+  box.appendChild(wrap);
+}
+
+async function doSend(r, btn) {
+  btn.disabled = true; say('status', 'Sending to Suno...', 'note');
+  const args = Object.assign({}, r.args, { idempotency_key: currentPreview.idem });
+  try {
+    const res = await mcp.callTool(SERVER, r.tool, args, { cache: false });
+    const obj = parseLoose(res), ids = clipIds(obj, res);
+    if (!ids.length) throw { code: 'upstream_error', message: 'Suno returned no clip IDs.' };
+    const group = { tool: r.tool, title: args.title || '', sentAt: new Date(), createRaw: obj, clips: ids.map(id => ({ id, status: 'submitted', raw: null })) };
+    const box = $('results'); if (box.querySelector('.note') && !box.querySelector('.group')) box.textContent = '';
+    const node = el('div', { class: 'group' }); box.prepend(node);
+    const redraw = () => renderGroup(node, group);
+    redraw(); closePreview();
+    say('status', 'Sent. Both clips are generating, and they appear below as they become playable.', 'ok');
+    await Promise.all(group.clips.map(c => pollClip(c, redraw)));
+    say('status', 'Done.', 'ok');
+  } catch (e) {
+    say('status', errText(e), 'warn'); btn.disabled = false;
+  }
+}
+
+async function pollClip(c, onChange) {
+  for (let i = 0; i < 70; i++) {
+    try {
+      const o = parseLoose(await mcp.callTool(SERVER, 'audio-retrieve', { id: c.id }, { cache: false }));
+      if (o && o.status) {
+        const before = c.status + '|' + (o.metadata && o.metadata.duration);
+        c.status = o.status; c.raw = o;
+        if (before !== c.status + '|' + (o.metadata && o.metadata.duration) || i === 0) onChange();
+        if (o.status === 'complete' || o.status === 'error') { onChange(); return; }
+      }
+    } catch (e) { if (e && e.code && !['server_unavailable', 'upstream_error', 'rate_limited'].includes(e.code)) return; }
+    await sleep(5000);
+  }
+}
+
+function renderGroup(node, g) {
+  node.textContent = '';
+  node.appendChild(el('div', { class: 'row between' },
+    el('h3', { text: (g.title || 'Untitled') + ' (' + (g.tool === 'sounds-create' ? 'loops' : g.tool === 'audio-covers-create' ? 'covers' : 'songs') + ')' }),
+    el('span', { class: 'hint', text: g.sentAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) })));
+  g.clips.forEach((c, i) => node.appendChild(renderClip(c, i, g)));
+  const sub = el('details', null, el('summary', { text: 'Suno\'s reply to the request' }), el('pre', { text: JSON.stringify(g.createRaw, null, 2) }));
+  node.appendChild(sub);
+}
+function renderClip(c, i, g) {
+  const o = c.raw || {}, m = o.metadata || {};
+  const wrap = el('div', { class: 'clip' });
+  const top = el('div', { class: 'row between' }, el('h3', { text: 'Version ' + (i ? 'B' : 'A') + (o.title ? ': ' + o.title : '') }), el('span', { class: 'tag ' + (c.status === 'complete' ? 'sent' : c.status === 'error' ? 'never' : ''), text: c.status }));
+  wrap.appendChild(top);
+  const body = el('div', { class: 'row', style: 'align-items:flex-start' });
+  if (o.cover_image_url) {
+    const img = el('img', { class: 'art', src: o.cover_image_url, alt: 'Cover art', loading: 'lazy' });
+    img.addEventListener('error', () => img.remove());
+    body.appendChild(img);
+  }
+  const info = el('div', { style: 'flex:1;min-width:220px;display:flex;flex-direction:column;gap:6px' });
+  info.appendChild(el('div', { class: 'row' }, el('span', { class: 'hint', text: 'Clip ID' }), el('code', { class: 'mono', text: c.id }),
+    el('button', { type: 'button', class: 'ghost', style: 'padding:3px 10px', text: 'Copy', onclick: async ev => { try { await navigator.clipboard.writeText(c.id); ev.target.textContent = 'Copied'; } catch (_) { ev.target.textContent = 'Select and copy'; } } })));
+  const links = el('div', { class: 'row' });
+  const link = (href, text) => el('a', { href, target: '_blank', rel: 'noopener', text });
+  links.appendChild(link(o.song_url || 'https://suno.com/song/' + c.id, 'Open song on suno.com'));
+  if (o.cover_image_url) links.appendChild(link(o.cover_image_url, 'Cover art'));
+  if (o.cover_image_large_url) links.appendChild(link(o.cover_image_large_url, 'Cover art (large)'));
+  info.appendChild(links);
+  const facts = [];
+  if (m.duration) facts.push('Duration: ' + Number(m.duration).toFixed(1) + ' s');
+  if (m.model) facts.push('Model: ' + m.model);
+  if (m.type) facts.push('Type: ' + m.type);
+  if (o.created_at) facts.push('Created: ' + o.created_at);
+  if (o.error) facts.push('Error: ' + (typeof o.error === 'string' ? o.error : JSON.stringify(o.error)));
+  if (facts.length) info.appendChild(el('div', { class: 'hint', text: facts.join('  ·  ') }));
+  body.appendChild(info);
+  wrap.appendChild(body);
+  if (c.raw) wrap.appendChild(el('details', null, el('summary', { text: 'All data Suno returned for this clip' }), el('pre', { text: JSON.stringify(c.raw, null, 2) })));
+  return wrap;
+}
+$('loop').addEventListener('change', () => { $('loopBox').hidden = !$('loop').checked; });
+['title', 'neg', 'gender', 'maxMode', 'loop', 'loopDesc', 'durText', 'tempo', 'key', 'ovT', 'ovK'].forEach(id => $(id).addEventListener('input', () => { if (currentPreview) renderPreview(); }));
+</script>
+</body>
+</html>
