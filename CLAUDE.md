@@ -10,6 +10,7 @@
 - `README.md` — tool table, add-a-tool and publishing steps
 - `privacy.html` — Privacy & credits for every tool
 - `about.html` + `img/` — About page (features, hand-offs) and its WebP screenshots
+- `songspec/` — the song spec shared by all tools: `SPEC.md` (format), `songspec.js` (library; tools keep byte-identical copies, check with `check-copies.js`), `test.js` (`node songspec/test.js`), `example.songspec.md`
 - `CLAUDE.md` — this file; `main` = deploy branch; no `src/`, `dist/` or tests
 
 ## Commands

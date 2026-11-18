@@ -20,6 +20,10 @@ Live site (once GitHub Pages is enabled): https://gp-songtools.github.io/toolsme
 
 `about.html` presents every tool and how they hand work to each other, with screenshots in `img/` (WebP, about 1600 px wide). Keep it in step when tools gain headline features or new hand-offs.
 
+## Song spec
+
+`songspec/` holds the song spec: one Markdown file per song that every tool reads and writes its own part of. See [songspec/README.md](songspec/README.md).
+
 ## Privacy & credits
 
 `privacy.html` covers every tool: Cloudflare Web Analytics (on every page), what each tool sends where, and credits. Every tool links to it; update it when a tool changes what it sends, stores or credits.
