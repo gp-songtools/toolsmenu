@@ -81,7 +81,7 @@
 
     .empty { color: var(--muted); display: none; padding: var(--s-5) 0; }
     footer { margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--border); color: var(--muted); font-size: var(--text-xs); }
-    footer a { color: var(--text); display: inline-block; padding-block: 12px; margin-block: -12px; } /* 44px hit area, same look */
+    footer a { color: var(--text); display: inline-block; line-height: 44px; } /* 44px hit area; lines stay 44px apart so targets never overlap */
 
     @media (max-width: 900px) {
       .card { grid-template-columns: 56px minmax(0, 1fr); grid-template-areas: "icon title" "icon desc" "icon actions"; }
@@ -113,7 +113,7 @@
 
     <footer>
       Source for every tool lives in the
-      <a href="https://github.com/gp-songtools">gp-songtools GitHub organization</a>.
+      <a href="https://github.com/gp-songtools" target="_blank" rel="noopener">gp-songtools GitHub organization</a>.
       · <a href="about.html">About</a>
       · <a href="privacy.html">Privacy &amp; credits</a>
     </footer>

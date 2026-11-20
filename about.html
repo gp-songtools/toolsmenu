@@ -103,7 +103,7 @@
     .closing h2 { margin-bottom: var(--s-2); }
     .closing p { color: var(--muted); margin: 0 0 var(--s-5); max-width: 56ch; }
     footer { margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--border); color: var(--muted); font-size: var(--text-xs); }
-    footer a { color: var(--text); display: inline-block; padding-block: 12px; margin-block: -12px; } /* 44px hit area, same look */
+    footer a { color: var(--text); display: inline-block; line-height: 44px; } /* 44px hit area; lines stay 44px apart so targets never overlap */
 
     @media (max-width: 900px) {
       .flow { grid-template-columns: repeat(4, 1fr); }
@@ -154,7 +154,7 @@
     <article class="tool" id="blueprint" style="--c: var(--bp)">
       <div class="copy">
         <span class="tag">1 · Plan</span>
-        <h3 translate="no"><a href="https://gp-songtools.github.io/gp-blueprint/">GP Blueprint</a></h3>
+        <h3 translate="no"><a href="https://gp-songtools.github.io/gp-blueprint/" target="_blank" rel="noopener">GP Blueprint</a></h3>
         <p class="pitch">Name an artist you love and get a complete plan for a new song in their style, ready for Suno or Mozart AI.</p>
         <ul>
           <li>A rich <b>style prompt</b>, up to Suno’s 1,000&nbsp;characters, with no artist names to get rejected. Choose <b>Mozart AI</b> instead for a short prompt for its Hans 2.0 model.</li>
@@ -164,7 +164,7 @@
           <li><b>Grounded in real audio</b>: MusicAtlas measures the actual recording’s tempo and key, and Gemini can listen to a YouTube Music link itself.</li>
 <li><b>Save to song spec</b> stores the style, structure and stems for the other tools, plus the BPM and key if you like. It can start from what they saved, too: Idea Wizard’s topic, Lyricpad’s lyrics and Earprint’s analysis.</li>
         </ul>
-        <a class="open" href="https://gp-songtools.github.io/gp-blueprint/">Open GP Blueprint →</a>
+        <a class="open" href="https://gp-songtools.github.io/gp-blueprint/" target="_blank" rel="noopener">Open GP Blueprint →</a>
       </div>
       <figure>
         <img class="shot" src="img/blueprint.webp" width="1600" height="1000" loading="lazy" alt="GP Blueprint showing a generated Suno style prompt for a French house track, with stem prompts below">
@@ -174,7 +174,7 @@
     <article class="tool" id="ideawizard" style="--c: var(--iw)">
       <div class="copy">
         <span class="tag">2 · Imagine</span>
-        <h3 translate="no"><a href="https://gp-songtools.github.io/ideawizard/">Idea Wizard</a></h3>
+        <h3 translate="no"><a href="https://gp-songtools.github.io/ideawizard/" target="_blank" rel="noopener">Idea Wizard</a></h3>
         <p class="pitch">You have the sound. Now what’s the song about? Get three ideas that fit it, then dig into the one you like.</p>
         <ul>
           <li>Starts from <b>GP Blueprint’s style prompt</b> or <b>Earprint’s track analysis</b> (tempo, key, mood, instruments, lyric themes), or just a direction. Add Blueprint’s <b>song structure</b> too, and the plan follows your exact sections.</li>
@@ -184,7 +184,7 @@
           <li><b>From the song spec</b>: fill the boxes with GP Blueprint’s and Earprint’s work in one click (<b>Use all</b>). <b>Save to song spec</b> passes the idea and its song structure on to Lyricpad.</li>
 <li>Works with <b>Claude, Gemini or Groq</b> on your own key.</li>
         </ul>
-        <a class="open" href="https://gp-songtools.github.io/ideawizard/">Open Idea Wizard →</a>
+        <a class="open" href="https://gp-songtools.github.io/ideawizard/" target="_blank" rel="noopener">Open Idea Wizard →</a>
       </div>
       <figure>
         <img class="shot" src="img/ideawizard.webp" width="1600" height="1000" loading="lazy" alt="Idea Wizard with three song ideas, Last Train Disco, Filter Sweep and Talk Box Love Letter, each with theme, subject, angle, hook and imagery, above the expanded plan for Last Train Disco">
@@ -194,7 +194,7 @@
     <article class="tool" id="lyricpad" style="--c: var(--lp)">
       <div class="copy">
         <span class="tag">3 · Write</span>
-        <h3 translate="no"><a href="https://gp-songtools.github.io/lyricpad/">Lyricpad</a></h3>
+        <h3 translate="no"><a href="https://gp-songtools.github.io/lyricpad/" target="_blank" rel="noopener">Lyricpad</a></h3>
         <p class="pitch">A calm, fast lyric editor that counts every syllable while you type.</p>
         <ul>
           <li><b>Live syllable counts</b> beside every line, with ranges for words like “fire” and a per-word breakdown.</li>
@@ -205,7 +205,7 @@
 <li><b>From the song spec</b>: pick GP Blueprint’s or Idea Wizard’s structure (the newest is chosen for you) and Idea Wizard’s topic and title. <b>Copy ▾ › Add to song spec</b> saves the finished lyrics, section tags and all.</li>
           <li><b>Saves to your Google Drive</b>, with auto-save. Lyricpad can only see the files it created.</li>
         </ul>
-        <a class="open" href="https://gp-songtools.github.io/lyricpad/">Open Lyricpad →</a>
+        <a class="open" href="https://gp-songtools.github.io/lyricpad/" target="_blank" rel="noopener">Open Lyricpad →</a>
       </div>
       <figure>
         <img class="shot" src="img/lyricpad.webp" width="1600" height="1000" loading="lazy" alt="Lyricpad with a verse and chorus, syllable counts in the margin, and rhymes for 'glow' in the side panel">
@@ -215,7 +215,7 @@
     <article class="tool" id="randomash" style="--c: var(--rm)">
       <div class="copy">
         <span class="tag">4 · Generate</span>
-        <h3 translate="no"><a href="https://gp-songtools.github.io/gp-randomash/">Randomash</a></h3>
+        <h3 translate="no"><a href="https://gp-songtools.github.io/gp-randomash/" target="_blank" rel="noopener">Randomash</a></h3>
         <p class="pitch">A genre blender for Google’s Lyria&nbsp;3. Mash doom metal into jazz fusion, or klezmer into post-rock, and hear what happens.</p>
         <ul>
           <li><b>138 genres in 14 families</b>. Hover any chip to see exactly what it adds to the prompt.</li>
@@ -226,7 +226,7 @@
           <li><b>Download song spec (loop)</b> turns the current mix into an instrumental Suno loop spec, ready for Spec to Suno.</li>
           <li><b>Dry run</b> is on by default, so you see the exact request and cost before you spend anything. A balance tracker keeps an eye on your Google credit.</li>
         </ul>
-        <a class="open" href="https://gp-songtools.github.io/gp-randomash/">Open Randomash →</a>
+        <a class="open" href="https://gp-songtools.github.io/gp-randomash/" target="_blank" rel="noopener">Open Randomash →</a>
       </div>
       <figure>
         <img class="shot" src="img/randomash.webp" width="1600" height="1000" loading="lazy" alt="Randomash with psychedelic rock and doom metal in the current mix, rated clash 0.33 smooth, above the genre picker's Electronic, Hip-hop, Rock and Metal families">
@@ -236,7 +236,7 @@
     <article class="tool" id="earprint" style="--c: var(--ep)">
       <div class="copy">
         <span class="tag">5 · Analyze</span>
-        <h3 translate="no"><a href="https://gp-songtools.github.io/earprint/">Earprint</a></h3>
+        <h3 translate="no"><a href="https://gp-songtools.github.io/earprint/" target="_blank" rel="noopener">Earprint</a></h3>
         <p class="pitch">Drop in a track and see what it’s made of, then get an honest second opinion.</p>
         <ul>
           <li><b>Measured in your browser</b>: tempo, key with its Camelot code, loudness and loudness range.</li>
@@ -246,7 +246,7 @@
           <li><b>Edits for GP Mastering</b>: exact, time-coded fixes you can paste straight in.</li>
 <li><b>Save to song spec</b> shares the analysis with GP Blueprint and Idea Wizard, and, if you tick it, your track’s measured BPM and key. <b>Use these lyrics</b> brings in Lyricpad’s lyrics for the review.</li>
         </ul>
-        <a class="open" href="https://gp-songtools.github.io/earprint/">Open Earprint →</a>
+        <a class="open" href="https://gp-songtools.github.io/earprint/" target="_blank" rel="noopener">Open Earprint →</a>
       </div>
       <figure>
         <img class="shot" src="img/earprint.webp" width="1600" height="1000" loading="lazy" alt="Earprint showing tempo 123.6 BPM, key A minor (8A), loudness readouts, an energy timeline, a character radar, a mood map and a pitch profile">
@@ -256,7 +256,7 @@
     <article class="tool" id="gpmastering" style="--c: var(--gm)">
       <div class="copy">
         <span class="tag">6 · Finish</span>
-        <h3 translate="no"><a href="https://gp-songtools.github.io/gp-master/">GP Mastering</a></h3>
+        <h3 translate="no"><a href="https://gp-songtools.github.io/gp-master/" target="_blank" rel="noopener">GP Mastering</a></h3>
         <p class="pitch">A serious mastering studio that runs in a browser tab, and your audio never leaves your computer.</p>
         <ul>
           <li><b>Full master, light polish or loudness only</b>, to any loudness target, finished with a true-peak limiter.</li>
@@ -265,7 +265,7 @@
           <li><b>Region tools</b> on a beat grid that can follow a drifting tempo: volume automation, filter sweeps, reverb and delay throws, risers, pitch shifts, and repeating or cutting whole bars.</li>
           <li>A <b>level-matched A/B</b> player, a mono check for phone speakers, and export to WAV, MP3 or M4A.</li>
         </ul>
-        <a class="open" href="https://gp-songtools.github.io/gp-master/">Open GP Mastering →</a>
+        <a class="open" href="https://gp-songtools.github.io/gp-master/" target="_blank" rel="noopener">Open GP Mastering →</a>
       </div>
       <figure>
         <img class="shot" src="img/gpmaster.webp" width="1600" height="1000" loading="lazy" alt="GP Mastering's Listen card with a song's waveform on a numbered bar grid and Original / Mastered comparison buttons">
@@ -275,7 +275,7 @@
     <article class="tool" id="auralyrics" style="--c: var(--al)">
       <div class="copy">
         <span class="tag">7 · Share</span>
-        <h3 translate="no"><a href="https://gp-songtools.github.io/auralyrics-studio/">AuraLyrics Studio</a></h3>
+        <h3 translate="no"><a href="https://gp-songtools.github.io/auralyrics-studio/" target="_blank" rel="noopener">AuraLyrics Studio</a></h3>
         <p class="pitch">Turn your finished song into a lyric video that moves with the music.</p>
         <ul>
           <li><b>Audio-reactive visualizers</b>: Pulse Rings, Mirror Bars, Inferno Spectrum, Spiral Burst, VU Meter, LED Meter, Dot Spectrum and more.</li>
@@ -285,7 +285,7 @@
 <li><b>Use these lyrics</b> fills the lyric editor with Lyricpad’s lyrics from the song spec, section tags removed, ready to sync.</li>
           <li><b>Export MP4 or WebM</b> in 1080p, 720p, square or vertical for Shorts, Reels and TikTok, at up to 60 fps.</li>
         </ul>
-        <a class="open" href="https://gp-songtools.github.io/auralyrics-studio/">Open AuraLyrics Studio →</a>
+        <a class="open" href="https://gp-songtools.github.io/auralyrics-studio/" target="_blank" rel="noopener">Open AuraLyrics Studio →</a>
       </div>
       <figure>
         <img class="shot" src="img/auralyrics.webp" width="1600" height="1000" loading="lazy" alt="AuraLyrics Studio playing a demo song with a glowing radial visualizer, a spinning turntable and the lyric 'Riding through the neon light'">
@@ -468,7 +468,7 @@
       <div class="principle"><div class="icon" aria-hidden="true">🚪</div><h3>No accounts, no installs</h3><p>Open a link and start. There’s nothing to sign up for and nothing to install, on desktop or phone. Only the optional last step, Spec to Suno, runs in your own Claude account with your own Suno plan.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🆓</div><h3>Free to use</h3><p>Every tool here is free. The visit counter is anonymous, uses no cookies and never sees your work.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🧭</div><h3>Honest about what it does</h3><p>Plain-language help pages, a changelog for every tool, and a <a href="privacy.html">privacy page</a> that lists exactly what goes where.</p></div>
-      <div class="principle"><div class="icon" aria-hidden="true">🛠️</div><h3>Open on GitHub</h3><p>The code for every tool is <a href="https://github.com/gp-songtools">public on GitHub</a>, so you can see exactly how it works.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🛠️</div><h3>Open on GitHub</h3><p>The code for every tool is <a href="https://github.com/gp-songtools" target="_blank" rel="noopener">public on GitHub</a>, so you can see exactly how it works.</p></div>
     </div>
   </section>
 
@@ -477,12 +477,12 @@
     <p>Pick any tool and start where you are. They work great on their own, and even better together.</p>
     <div class="cta">
       <a class="btn primary" href="./">Open the tools</a>
-      <a class="btn ghost" href="https://gp-songtools.github.io/gp-blueprint/">Start with a Blueprint</a>
+      <a class="btn ghost" href="https://gp-songtools.github.io/gp-blueprint/" target="_blank" rel="noopener">Start with a Blueprint</a>
     </div>
   </section>
 
   <footer>
-    <a href="./">All tools</a> · <a href="privacy.html">Privacy &amp; credits</a> · <a href="https://github.com/gp-songtools">GitHub</a>
+    <a href="./">All tools</a> · <a href="privacy.html">Privacy &amp; credits</a> · <a href="https://github.com/gp-songtools" target="_blank" rel="noopener">GitHub</a>
   </footer>
 </main>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2c5b0c69f74b496998f02d0e1f651bd5"}'></script><!-- End Cloudflare Web Analytics -->
