@@ -7,26 +7,45 @@
   <meta name="description" content="One place to open every tool in the gp-songtools collection.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
   <style>
+    @font-face {
+      font-family: "Archivo";
+      src: url("fonts/archivo-latin.woff2") format("woff2");
+      font-weight: 100 900;
+      font-stretch: 62% 125%;
+      font-display: swap;
+    }
     :root {
-      --bg: #f6f5f2;
-      --surface: #ffffff;
-      --border: #e2dfd8;
-      --text: #1c1b19;
-      --muted: #6b675f;
-      --accent: #c2410c;
-      --accent-text: #ffffff;
-      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05);
+      --bg: #e3e6ea;          /* faceplate */
+      --surface: #f6f7f8;     /* panel */
+      --border: #c9ced6;
+      --bevel: #ffffff;
+      --text: #161b26;        /* engraving */
+      --muted: #596171;       /* legend */
+      --accent: #f2a900;      /* signal amber */
+      --accent-text: #161b26;
+      --accent-line: #a87400; /* amber dark enough for lines and text on the faceplate */
+      --accent-hover: #ffbb1a;
+      --focus: #a87400;
+      --press: rgba(22,27,38,.22);
+      --shade: rgba(22,27,38,.25);
+      --c: var(--muted);
+      --bp: #7c3aed; --lp: #b4532a; --iw: #2563eb; --rm: #b45309;
+      --ep: #d83a72; --gm: #00796b; --al: #db2777; --ss: #161b26;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #121212;
-        --surface: #1c1c1c;
-        --border: #2e2e2e;
-        --text: #f1efe9;
-        --muted: #a39f96;
-        --accent: #fb923c;
-        --accent-text: #1a0d03;
-        --shadow: none;
+        --bg: #151c28;
+        --surface: #1e2737;
+        --border: #2f3a4e;
+        --bevel: #263043;
+        --text: #eef1f5;
+        --muted: #9aa4b5;
+        --accent: #f2a900;
+        --accent-text: #161b26;
+        --accent-line: #f2b733;
+        --focus: #f2a900;
+        --bp: #a78bfa; --lp: #e08a5f; --iw: #60a5fa; --rm: #fbbf24;
+        --ep: #ff6b9c; --gm: #3ccfbf; --al: #f472b6; --ss: #eef1f5;
       }
     }
     * { box-sizing: border-box; }
@@ -34,63 +53,130 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font: 400 16px/1.5 "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-stretch: 100%;
     }
-    main { max-width: 960px; margin: 0 auto; padding: 48px 16px 64px; }
-    header { margin-bottom: 32px; }
-    h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.01em; }
-    header p { margin: 0; color: var(--muted); }
+    a { color: inherit; text-decoration-color: var(--accent-line); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+    a:focus-visible, input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+    main { max-width: 1040px; margin: 0 auto; padding: 56px 16px 64px; }
+
+    /* Header: the model name on the front of the rack */
+    header { display: grid; grid-template-columns: 1fr auto; gap: 8px 32px; align-items: end; margin-bottom: 28px; }
+    h1 {
+      grid-column: 1 / -1;
+      margin: 0;
+      font-size: clamp(2.6rem, 9vw, 5.25rem);
+      line-height: .92;
+      font-weight: 850;
+      font-stretch: 125%;
+      letter-spacing: -.02em;
+    }
+    header p { margin: 0; max-width: 72ch; color: var(--muted); font-size: 1.0625rem; }
+    header p a { color: var(--text); font-weight: 600; }
     .search {
-      margin-top: 24px;
-      width: 100%;
-      max-width: 360px;
+      width: 280px;
       padding: 10px 14px;
       font: inherit;
       color: var(--text);
       background: var(--surface);
       border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow: inset 0 1px 2px var(--shade);
+    }
+    .search::placeholder { color: var(--muted); }
+
+    /* The rack: one 1U strip per tool */
+    .grid {
+      list-style: none;
+      padding: 10px;
+      margin: 0;
+      display: grid;
+      gap: 6px;
+      background: var(--border);
       border-radius: 10px;
     }
-    .search:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
     .card {
-      display: flex;
-      flex-direction: column;
+      --c: var(--muted);
+      position: relative;
+      display: grid;
+      grid-template-columns: 56px minmax(150px, 220px) 1fr auto;
+      gap: 4px 20px;
+      align-items: center;
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-      transition: border-color .15s, transform .15s;
+      border-radius: 4px;
+      box-shadow: inset 0 1px 0 var(--bevel);
+      padding: 14px 20px 14px 14px;
     }
-    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .icon { font-size: 1.75rem; line-height: 1; margin-bottom: 12px; }
-    .card h2 { font-size: 1.125rem; margin: 0 0 4px; }
-    .card p { margin: 0 0 20px; color: var(--muted); flex: 1; }
-    .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .card[data-repo="lyricpad"] { --c: var(--lp); }
+    .card[data-repo="gp-blueprint"] { --c: var(--bp); }
+    .card[data-repo="ideawizard"] { --c: var(--iw); }
+    .card[data-repo="gp-randomash"] { --c: var(--rm); }
+    .card[data-repo="earprint"] { --c: var(--ep); }
+    .card[data-repo="gp-master"] { --c: var(--gm); }
+    .card[data-repo="auralyrics-studio"] { --c: var(--al); }
+    .card[data-repo="toolsmenu"] { --c: var(--ss); }
+    /* Jack: a socket ringed in the tool's cable colour, the emoji is the device badge */
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 4px solid var(--c);
+      background: var(--bg);
+      box-shadow: inset 0 0 0 3px var(--surface), inset 0 2px 6px var(--shade);
+      font-size: 1.375rem;
+      line-height: 1;
+    }
+    .card h2 {
+      margin: 0;
+      font-size: 1.3125rem;
+      line-height: 1.15;
+      font-weight: 750;
+      font-stretch: 112%;
+      letter-spacing: -.01em;
+    }
+    .card p { margin: 0; color: var(--muted); max-width: 62ch; font-size: .9375rem; line-height: 1.5; }
+    .actions { display: flex; gap: 4px; align-items: center; justify-content: flex-end; }
     .btn {
       display: inline-block;
-      padding: 8px 14px;
-      border-radius: 8px;
+      padding: 8px 12px;
+      border-radius: 5px;
       font-weight: 600;
       font-size: .9375rem;
+      font-stretch: 90%;
       text-decoration: none;
+      white-space: nowrap;
     }
-    .btn.primary { background: var(--accent); color: var(--accent-text); }
-    .btn.primary:hover { filter: brightness(1.08); }
-    .btn.ghost { color: var(--muted); padding-left: 8px; padding-right: 8px; }
-    .btn.ghost:hover { color: var(--text); }
-    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .empty { color: var(--muted); display: none; }
-    footer { margin-top: 48px; color: var(--muted); font-size: .875rem; }
-    footer a { color: inherit; }
+    .btn.primary {
+      background: var(--accent);
+      color: var(--accent-text);
+      padding: 8px 18px;
+      box-shadow: inset 0 -2px 0 var(--press);
+    }
+    .btn.primary:hover { background: var(--accent-hover); }
+    .btn.primary:active { box-shadow: inset 0 2px 0 var(--press); }
+    .btn.ghost { color: var(--muted); }
+    .btn.ghost:hover { color: var(--text); text-decoration: underline; text-decoration-color: var(--c); }
+    .empty { color: var(--muted); display: none; padding: 20px 4px; }
+    footer { margin-top: 40px; color: var(--muted); font-size: .875rem; max-width: 70ch; }
+    footer a { color: var(--text); }
+
+    @media (max-width: 860px) {
+      .card { grid-template-columns: 56px 1fr; padding: 16px; }
+      .card p { grid-column: 2; }
+      .actions { grid-column: 2; justify-content: flex-start; margin-top: 8px; margin-left: -12px; }
+    }
+    @media (max-width: 560px) {
+      main { padding-top: 36px; }
+      header { grid-template-columns: 1fr; }
+      .search { width: 100%; }
+      .grid { padding: 6px; }
+      .card { grid-template-columns: 44px 1fr; gap: 4px 14px; padding: 14px 12px; }
+      .icon { width: 44px; height: 44px; border-width: 3px; font-size: 1.125rem; }
+      .card p { grid-column: 1 / -1; }
+      .actions { grid-column: 1 / -1; margin-left: 0; flex-wrap: wrap; }
+    }
   </style>
 </head>
 <body>
@@ -194,6 +280,7 @@
       for (const t of shown) {
         const li = document.createElement("li");
         li.className = "card";
+        li.dataset.repo = t.repo;
         li.innerHTML = `
           <div class="icon" aria-hidden="true"></div>
           <h2></h2>

@@ -10,6 +10,7 @@
 - `index.html` — entire site: inline CSS, inline JS, `TOOLS` array
 - `README.md` — tool table, add-a-tool and publishing steps
 - `privacy.html` — Privacy & credits for every tool
+- `fonts/archivo-latin.woff2` — Archivo variable font (weight 100–900, width 62–125%, latin subset, SIL OFL), self-hosted so the menu makes no third-party font request; every page here loads it via `@font-face`
 - `about.html` + `img/` — About page (features, hand-offs) and its WebP screenshots
 - `songspec/` — the song spec shared by all tools: `SPEC.md` (format), `songspec.js` (library; tools keep byte-identical copies, check with `check-copies.js`), `test.js` (`node songspec/test.js`), `example.songspec.md`
 - `songspec/spec-to-suno/` — Spec to Suno: `index.html` (instructions page, menu card links here) and `spec-to-suno.html.download` (the owner's file, byte-identical, sha256 `2efe2127428e3ea335cf9711988d0d3a5909c431fc1bf608204c779f7c143422`; never edit, embed or link it as a page; offered only via `<a download="spec-to-suno.html">`; the `.download` name makes GitHub Pages serve it as a file)
@@ -51,6 +52,7 @@
 - `about.html` — sells the suite: per-tool highlights and the hand-offs between tools; keep claims true to each app (exact button names) and update it when a tool gains a headline feature, a new hand-off, or a new tool joins
 - Cards render via `textContent`, not `innerHTML`, for tool data
 - Colors are CSS vars on `:root`; dark mode via `prefers-color-scheme`
+- Design (2026-11-20, "studio patchbay"): faceplate `#e3e6ea`, panel `#f6f7f8`, engraving `#161b26`, legend `#596171`, signal amber `#f2a900` (dark: `#151c28` / `#1e2737`); tool cable colours `--bp`, `--lp`, `--iw`, `--rm`, `--ep`, `--gm`, `--al`; menu cards are rack strips coloured by `data-repo`, so give a new tool a `.card[data-repo=…]` colour rule; type is Archivo only, width as the display treatment; the same token block is repeated in each page's `<style>`
 - Layout must work at 390px width with no horizontal scroll
 - Links open in new tab with `rel="noopener"`
 
