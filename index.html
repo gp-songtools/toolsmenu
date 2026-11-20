@@ -6,6 +6,11 @@
   <title>GP Song Tools</title>
   <meta name="description" content="One place to open every tool in the gp-songtools collection.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
+  <meta name="theme-color" content="#0f0f23" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f5f5fb" media="(prefers-color-scheme: light)">
+  <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/atkinson-hyperlegible-next-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://static.cloudflareinsights.com">
   <link rel="stylesheet" href="css/gp.css">
   <style>
     /* Menu page. Tokens and buttons come from css/gp.css (design-system/gp-song-tools/MASTER.md). */
@@ -93,16 +98,18 @@
   </style>
 </head>
 <body>
-  <main>
+<a class="skip" href="#main">Skip to content</a>
+  <main id="main">
     <header>
-      <h1>🎛️ GP Song Tools</h1>
+      <h1 translate="no"><span aria-hidden="true">🎛️</span> GP Song Tools</h1>
       <p>Every songwriting and production tool in one place. <a href="about.html">See how they work together →</a></p>
       <div class="spectrum" id="spectrum" aria-hidden="true"></div>
-      <input class="search" type="search" placeholder="Filter tools…" aria-label="Filter tools" id="search">
+      <input class="search" type="search" placeholder="Filter tools…" aria-label="Filter tools" id="search" name="q" autocomplete="off" spellcheck="false">
     </header>
 
     <ul class="grid" id="tools"></ul>
     <p class="empty" id="empty">No tools match that filter.</p>
+    <p class="sr" id="status" role="status" aria-live="polite"></p>
 
     <footer>
       Source for every tool lives in the
@@ -137,7 +144,7 @@
         name: "Idea Wizard",
         repo: "ideawizard",
         icon: "🧙",
-        description: "Get three song ideas that fit your sound from GP Blueprint's style and structure and Earprint's analysis, then expand one down to line-by-line directions.",
+        description: "Get three song ideas that fit your sound from GP Blueprint’s style and structure and Earprint’s analysis, then expand one down to line-by-line directions.",
         url: "https://gp-songtools.github.io/ideawizard/",
         changelog: "https://gp-songtools.github.io/ideawizard/changelog.html"
       },
@@ -153,7 +160,7 @@
         name: "Earprint",
         repo: "earprint",
         icon: "👂",
-        description: "Measure a track's tempo, key, loudness and mood in your browser, then get an AI review with edits you can send to GP Mastering.",
+        description: "Measure a track’s tempo, key, loudness and mood in your browser, then get an AI review with edits you can send to GP Mastering.",
         url: "https://gp-songtools.github.io/earprint/",
         changelog: "https://gp-songtools.github.io/earprint/changelog.html"
       },
@@ -185,8 +192,9 @@
 
     const list = document.getElementById("tools");
     const empty = document.getElementById("empty");
+    const status = document.getElementById("status");
 
-    function render(filter = "") {
+    function render(filter = "", announce = false) {
       const q = filter.trim().toLowerCase();
       const shown = TOOLS.filter(t =>
         !q || (t.name + " " + t.description).toLowerCase().includes(q));
@@ -197,7 +205,7 @@
         li.dataset.repo = t.repo;
         li.innerHTML = `
           <div class="icon" aria-hidden="true"></div>
-          <h2></h2>
+          <h2 translate="no"></h2>
           <p></p>
           <div class="actions">
             <a class="btn primary" target="_blank" rel="noopener">Open</a>
@@ -217,6 +225,7 @@
         list.appendChild(li);
       }
       empty.style.display = shown.length ? "none" : "block";
+      if (announce) status.textContent = shown.length === 1 ? "1 tool shown" : shown.length + " tools shown";
     }
 
     // Decorative spectrum in the tool colours (one band per tool, fixed shape, drawn once).
@@ -235,8 +244,18 @@
       }
     })();
 
-    document.getElementById("search").addEventListener("input", e => render(e.target.value));
-    render();
+    // The filter lives in the URL (?q=) so a filtered menu can be shared and survives a reload.
+    const search = document.getElementById("search");
+    try { search.value = new URLSearchParams(location.search).get("q") || ""; } catch (e) {}
+    search.addEventListener("input", e => {
+      render(e.target.value, true);
+      try {
+        const u = new URL(location.href);
+        if (e.target.value) u.searchParams.set("q", e.target.value); else u.searchParams.delete("q");
+        history.replaceState(null, "", u);
+      } catch (err) {}
+    });
+    render(search.value);
   </script>
   <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2c5b0c69f74b496998f02d0e1f651bd5"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
