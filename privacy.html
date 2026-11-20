@@ -13,8 +13,8 @@
     main { max-width: 780px; margin: 0 auto; padding: var(--s-5) var(--s-4) var(--s-8); }
     h1 { font-size: var(--text-4xl); line-height: 1.04; font-weight: 700; letter-spacing: -.035em; margin: var(--s-5) 0 var(--s-3); }
     h2 { font-size: var(--text-2xl); line-height: 1.2; font-weight: 700; letter-spacing: -.02em; margin: var(--s-8) 0 var(--s-3); padding-top: var(--s-5); border-top: 1px solid var(--border); }
-    h3 { font-size: var(--text-lg); font-weight: 700; margin: var(--s-6) 0 var(--s-2); }
-    p, li { margin: 0 0 var(--s-3); max-width: 70ch; }
+    h3 { font-size: var(--text-lg); font-weight: 700; margin: var(--s-7) 0 var(--s-2); }
+    p, li { margin: 0 0 var(--s-3); max-width: 58ch; text-wrap: pretty; }
     ul, ol { padding-left: var(--s-5); margin: 0 0 var(--s-4); }
     li::marker { color: var(--muted); }
     .meta { color: var(--muted); margin: 0 0 var(--s-6); font-size: var(--text-lg); }
@@ -23,7 +23,8 @@
       padding: var(--s-4) var(--s-5); margin: var(--s-5) 0 var(--s-2);
     }
     .toc ul, .choose ul { margin: 0; }
-    .toc li { margin: 0 0 var(--s-1); }
+    .toc li { margin: 0; }
+    .toc a { display: inline-flex; align-items: center; min-height: 44px; }
     .choose { border-left: 4px solid var(--accent); }
     .choose h2 { border: 0; margin: 0 0 var(--s-2); padding: 0; font-size: var(--text-xl); }
     .download p { margin: var(--s-3) 0 0; color: var(--muted); font-size: var(--text-sm); }
