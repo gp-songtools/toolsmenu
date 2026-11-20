@@ -1,0 +1,167 @@
+/* GP Song Tools design system: tokens and shared components.
+   The rules and reasons live in design-system/gp-song-tools/MASTER.md; change both together.
+   Every page in this repo links this file, then adds its own page styles inline. */
+
+/* ---------- Fonts (self-hosted, SIL Open Font License) ---------- */
+/* Body, small text and every number: Atkinson Hyperlegible Next. */
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("../fonts/atkinson-hyperlegible-next-latin.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+/* Headings: "GP Display" = Space Grotesk letters with Atkinson's digits,
+   so numbers stay highly readable even inside headlines. */
+@font-face {
+  font-family: "GP Display";
+  src: url("../fonts/atkinson-hyperlegible-next-latin.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: "GP Display";
+  src: url("../fonts/space-grotesk-latin.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+  unicode-range: U+0000-002F, U+003A-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ---------- Tokens: dark first (Dark Mode OLED style, Music Streaming palette) ---------- */
+:root {
+  color-scheme: dark;
+
+  /* Colour roles */
+  --bg: #0f0f23;            /* Midnight */
+  --surface: #1b1b30;       /* Panel */
+  --surface-2: #27273b;     /* Raised panel, hover */
+  --border: #312e81;        /* Indigo line (decorative) */
+  --border-strong: #6b67c7; /* Control outlines, 3:1+ */
+  --text: #f8fafc;          /* Foreground */
+  --muted: #a3adc2;         /* Secondary text */
+  --link: #a5b4fc;
+  --primary: #4338ca;       /* Indigo, brand */
+  --on-primary: #ffffff;
+  --accent: #22c55e;        /* Play green: one primary action per view */
+  --accent-hover: #4ade80;
+  --on-accent: #0f172a;
+  --ring: #f8fafc;
+  --glow: 0 0 0 1px rgba(34, 197, 94, .35), 0 0 24px rgba(34, 197, 94, .18);
+
+  /* Tool colours = categorical chart palette */
+  --bp: #a78bfa;   /* GP Blueprint */
+  --iw: #60a5fa;   /* Idea Wizard */
+  --lp: #fb923c;   /* Lyricpad */
+  --rm: #facc15;   /* Randomash */
+  --ep: #f472b6;   /* Earprint */
+  --gm: #2dd4bf;   /* GP Mastering */
+  --al: #e879f9;   /* AuraLyrics Studio */
+  --ss: #22c55e;   /* Spec to Suno */
+  --gen: #a3adc2;  /* your generator / neutral */
+  --on-tool: #0f0f23; /* text on a filled tool colour */
+
+  /* Type */
+  --font-display: "GP Display", "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --text-xs: .875rem;    /* 14: smallest text anywhere */
+  --text-sm: .9375rem;   /* 15 */
+  --text-md: 1rem;       /* 16: body */
+  --text-lg: 1.125rem;   /* 18: lede */
+  --text-xl: 1.375rem;   /* 22 */
+  --text-2xl: 1.75rem;   /* 28 */
+  --text-3xl: clamp(1.875rem, 4.5vw, 2.5rem);  /* 30-40: section */
+  --text-4xl: clamp(2.375rem, 7vw, 4rem);      /* 38-64: page title */
+
+  /* Spacing: 4 pt scale */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px;
+
+  /* Shape */
+  --r-sm: 6px;    /* tags, code */
+  --r-md: 10px;   /* buttons, inputs */
+  --r-lg: 14px;   /* cards */
+  --r-xl: 20px;   /* hero and closing panels */
+  --r-pill: 999px;
+
+  /* Motion */
+  --dur-fast: 150ms;
+  --dur-med: 220ms;
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --bg: #f5f5fb;
+    --surface: #ffffff;
+    --surface-2: #ececf7;
+    --border: #d6d5f0;
+    --border-strong: #7471b8;
+    --text: #0f0f23;
+    --muted: #4b5068;
+    --link: #4338ca;
+    --primary: #4338ca;
+    --on-primary: #ffffff;
+    --accent: #15803d;
+    --accent-hover: #166534;
+    --on-accent: #ffffff;
+    --ring: #1e1b4b;
+    --glow: none;
+    --bp: #7c3aed;
+    --iw: #2563eb;
+    --lp: #c2410c;
+    --rm: #a16207;
+    --ep: #db2777;
+    --gm: #0f766e;
+    --al: #c026d3;
+    --ss: #15803d;
+    --gen: #4b5068;
+    --on-tool: #ffffff;
+  }
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 var(--text-md)/1.6 var(--font-body);
+  font-variant-numeric: lining-nums;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-family: var(--font-display); color: var(--text); text-wrap: balance; }
+b, strong { font-weight: 700; }
+a { color: var(--link); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2.5px; }
+:focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; border-radius: 4px; }
+code {
+  font: .875em ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm);
+  padding: 1px 6px; overflow-wrap: anywhere;
+}
+.back {
+  display: inline-flex; align-items: center; min-height: 44px;
+  color: var(--muted); text-decoration: none; font-size: var(--text-sm); font-weight: 600;
+}
+.back:hover { color: var(--text); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 var(--s-5);
+  border-radius: var(--r-md); border: 1px solid transparent;
+  font: 700 var(--text-sm)/1 var(--font-body);
+  text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
+}
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { background: var(--accent-hover); box-shadow: var(--glow); }
+.btn.ghost { background: transparent; color: var(--text); border-color: var(--border-strong); }
+.btn.ghost:hover { background: var(--surface-2); }
+.btn:active { transform: translateY(1px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
