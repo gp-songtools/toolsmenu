@@ -33,7 +33,8 @@ Title: Paper Lanterns
 |---|---|---|
 | `schema_version` | `1` | any tool, only when missing |
 | `request` | `song`, `cover`, `sound` | you |
-| `title` | up to 256 characters | Lyricpad |
+| `title` | up to 256 characters | Lyricpad, or you |
+| `drive_folder` | Google Drive id of the song's folder (letters, digits, `-`, `_`; up to 200) | any tool, only while empty; you may change or clear it |
 | `model` | `v6-mini`, `v6`, `v6-wild` | you |
 | `instrumental` | `true` / `false` | you |
 | `voice_id` | Suno voice id | you |
@@ -154,7 +155,7 @@ Written by GP Producer. Framecut will read it in a later phase.
 
 Both sections are warned about, never rejected, when a line doesn't match or times go backwards.
 
-**Planned:** clips will be saved to and read from a Google Drive song folder (see section 8, a draft), and Framecut will get a **Place clips…** button that puts them on the timeline using this section. Nothing reads or writes Google Drive yet.
+**Planned:** Framecut will get a **Place clips…** button that puts the clips from the Drive song folder (section 8) on the timeline using this section. The Song spec panel already saves and opens the spec on Drive; the tools don't save clips there yet.
 
 **Which structure Lyricpad uses** (`SongSpec.pickStructure`):
 - It picks the newest of Structure and Idea structure.
@@ -191,9 +192,9 @@ Framecut and GP Producer show the shared Song spec panel like the other tools. *
 - A change that alters the meaning of existing parts raises the version.
 - `songspec.js` is copied into each tool. Change it here, then copy it into every tool (see README).
 
-## 8. Song folder in Google Drive (draft, not implemented)
+## 8. Song folder in Google Drive
 
-**This is a draft for Song Spec 1.2.0. No tool reads or writes Google Drive this way yet, and `songspec.js` does not know the `drive_folder` setting.** The owner decided the plan on 2026-11-23.
+The owner decided the plan on 2026-11-23. Library 1.2.0 adds the `drive_folder` setting and the panel's Drive buttons; `songdrive.js` 1.0.0 does the work. Tools don't save their own files into the subfolders yet.
 
 **Folder.** Every GP Song Tools app uses one Drive folder per song:
 
@@ -212,9 +213,9 @@ My Drive/
 
 **Naming.** The folder is named from the spec `title`, with characters Drive can't take removed. A song with no title asks for one first.
 
-**`drive_folder` setting (planned).** The Drive ID of the song's folder, so the link survives renames. Any tool may fill it, and only while it is empty. It is an additive setting, so `schema_version` stays 1.
+**`drive_folder` setting.** The Drive ID of the song's folder, so the link survives renames. Any tool may fill it, and only while it is empty (setting the value it already has changes nothing). Only you can change or clear it. If the folder is in the trash or gone, the next save finds or makes one from the title and writes the new ID. `New song` drops it. It is an additive setting, so `schema_version` stays 1.
 
-**Cross-device copy.** The `.songspec.md` in the folder is the copy that travels between devices. The shared Song spec panel gets **Save to Drive** and **Open from Drive**. The browser copy (section 5) stays the working copy.
+**Cross-device copy.** The `.songspec.md` in the folder is the copy that travels between devices. The shared Song spec panel shows **Save to Drive** and **Open from Drive…** (and **Sign out of Drive** once signed in) when `songdrive.js` is loaded; without it the panel is unchanged. **Save to Drive** asks for a title when there is none, makes `GP Song Tools/<title>/`, fills in `drive_folder`, and uploads the spec; it asks first when a folder of that name already exists (reuse it, or make `<title> (2)`) and when the Drive copy changed since this browser last saved or opened it. **Open from Drive…** lists the songs that have a spec, newest first, and replaces the browser copy after the same confirm as **Open file…**. The browser copy (section 5) stays the working copy.
 
 **Who writes where.** Each tool writes only its own subfolders. Every tool may read all of them.
 
@@ -228,8 +229,9 @@ My Drive/
 
 **Permission.** One Google client is shared by every tool, using the `drive.file` scope only. A tool sees just the files and folders the GP Song Tools apps created. A tool that must open files our apps didn't create would need Google's Picker, which is not planned.
 
-**Library.** A new `songdrive.js` will sit next to `songspec.js` in this folder. Tools keep byte-identical copies, checked by `check-copies.js`. It will handle sign-in (the Google Identity Services token client, loaded only on click), finding or creating the song folder and its subfolders, resumable upload for video, listing, download, and saving and opening the spec.
+**Library.** `songdrive.js` sits next to `songspec.js` in this folder (global `SongDrive`, or `require`). Tools keep byte-identical copies next to their `songspec.js`, checked by `check-copies.js` (a tool without one is "not used yet"). It asks Google for `drive.file` access only, and only when you first click a Drive button: Google's script isn't loaded before that, and the sign-in popup opens from the click. The access token stays in this browser (`localStorage`, shared by the tools). It finds or creates the song folder and its subfolders, lists, downloads, uploads in resumable chunks (video), and saves and opens the spec. Tests: `node songspec/drive-test.js`.
 
 ## Changes
 
 - **Library 1.1.0 (schema 1, additive):** added the `Timed lyrics` (Framecut) and `Video sequence` (GP Producer) sections. `schema_version` stays 1. Older copies keep these sections as unknown sections, unchanged.
+- **Library 1.2.0 (schema 1, additive):** added the `drive_folder` setting (any tool, only while empty; the person may change it), let the person set `title` as well, and added **Save to Drive** / **Open from Drive…** to the panel when `songdrive.js` is loaded. `songdrive.js` 1.0.0 is new. Older copies keep `drive_folder` as an unknown key, unchanged.

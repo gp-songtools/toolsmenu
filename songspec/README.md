@@ -4,8 +4,9 @@ One Markdown file per song that every GP Song Tool can read, and that each tool 
 
 - **Format:** [SPEC.md](SPEC.md). Read this first: settings, sections, who writes what, the marker line, and the rules.
 - **Example:** [example.songspec.md](example.songspec.md)
-- **Library:** [songspec.js](songspec.js), version 1.1.0 (adds the Timed lyrics and Video sequence sections; schema 1). No dependencies. Use it as a `<script>`, an import, or from Node.
-- **Tests:** `node test.js` (library). **Chain test:** from a folder holding all the repos, `node toolsmenu/songspec/chain-test.mjs` passes one file through every tool, in every order, and checks each tool leaves everything it doesn't own unchanged. Each tool also has its own tests (see its CLAUDE.md).
+- **Library:** [songspec.js](songspec.js), version 1.2.0 (adds the `drive_folder` setting and the panel's Save to Drive / Open from Drive; schema 1). No dependencies. Use it as a `<script>`, an import, or from Node.
+- **Google Drive:** [songdrive.js](songdrive.js), version 1.0.0. Sign-in (only on a click, `drive.file` scope), the song folder, uploads, and saving and opening the spec on Drive. Optional: the panel shows its buttons only when `SongDrive` is loaded. See SPEC.md section 8.
+- **Tests:** `node test.js` (library), `node drive-test.js` (Google Drive, against an in-memory fake; no network). **Chain test:** from a folder holding all the repos, `node toolsmenu/songspec/chain-test.mjs` passes one file through every tool, in every order, and checks each tool leaves everything it doesn't own unchanged. Each tool also has its own tests (see its CLAUDE.md).
 
 ## Check a file
 
@@ -45,7 +46,7 @@ const panel = SongSpec.mountPanel(el, { onChange: (doc) => {/* re-read the spec 
 panel.refresh(); panel.say('Saved.'); panel.destroy();   // returns { refresh, say, destroy }
 ```
 
-It shows the song title and how many sections are filled, then each filled section with the tool that wrote it, when, and its size (`Lyrics · Lyricpad · 2026-11-23 10:00 UTC · 420 chars`), flags (out of date, edited by hand, locked) and **Clear**. Buttons: **Open file…**, **Download**, **Copy**, **New song**. **Open file…** replaces the browser copy after a confirm, and Clear and New song confirm too. `onChange` runs after changes from this tab or another one.
+It shows the song title and how many sections are filled, then each filled section with the tool that wrote it, when, and its size (`Lyrics · Lyricpad · 2026-11-23 10:00 UTC · 420 chars`), flags (out of date, edited by hand, locked) and **Clear**. Buttons: **Open file…**, **Download**, **Copy**, **New song**, and, when `songdrive.js` is loaded (`mountPanel(el, { drive })`, default the global `SongDrive`), **Save to Drive**, **Open from Drive…** and, once signed in, **Sign out of Drive**. **Open file…** replaces the browser copy after a confirm, and Clear and New song confirm too. `onChange` runs after changes from this tab or another one.
 
 The panel injects its own CSS (`<style id="ssp-css">`, colours from `currentColor`). Style it from the host through a wrapper class, for example `.spec-panel .ssp`.
 
@@ -53,7 +54,7 @@ Lyricpad, Framecut and GP Producer also keep a per-tool "From the song spec" box
 
 ## Changing the library
 
-Each tool keeps its own byte-identical copy:
+Each tool keeps its own byte-identical copy (a tool that uses Google Drive also keeps `songdrive.js` next to it; `check-copies.js` compares it when present):
 
 | Tool | Copy |
 |---|---|
@@ -66,7 +67,7 @@ Each tool keeps its own byte-identical copy:
 | GP Producer | `src/vendor/songspec.js` |
 
 1. Edit `songspec.js` here and bump `VERSION`.
-2. Run `node test.js`.
+2. Run `node test.js` and `node drive-test.js`.
 3. Copy the file into every tool.
 4. From a folder holding all the repos, check that the copies match:
 
