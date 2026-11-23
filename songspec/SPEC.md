@@ -118,8 +118,8 @@ No dependency below is required. Every tool works the same as today when a secti
 | Lyricpad | Lyrics (with tags), `title` | Structure, Idea structure, Idea | Shows "Use structure from: Idea Wizard / GP Blueprint", defaulting to the newest structure that isn't out of date. Topic/feel starts from Idea. Title starts from Idea's `Title:` when empty. | Paste a structure and type a topic, as now |
 | Idea Wizard | Idea, Idea structure | Style, Structure, Analysis | Fills its style, structure and track-analysis boxes | You paste them, as now |
 | Earprint | Analysis; `bpm`, `key`, `bpm_key_by` only when its "Also set the song's BPM and key" option is ticked (off by default) | Lyrics | Fills its lyrics box (tags stripped) | You paste lyrics, or leave them out, as now |
-| Framecut | Timed lyrics (**Save Timed Lyrics to Song Spec**, after transcription or alignment) | Lyrics, `title`, `bpm`, `key`, `duration` (Video sequence in a later phase) | **Use Song Spec Lyrics** fills the importer with untimed lyrics to transcribe and align, or sync them in AuraLyrics Studio | Paste or open timed LRC, as now |
-| GP Producer | Video sequence (**Save video sequence to Song Spec**) | Timed lyrics | **Load timed lyrics from Song Spec** fills the Setup tab's LRC box | Paste or upload an `.lrc`, as now |
+| Framecut | Timed lyrics (**Save Timed Lyrics to Song Spec**, after transcription or alignment) | Lyrics, Timed lyrics, `title`, `bpm`, `key`, `duration` (Video sequence in a later phase) | The "From the song spec" box shows each value; **Use in Import Lyrics** (or **Use Song Spec Lyrics** / **Use Song Spec Timed Lyrics** inside Import Lyrics) fills the importer with lyrics to transcribe and align, or sync them in AuraLyrics Studio | Paste or open timed LRC, as now |
+| GP Producer | Video sequence (**Save video sequence to song spec**) | Timed lyrics, `duration`, `title` | The Setup tab's "From the song spec" box offers **Use as lyrics**, **Use as runtime** and **Use as project name** | Paste or upload an `.lrc`, and type the runtime and name, as now |
 | AuraLyrics Studio | nothing (read only) | Lyrics | **Use these lyrics** fills the lyric editor, tags stripped | Transcribe, paste or upload, as now |
 
 ### Timed lyrics format
@@ -177,7 +177,7 @@ The shared Song Spec panel also offers:
 - **Download song spec**: saves `<title>.songspec.md`. This is the file you keep or hand to Claude.
 - **Open song spec**: loads a `.songspec.md` file into the browser copy.
 
-Framecut's **Open Song Spec** opens a file in its own tab without replacing the shared browser copy. **Use Shared Song Spec** switches back to the latest shared copy when available.
+Framecut and GP Producer show the shared Song spec panel like the other tools. **Open file…** replaces the browser copy (after a confirm).
 
 ## 6. Validation
 

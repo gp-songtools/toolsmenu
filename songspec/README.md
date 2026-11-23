@@ -38,6 +38,19 @@ SongSpec.store.update((d) => {                     // re-reads the newest copy, 
 SongSpec.download(SongSpec.store.load(), SongSpec.fileName(doc));
 ```
 
+## Shared panel
+
+```js
+const panel = SongSpec.mountPanel(el, { onChange: (doc) => {/* re-read the spec */}, open: false });
+panel.refresh(); panel.say('Saved.'); panel.destroy();   // returns { refresh, say, destroy }
+```
+
+It shows the song title and how many sections are filled, then each filled section with the tool that wrote it, when, and its size (`Lyrics · Lyricpad · 2026-11-23 10:00 UTC · 420 chars`), flags (out of date, edited by hand, locked) and **Clear**. Buttons: **Open file…**, **Download**, **Copy**, **New song**. **Open file…** replaces the browser copy after a confirm, and Clear and New song confirm too. `onChange` runs after changes from this tab or another one.
+
+The panel injects its own CSS (`<style id="ssp-css">`, colours from `currentColor`). Style it from the host through a wrapper class, for example `.spec-panel .ssp`.
+
+Lyricpad, Framecut and GP Producer also keep a per-tool "From the song spec" box next to their own inputs, with one button per value (for example **Use as lyrics**). The panel is the shared view; the box is how that tool reads the spec.
+
 ## Changing the library
 
 Each tool keeps its own byte-identical copy:
