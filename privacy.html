@@ -6,6 +6,11 @@
   <title>Privacy & Credits</title>
   <meta name="description" content="What the GP Song Tools collect, where your data goes, and who they build on.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
+  <meta name="theme-color" content="#0f0f23" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f5f5fb" media="(prefers-color-scheme: light)">
+  <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/atkinson-hyperlegible-next-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://static.cloudflareinsights.com">
   <link rel="stylesheet" href="css/gp.css">
   <style>
     /* Reading page. Tokens and buttons come from css/gp.css (design-system/gp-song-tools/MASTER.md). */
@@ -13,17 +18,19 @@
     main { max-width: 780px; margin: 0 auto; padding: var(--s-5) var(--s-4) var(--s-8); }
     h1 { font-size: var(--text-4xl); line-height: 1.04; font-weight: 700; letter-spacing: -.035em; margin: var(--s-5) 0 var(--s-3); }
     h2 { font-size: var(--text-2xl); line-height: 1.2; font-weight: 700; letter-spacing: -.02em; margin: var(--s-8) 0 var(--s-3); padding-top: var(--s-5); border-top: 1px solid var(--border); }
-    h3 { font-size: var(--text-lg); font-weight: 700; margin: var(--s-6) 0 var(--s-2); }
-    p, li { margin: 0 0 var(--s-3); max-width: 70ch; }
+    h3 { font-size: var(--text-lg); font-weight: 700; margin: var(--s-7) 0 var(--s-2); }
+    p, li { margin: 0 0 var(--s-3); max-width: 58ch; text-wrap: pretty; }
     ul, ol { padding-left: var(--s-5); margin: 0 0 var(--s-4); }
     li::marker { color: var(--muted); }
     .meta { color: var(--muted); margin: 0 0 var(--s-6); font-size: var(--text-lg); }
+    .safe { max-width: none; }
     .toc, .choose, .download, .safe {
       background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
       padding: var(--s-4) var(--s-5); margin: var(--s-5) 0 var(--s-2);
     }
     .toc ul, .choose ul { margin: 0; }
-    .toc li { margin: 0 0 var(--s-1); }
+    .toc li { margin: 0; }
+    .toc a { display: inline-flex; align-items: center; min-height: 44px; }
     .choose { border-left: 4px solid var(--accent); }
     .choose h2 { border: 0; margin: 0 0 var(--s-2); padding: 0; font-size: var(--text-xl); }
     .download p { margin: var(--s-3) 0 0; color: var(--muted); font-size: var(--text-sm); }
@@ -41,11 +48,12 @@
   </style>
 </head>
 <body>
-<main>
+<a class="skip" href="#main">Skip to content</a>
+<main id="main">
   <a class="back" href="./">← All tools</a>
   <h1>Privacy &amp; credits</h1>
-  <p class="meta">Last updated: November 20, 2026</p>
-  <p>This page covers every tool at <code>gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint, GP Mastering, AuraLyrics Studio, Randomash and Idea Wizard. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
+  <p class="meta">Last updated: <time datetime="2026-11-22">November 22, 2026</time></p>
+  <p>This page covers every tool at <code translate="no">gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint, GP Mastering, AuraLyrics Studio, Randomash and Idea Wizard. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
 
   <nav class="toc" aria-label="On this page">
     <ul>
@@ -59,18 +67,18 @@
   </nav>
 
   <h2 id="stats">Visit statistics (all tools)</h2>
-  <p>Every page loads <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> so we can see how many people use each tool. It reports, in aggregate:</p>
+  <p>Every page loads <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">Cloudflare Web Analytics</a> so we can see how many people use each tool. It reports, in aggregate:</p>
   <ul>
     <li>which page was visited, and the site you came from;</li>
     <li>your browser, operating system and device type;</li>
     <li>your country, worked out from your IP address;</li>
     <li>how quickly the page loaded.</li>
   </ul>
-  <p>Cloudflare states that Web Analytics uses no cookies or other browser storage, does not fingerprint visitors, and does not use your IP address to identify or track you. We see totals only, never individual visitors. It never sees your lyrics, audio, songs, API keys or anything you type: those are not part of a page visit. Cloudflare's <a href="https://www.cloudflare.com/privacypolicy/">privacy policy</a> applies to this data.</p>
+  <p>Cloudflare states that Web Analytics uses no cookies or other browser storage, does not fingerprint visitors, and does not use your IP address to identify or track you. We see totals only, never individual visitors. It never sees your lyrics, audio, songs, API keys or anything you type: those are not part of a page visit. Cloudflare’s <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">privacy policy</a> applies to this data.</p>
   <p>Content blockers and privacy extensions usually block it. The tools work exactly the same either way.</p>
 
   <h2 id="hosting">Hosting</h2>
-  <p>The pages are hosted on GitHub Pages. Like any web host, GitHub may log technical information such as your IP address when your browser loads a page; see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>.</p>
+  <p>The pages are hosted on GitHub Pages. Like any web host, GitHub may log technical information such as your IP address when your browser loads a page; see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub’s privacy statement</a>.</p>
 
   <h2 id="tools">What each tool sends, and where</h2>
 
@@ -78,24 +86,24 @@
   <p>Nothing beyond the visit statistics above.</p>
 
   <h3>The song spec (shared by the tools)</h3>
-  <p>Tools that support the song spec keep one shared copy of the song you're working on (style, structure, lyrics and so on, whatever the tools have saved) in your browser's storage, so the next tool you open can read it. It stays in this browser on this device and is never sent anywhere by itself. A tool sends parts of it to an AI provider only when you choose to use them there, as described for each tool below. <b>Download</b> saves it as a file on your device; <b>New song</b> empties it. The format is documented in <a href="https://github.com/gp-songtools/toolsmenu/tree/main/songspec">the song spec folder</a>.</p>
+  <p>Tools that support the song spec keep one shared copy of the song you’re working on (style, structure, lyrics and so on, whatever the tools have saved) in your browser’s storage, so the next tool you open can read it. It stays in this browser on this device and is never sent anywhere by itself. A tool sends parts of it to an AI provider only when you choose to use them there, as described for each tool below. <b>Download</b> saves it as a file on your device; <b>New song</b> empties it. The format is documented in <a href="https://github.com/gp-songtools/toolsmenu/tree/main/songspec" target="_blank" rel="noopener">the song spec folder</a>.</p>
 
   <h3>Lyricpad</h3>
-  <p>Lyrics and settings stay in your browser. Saving to Google Drive and AI line suggestions are optional. Lyricpad has its own <a href="https://gp-songtools.github.io/lyricpad/privacy.html">privacy policy</a> with the full details, including how it uses Google Drive.</p>
+  <p>Lyrics and settings stay in your browser. Saving to Google Drive and AI line suggestions are optional. Lyricpad has its own <a href="https://gp-songtools.github.io/lyricpad/privacy.html" target="_blank" rel="noopener">privacy policy</a> with the full details, including how it uses Google Drive.</p>
 
   <h3>GP Blueprint</h3>
   <ul>
-    <li><b>Gemini:</b> when you press Generate, the artist, song, topic, pasted lyrics and any YouTube Music link go from your browser directly to Google's Gemini API under your own key. <a href="https://policies.google.com/privacy">Google's privacy policy</a> and the <a href="https://ai.google.dev/gemini-api/terms">Gemini API terms</a> apply.</li>
-    <li><b>MusicAtlas (optional, on by default):</b> the artist and song names are sent to <a href="https://musicatlas.ai/">MusicAtlas</a> for audio analysis. The request passes through a small relay we run on Cloudflare Workers, because MusicAtlas cannot be called from a browser directly. The relay forwards the request and stores nothing. You can turn MusicAtlas off in the form.</li>
-    <li><b>Song spec:</b> if you tick "Add Earprint's analysis to the prompt" or press Use on the song spec's topic or lyrics, that text goes to Gemini with the rest of the request. "Save to song spec" stores the result, the artist, song and YouTube link you used (marked "never send to Suno") and, if ticked, the BPM and key in the shared song spec in your browser.</li>
+    <li><b>Gemini:</b> when you press Generate, the artist, song, topic, pasted lyrics and any YouTube Music link go from your browser directly to Google’s Gemini API under your own key. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google’s privacy policy</a> and the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Gemini API terms</a> apply.</li>
+    <li><b>MusicAtlas (optional, on by default):</b> the artist and song names are sent to <a href="https://musicatlas.ai/" target="_blank" rel="noopener">MusicAtlas</a> for audio analysis. The request passes through a small relay we run on Cloudflare Workers, because MusicAtlas cannot be called from a browser directly. The relay forwards the request and stores nothing. You can turn MusicAtlas off in the form.</li>
+    <li><b>Song spec:</b> if you tick “Add Earprint’s analysis to the prompt” or press Use on the song spec’s topic or lyrics, that text goes to Gemini with the rest of the request. “Save to song spec” stores the result, the artist, song and YouTube link you used (marked “never send to Suno”) and, if ticked, the BPM and key in the shared song spec in your browser.</li>
     <li><b>Settings:</b> your model choice and MusicAtlas settings are kept in your browser.</li>
   </ul>
 
   <h3>Earprint</h3>
   <ul>
     <li><b>Measurements</b> (tempo, key, loudness, mood) are made in your browser. Audio is not uploaded for these.</li>
-    <li><b>AI review (optional):</b> when you ask for one, Earprint sends Gemini the measurements, the file name and any lyrics you pasted, plus, if listening is on, either the first six minutes of your file (16 kHz mono) or the YouTube link you gave. It goes from your browser directly to Google under your own key. For a Spotify link, only the artist and title are sent. The full list is in Earprint's <a href="https://github.com/gp-songtools/earprint#what-gets-sent-to-gemini">README</a>.</li>
-    <li><b>Song spec:</b> <b>Use these lyrics</b> copies Lyricpad's lyrics from the shared song spec into the lyrics box, which goes to Gemini with a review like anything you paste. <b>Save to song spec</b> stores the analysis and, only if you tick it, the BPM and key in the shared song spec in your browser.</li>
+    <li><b>AI review (optional):</b> when you ask for one, Earprint sends Gemini the measurements, the file name and any lyrics you pasted, plus, if listening is on, either the first six minutes of your file (16&nbsp;kHz mono) or the YouTube link you gave. It goes from your browser directly to Google under your own key. For a Spotify link, only the artist and title are sent. The full list is in Earprint’s <a href="https://github.com/gp-songtools/earprint#what-gets-sent-to-gemini" target="_blank" rel="noopener">README</a>.</li>
+    <li><b>Song spec:</b> <b>Use these lyrics</b> copies Lyricpad’s lyrics from the shared song spec into the lyrics box, which goes to Gemini with a review like anything you paste. <b>Save to song spec</b> stores the analysis and, only if you tick it, the BPM and key in the shared song spec in your browser.</li>
     <li><b>Fonts</b> load from Google Fonts, which sees your IP address.</li>
   </ul>
 
@@ -103,8 +111,8 @@
   <ul>
     <li><b>Audio</b> is processed in your browser and never uploaded, except by the two optional features below.</li>
     <li><b>Stem separation on your own server (optional):</b> stem separation runs in your browser unless you choose <b>Separate on: My server</b>. Then, when you press Separate, the section you chose goes as 16-bit audio to the server address you entered, and the stems come back. That is a server you run yourself (for example on Modal, whose own privacy terms then apply); GP Song Tools has no server of its own and never sees it. Its access token is sent only to that server, and is kept like an API key (see <a href="#keys">Your API keys</a>).</li>
-    <li><b>AI suggestions (optional):</b> only when you press Analyze, a compressed copy of the song goes from your browser directly to Google's Gemini API under your own key.</li>
-    <li><b>Stored on your device:</b> settings, saved setups and reference measurements (numbers only, never audio) in browser storage, and separated stems in your browser's database so they don't need separating again.</li>
+    <li><b>AI suggestions (optional):</b> only when you press Analyze, a compressed copy of the song goes from your browser directly to Google’s Gemini API under your own key.</li>
+    <li><b>Stored on your device:</b> settings, saved setups and reference measurements (numbers only, never audio) in browser storage, and separated stems in your browser’s database so they don’t need separating again.</li>
     <li><b>Downloads:</b> the MP3 and M4A encoders load from the cdnjs and jsDelivr code hosts, and fonts from Google Fonts. Like any host, they see your IP address.</li>
   </ul>
 
@@ -112,100 +120,101 @@
   <ul>
     <li><b>Audio and video:</b> your song is played, visualised and exported as a video entirely in your browser. Nothing is uploaded for this. When a fast render starts, the video library (Mediabunny) downloads from the jsDelivr code host, which sees your IP address.</li>
     <li><b>In-browser transcription (optional):</b> the Whisper speech-recognition model runs on your device. The first time, the transcription library downloads from the jsDelivr code host and the model from Hugging Face; your audio stays on your device.</li>
-    <li><b>Cloud transcription (optional):</b> if you choose Groq or OpenAI, the audio (converted to 16 kHz mono) goes from your browser directly to that provider under your own API key. <a href="https://groq.com/privacy-policy/">Groq's</a> or <a href="https://openai.com/policies/privacy-policy/">OpenAI's</a> privacy policy applies.</li>
-    <li><b>Stored on your device:</b> your settings, custom colour palettes, any background or cover image you add and your chosen Whisper model, in this browser's storage. Your Groq or OpenAI key is saved there only if you tick "Remember key on this device".</li>
-    <li><b>Song spec:</b> AuraLyrics only reads it. <b>Use these lyrics</b> copies Lyricpad's lyrics from the shared song spec in your browser into the lyric editor; nothing is sent anywhere.</li>
+    <li><b>Cloud transcription (optional):</b> if you choose Groq or OpenAI, the audio (converted to 16&nbsp;kHz mono) goes from your browser directly to that provider under your own API key. <a href="https://groq.com/privacy-policy/" target="_blank" rel="noopener">Groq’s</a> or <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noopener">OpenAI’s</a> privacy policy applies.</li>
+    <li><b>Stored on your device:</b> your settings, custom colour palettes, any background or cover image you add and your chosen Whisper model, in this browser’s storage. Your Groq or OpenAI key is saved there only if you tick “Remember key on this device”.</li>
+    <li><b>Song spec:</b> AuraLyrics only reads it. <b>Use these lyrics</b> copies Lyricpad’s lyrics from the shared song spec in your browser into the lyric editor; nothing is sent anywhere.</li>
+    <li><b>Send to Framecut:</b> when you click the button, timed lyrics and the soundtrack filename are shared with Framecut through this browser’s storage. Framecut clears the handoff when you import or dismiss it and discards handoffs older than a day when it checks for them. <b>Download LRC</b> saves a local lyrics file.</li>
     <li><b>Downloads:</b> page styling loads from the Tailwind CSS code host and fonts from Google Fonts. Like any host, they see your IP address.</li>
   </ul>
 
   <h3>Randomash</h3>
   <ul>
     <li><b>Dry run</b> is on by default: it shows the request and its cost and sends nothing.</li>
-    <li><b>Generating:</b> with Dry run off, when you press Generate, the prompt and your settings (tempo, key, seed and so on) go from your browser directly to Google's Gemini API under your own key, and the music comes back. <a href="https://policies.google.com/privacy">Google's privacy policy</a> and the <a href="https://ai.google.dev/gemini-api/terms">Gemini API terms</a> apply. Google marks generated music with its SynthID watermark.</li>
+    <li><b>Generating:</b> with Dry run off, when you press Generate, the prompt and your settings (tempo, key, seed and so on) go from your browser directly to Google’s Gemini API under your own key, and the music comes back. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google’s privacy policy</a> and the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Gemini API terms</a> apply. Google marks generated music with its SynthID watermark.</li>
     <li><b>Song spec download:</b> made in your browser from your mix and prompt, and saved to your device. Nothing is sent.</li>
-    <li><b>Stem splitting (optional):</b> runs on your device with GP Mastering's splitter, which downloads its models from this site the first time.</li>
-    <li><b>Stored on your device:</b> your history, clips and trims in this browser's database, your settings and your balance estimate in browser storage, and your key only if you tick "Remember key". If you choose an output folder (Chrome or Edge), runs are also saved there, on your own disk.</li>
+    <li><b>Stem splitting (optional):</b> runs on your device with GP Mastering’s splitter, which downloads its models from this site the first time.</li>
+    <li><b>Stored on your device:</b> your history, clips and trims in this browser’s database, your settings and your balance estimate in browser storage, and your key only if you tick “Remember key”. If you choose an output folder (Chrome or Edge), runs are also saved there, on your own disk.</li>
     <li><b>Downloads:</b> fonts load from Google Fonts, which sees your IP address.</li>
   </ul>
 
   <h3>Idea Wizard</h3>
   <ul>
-    <li><b>Asking for ideas:</b> only when you press <b>Conjure 3 ideas</b>, <b>More ideas</b>, <b>Expand</b> or <b>Go deeper</b>, what you pasted (style prompt, song structure, Earprint analysis, your direction) and the idea you are working on go from your browser directly to the AI provider you chose, under your own key: <a href="https://www.anthropic.com/legal/privacy">Anthropic</a> (Claude), Google (Gemini; <a href="https://policies.google.com/privacy">privacy policy</a> and <a href="https://ai.google.dev/gemini-api/terms">API terms</a>) or <a href="https://groq.com/privacy-policy/">Groq</a>. Their privacy terms apply. Your key is also used to list the models it can reach.</li>
-    <li><b>Stored on your device:</b> your inputs, chosen provider and model, in this browser's storage. Your key is saved there only if you tick "Remember key on this device".</li>
-    <li><b>Song spec:</b> <b>Use</b> copies GP Blueprint's style prompt and structure or Earprint's analysis from the shared song spec into the boxes, which then go to the AI provider like anything you paste. <b>Save to song spec</b> stores the idea and its song structure in the shared song spec in your browser.</li>
+    <li><b>Asking for ideas:</b> only when you press <b>Conjure 3 ideas</b>, <b>More ideas</b>, <b>Expand</b> or <b>Go deeper</b>, what you pasted (style prompt, song structure, Earprint analysis, your direction) and the idea you are working on go from your browser directly to the AI provider you chose, under your own key: <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic</a> (Claude), Google (Gemini; <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">privacy policy</a> and <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">API terms</a>) or <a href="https://groq.com/privacy-policy/" target="_blank" rel="noopener">Groq</a>. Their privacy terms apply. Your key is also used to list the models it can reach.</li>
+    <li><b>Stored on your device:</b> your inputs, chosen provider and model, in this browser’s storage. Your key is saved there only if you tick “Remember key on this device”.</li>
+    <li><b>Song spec:</b> <b>Use</b> copies GP Blueprint’s style prompt and structure or Earprint’s analysis from the shared song spec into the boxes, which then go to the AI provider like anything you paste. <b>Save to song spec</b> stores the idea and its song structure in the shared song spec in your browser.</li>
   </ul>
 
   <h3>Spec to Suno</h3>
   <ul>
-    <li><b>Download only:</b> this site just offers the files (a Claude skill and a page). They don't run here and nothing is sent from this site.</li>
+    <li><b>Download only:</b> this site just offers the files (a Claude skill and a page). They don’t run here and nothing is sent from this site.</li>
     <li><b>The skill:</b> you add it to your own Claude account. When you ask for a song in a chat, Claude reads the song spec you attached and, only after you confirm the request, sends it to your own Suno account through the Suno connector. The skill contains no passwords or keys.</li>
-    <li><b>In Claude:</b> you publish it as a page in your own Claude account, where it runs. It reads the song spec file you choose and, only after you confirm a request, sends that request to your own Suno account through the Suno connector you added in Claude. Anthropic's and Suno's privacy terms apply to that. The page contains no passwords or keys.</li>
+    <li><b>In Claude:</b> you publish it as a page in your own Claude account, where it runs. It reads the song spec file you choose and, only after you confirm a request, sends that request to your own Suno account through the Suno connector you added in Claude. Anthropic’s and Suno’s privacy terms apply to that. The page contains no passwords or keys.</li>
   </ul>
 
   <h2 id="keys">Your API keys</h2>
-  <p>The AI features use your own Gemini, Claude, Groq or OpenAI API key. Keys are sent only to the provider they belong to, straight from your browser. GP Mastering&rsquo;s separation server token is handled the same way and sent only to your own server. They are kept in memory and forgotten when you close the tab unless the tool's "Remember" option is on, which saves the key in this browser's storage on this device only. That option starts on in Lyricpad and off in the other tools. Because all the tools share the <code>gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so turn Remember off on a shared computer.</p>
+  <p>The AI features use your own Gemini, Claude, Groq or OpenAI API key. Keys are sent only to the provider they belong to, straight from your browser. GP Mastering&rsquo;s separation server token is handled the same way and sent only to your own server. They are kept in memory and forgotten when you close the tab unless the tool’s “Remember” option is on, which saves the key in this browser’s storage on this device only. That option starts on in Lyricpad and off in the other tools. Because all the tools share the <code translate="no">gp-songtools.github.io</code> address, a remembered key can be read by any page on it, so turn Remember off on a shared computer.</p>
 
   <h2 id="credits">Credits</h2>
-  <p>These tools build on other people's work, credited here with thanks.</p>
+  <p>These tools build on other people’s work, credited here with thanks.</p>
 
   <h3>Tools menu</h3>
   <ul>
-    <li>Fonts: <a href="https://fonts.google.com/specimen/Space+Grotesk">Space Grotesk</a> by Florian Karsten and <a href="https://fonts.google.com/specimen/Atkinson+Hyperlegible+Next">Atkinson Hyperlegible Next</a> by the Braille Institute (both SIL Open Font License), served from this site.</li>
+    <li>Fonts: <a href="https://fonts.google.com/specimen/Space+Grotesk" target="_blank" rel="noopener">Space Grotesk</a> by Florian Karsten and <a href="https://fonts.google.com/specimen/Atkinson+Hyperlegible+Next" target="_blank" rel="noopener">Atkinson Hyperlegible Next</a> by the Braille Institute (both SIL Open Font License), served from this site.</li>
   </ul>
 
   <h3>Lyricpad</h3>
   <ul>
-    <li>Pronunciations: <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">CMU Pronouncing Dictionary</a> (BSD-style licence).</li>
-    <li>Word frequencies: <a href="https://github.com/hermitdave/FrequencyWords">hermitdave/FrequencyWords</a> (CC BY-SA 4.0). Word list: <a href="http://wordlist.aspell.net/">SCOWL</a> (permissive licence).</li>
-    <li>Synonyms: <a href="https://wordnet.princeton.edu/">WordNet 3.1</a> (Princeton WordNet licence) and Moby Thesaurus II (public domain).</li>
-    <li><a href="https://github.com/anthropics/anthropic-sdk-typescript">Anthropic TypeScript SDK</a> (MIT licence).</li>
+    <li>Pronunciations: <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict" target="_blank" rel="noopener">CMU Pronouncing Dictionary</a> (BSD-style licence).</li>
+    <li>Word frequencies: <a href="https://github.com/hermitdave/FrequencyWords" target="_blank" rel="noopener">hermitdave/FrequencyWords</a> (CC BY-SA 4.0). Word list: <a href="http://wordlist.aspell.net/" target="_blank" rel="noopener">SCOWL</a> (permissive licence).</li>
+    <li>Synonyms: <a href="https://wordnet.princeton.edu/" target="_blank" rel="noopener">WordNet 3.1</a> (Princeton WordNet licence) and Moby Thesaurus II (public domain).</li>
+    <li><a href="https://github.com/anthropics/anthropic-sdk-typescript" target="_blank" rel="noopener">Anthropic TypeScript SDK</a> (MIT licence).</li>
   </ul>
 
   <h3>GP Blueprint</h3>
   <ul>
-    <li><a href="https://musicatlas.ai/">MusicAtlas</a> for audio analysis of real recordings.</li>
-    <li><a href="https://react.dev/">React</a> (MIT), <a href="https://tailwindcss.com/">Tailwind CSS</a> (MIT), <a href="https://lucide.dev/">Lucide</a> icons (ISC) and the <a href="https://github.com/modelcontextprotocol/typescript-sdk">Model Context Protocol SDK</a> (MIT), built with <a href="https://vite.dev/">Vite</a> (MIT).</li>
+    <li><a href="https://musicatlas.ai/" target="_blank" rel="noopener">MusicAtlas</a> for audio analysis of real recordings.</li>
+    <li><a href="https://react.dev/" target="_blank" rel="noopener">React</a> (MIT), <a href="https://tailwindcss.com/" target="_blank" rel="noopener">Tailwind CSS</a> (MIT), <a href="https://lucide.dev/" target="_blank" rel="noopener">Lucide</a> icons (ISC) and the <a href="https://github.com/modelcontextprotocol/typescript-sdk" target="_blank" rel="noopener">Model Context Protocol SDK</a> (MIT), built with <a href="https://vite.dev/" target="_blank" rel="noopener">Vite</a> (MIT).</li>
   </ul>
 
   <h3>Earprint</h3>
   <ul>
     <li>Key detection uses the Krumhansl–Kessler key profiles.</li>
-    <li>Fonts: <a href="https://fonts.google.com/specimen/Bricolage+Grotesque">Bricolage Grotesque</a>, <a href="https://fonts.google.com/specimen/IBM+Plex+Sans">IBM Plex Sans</a> and <a href="https://fonts.google.com/specimen/IBM+Plex+Mono">IBM Plex Mono</a> (SIL Open Font License), served by Google Fonts.</li>
+    <li>Fonts: <a href="https://fonts.google.com/specimen/Bricolage+Grotesque" target="_blank" rel="noopener">Bricolage Grotesque</a>, <a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" rel="noopener">IBM Plex Sans</a> and <a href="https://fonts.google.com/specimen/IBM+Plex+Mono" target="_blank" rel="noopener">IBM Plex Mono</a> (SIL Open Font License), served by Google Fonts.</li>
   </ul>
 
   <h3>GP Mastering</h3>
   <ul>
-    <li>Stem separation models: <code>Kim_Vocal_2</code> by <a href="https://github.com/KimberleyJensen">Kimberley Jensen</a>; <code>kuielab_a_drums</code> and <code>kuielab_a_bass</code> from <a href="https://github.com/kuielab/mdx-net">KUIELab-MDX-Net</a> by KUIELab. Distributed by <a href="https://github.com/Anjok07/ultimatevocalremovergui">Ultimate Vocal Remover</a> (Anjok07 and aufr33). The model files carry no licence of their own, so they are used with credit, free of charge, and never in anything paid.</li>
-    <li>Optional on your own separation server: <a href="https://github.com/facebookresearch/demucs">Hybrid Transformer Demucs</a> (<code>htdemucs_ft</code>) by Simon Rouard, Francisco Massa and Alexandre D&eacute;fossez of Meta AI Research (MIT licence), downloaded from Meta when the server is built.</li>
-    <li>Optional on your own separation server: BS-RoFormer &ldquo;viperx edition&rdquo; vocal model, distributed by Ultimate Vocal Remover on the same terms as the models above, run with the BS-RoFormer code from <a href="https://github.com/ZFTurbo/Music-Source-Separation-Training">ZFTurbo&rsquo;s Music Source Separation Training</a> (MIT licence).</li>
-    <li><a href="https://github.com/microsoft/onnxruntime">ONNX Runtime Web</a> (MIT), <a href="https://github.com/zhuker/lamejs">lamejs</a> (LGPL-3.0), <a href="https://github.com/Vanilagy/mp4-muxer">mp4-muxer</a> (MIT) and the <a href="https://fonts.google.com/specimen/Instrument+Sans">Instrument Sans</a> font (SIL Open Font License).</li>
-    <li>Full details are in GP Mastering's <a href="https://gp-songtools.github.io/gp-master/help.html#credits">help page</a>.</li>
+    <li>Stem separation models: <code translate="no">Kim_Vocal_2</code> by <a href="https://github.com/KimberleyJensen" target="_blank" rel="noopener">Kimberley Jensen</a>; <code translate="no">kuielab_a_drums</code> and <code translate="no">kuielab_a_bass</code> from <a href="https://github.com/kuielab/mdx-net" target="_blank" rel="noopener">KUIELab-MDX-Net</a> by KUIELab. Distributed by <a href="https://github.com/Anjok07/ultimatevocalremovergui" target="_blank" rel="noopener">Ultimate Vocal Remover</a> (Anjok07 and aufr33). The model files carry no licence of their own, so they are used with credit, free of charge, and never in anything paid.</li>
+    <li>Optional on your own separation server: <a href="https://github.com/facebookresearch/demucs" target="_blank" rel="noopener">Hybrid Transformer Demucs</a> (<code translate="no">htdemucs_ft</code>) by Simon Rouard, Francisco Massa and Alexandre D&eacute;fossez of Meta AI Research (MIT licence), downloaded from Meta when the server is built.</li>
+    <li>Optional on your own separation server: BS-RoFormer &ldquo;viperx edition&rdquo; vocal model, distributed by Ultimate Vocal Remover on the same terms as the models above, run with the BS-RoFormer code from <a href="https://github.com/ZFTurbo/Music-Source-Separation-Training" target="_blank" rel="noopener">ZFTurbo&rsquo;s Music Source Separation Training</a> (MIT licence).</li>
+    <li><a href="https://github.com/microsoft/onnxruntime" target="_blank" rel="noopener">ONNX Runtime Web</a> (MIT), <a href="https://github.com/zhuker/lamejs" target="_blank" rel="noopener">lamejs</a> (LGPL-3.0), <a href="https://github.com/Vanilagy/mp4-muxer" target="_blank" rel="noopener">mp4-muxer</a> (MIT) and the <a href="https://fonts.google.com/specimen/Instrument+Sans" target="_blank" rel="noopener">Instrument Sans</a> and <a href="https://fonts.google.com/specimen/JetBrains+Mono" target="_blank" rel="noopener">JetBrains Mono</a> fonts (SIL Open Font License).</li>
+    <li>Full details are in GP Mastering’s <a href="https://gp-songtools.github.io/gp-master/help.html#credits" target="_blank" rel="noopener">help page</a>.</li>
   </ul>
 
   <h3>AuraLyrics Studio</h3>
   <ul>
-    <li>Speech recognition: <a href="https://github.com/openai/whisper">Whisper</a> by OpenAI (MIT licence, code and model weights), run in the browser with <a href="https://github.com/xenova/transformers.js">Transformers.js</a> by Xenova (Apache-2.0) using its <code>Xenova/whisper-*.en</code> model conversions.</li>
-    <li><a href="https://mediabunny.dev/">Mediabunny</a> 1.63.0 (MPL-2.0), loaded from jsDelivr only when a fast render starts. It builds the video file in your browser; nothing is uploaded.</li>
-    <li>Optional cloud transcription by <a href="https://groq.com/">Groq</a> (<code>whisper-large-v3</code>) or <a href="https://openai.com/">OpenAI</a> (<code>whisper-1</code>).</li>
-    <li><a href="https://tailwindcss.com/">Tailwind CSS</a> (MIT).</li>
-    <li>Fonts: <a href="https://fonts.google.com/specimen/Inter">Inter</a>, <a href="https://fonts.google.com/specimen/Montserrat">Montserrat</a>, <a href="https://fonts.google.com/specimen/Orbitron">Orbitron</a>, <a href="https://fonts.google.com/specimen/Cinzel">Cinzel</a> and <a href="https://fonts.google.com/specimen/Space+Grotesk">Space Grotesk</a> (SIL Open Font License), served by Google Fonts.</li>
+    <li>Speech recognition: <a href="https://github.com/openai/whisper" target="_blank" rel="noopener">Whisper</a> by OpenAI (MIT licence, code and model weights), run in the browser with <a href="https://github.com/xenova/transformers.js" target="_blank" rel="noopener">Transformers.js</a> by Xenova (Apache-2.0) using its <code translate="no">Xenova/whisper-*.en</code> model conversions.</li>
+    <li><a href="https://mediabunny.dev/" target="_blank" rel="noopener">Mediabunny</a> 1.63.0 (MPL-2.0), loaded from jsDelivr only when a fast render starts. It builds the video file in your browser; nothing is uploaded.</li>
+    <li>Optional cloud transcription by <a href="https://groq.com/" target="_blank" rel="noopener">Groq</a> (<code translate="no">whisper-large-v3</code>) or <a href="https://openai.com/" target="_blank" rel="noopener">OpenAI</a> (<code translate="no">whisper-1</code>).</li>
+    <li><a href="https://tailwindcss.com/" target="_blank" rel="noopener">Tailwind CSS</a> (MIT).</li>
+    <li>Fonts: <a href="https://fonts.google.com/specimen/Inter" target="_blank" rel="noopener">Inter</a>, <a href="https://fonts.google.com/specimen/Montserrat" target="_blank" rel="noopener">Montserrat</a>, <a href="https://fonts.google.com/specimen/Orbitron" target="_blank" rel="noopener">Orbitron</a>, <a href="https://fonts.google.com/specimen/Cinzel" target="_blank" rel="noopener">Cinzel</a> and <a href="https://fonts.google.com/specimen/Space+Grotesk" target="_blank" rel="noopener">Space Grotesk</a> (SIL Open Font License), served by Google Fonts.</li>
   </ul>
 
   <h3>Randomash</h3>
   <ul>
-    <li>Music by Google's <a href="https://deepmind.google/models/lyria/">Lyria 3</a> models through the Gemini API.</li>
-    <li>Stem splitting by GP Mastering's splitter, with the MDX-Net models and ONNX Runtime Web credited under GP Mastering above.</li>
-    <li>The <a href="https://fonts.google.com/specimen/Instrument+Sans">Instrument Sans</a> font (SIL Open Font License), served by Google Fonts.</li>
+    <li>Music by Google’s <a href="https://deepmind.google/models/lyria/" target="_blank" rel="noopener">Lyria&nbsp;3</a> models through the Gemini API.</li>
+    <li>Stem splitting by GP Mastering’s splitter, with the MDX-Net models and ONNX Runtime Web credited under GP Mastering above.</li>
+    <li>The <a href="https://fonts.google.com/specimen/Instrument+Sans" target="_blank" rel="noopener">Instrument Sans</a> font (SIL Open Font License), served by Google Fonts.</li>
   </ul>
 
   <h3>Idea Wizard</h3>
   <ul>
-    <li>Ideas by <a href="https://www.anthropic.com/claude">Claude</a> (Anthropic), <a href="https://ai.google.dev/">Gemini</a> (Google) or models hosted by <a href="https://groq.com/">Groq</a>, whichever you choose.</li>
-    <li><a href="https://github.com/anthropics/anthropic-sdk-typescript">Anthropic TypeScript SDK</a> (MIT licence).</li>
+    <li>Ideas by <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude</a> (Anthropic), <a href="https://ai.google.dev/" target="_blank" rel="noopener">Gemini</a> (Google) or models hosted by <a href="https://groq.com/" target="_blank" rel="noopener">Groq</a>, whichever you choose.</li>
+    <li><a href="https://github.com/anthropics/anthropic-sdk-typescript" target="_blank" rel="noopener">Anthropic TypeScript SDK</a> (MIT licence).</li>
   </ul>
 
   <h2 id="contact">Changes and contact</h2>
-  <p>If this page changes, the new version will be posted here with a new date. Questions or requests, including from authors credited above, can be raised on any tool's GitHub issues page, for example the <a href="https://github.com/gp-songtools/toolsmenu/issues">tools menu's</a>.</p>
+  <p>If this page changes, the new version will be posted here with a new date. Questions or requests, including from authors credited above, can be raised on any tool’s GitHub issues page, for example the <a href="https://github.com/gp-songtools/toolsmenu/issues" target="_blank" rel="noopener">tools menu’s</a>.</p>
 </main>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2c5b0c69f74b496998f02d0e1f651bd5"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

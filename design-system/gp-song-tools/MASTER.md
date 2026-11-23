@@ -78,7 +78,7 @@ Rules (from the skill's chart guidance):
 | Headings | **Space Grotesk** | 600–700 | `h1`–`h3`, tool names, workflow names |
 | Body, small text, numbers | **Atkinson Hyperlegible Next** | 400, 700 | Everything else |
 
-- **Numbers are always Atkinson Hyperlegible Next.** It was designed by the Braille Institute so similar characters can't be confused (1 l I, 0 O, 5 S, 8 B). Even inside headings, digits come from it: the heading family `GP Display` is Space Grotesk for letters with Atkinson's digits (a `unicode-range` split in `css/gp.css`).
+- **Numbers are always Atkinson Hyperlegible Next.** It was designed by the Braille Institute so similar characters can't be confused (1 l I, 0 O, 5 S, 8 B). Even inside headings, digits come from it: the heading family `GP Display` is Space Grotesk for letters with Atkinson's digits (a `unicode-range` split in `css/gp.css`). Both `GP Display` faces must declare the same `font-weight` range (300 700): with different ranges Chromium picked only the digits face and headings fell back to the system font.
 - Small text never goes below **14px** (`--text-xs`) and is never set in a light weight.
 - Both fonts are self-hosted from `fonts/` (latin subset, SIL Open Font License), so no page asks Google for them.
 - `font-display: swap` on every face.

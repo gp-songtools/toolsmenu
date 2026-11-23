@@ -6,6 +6,11 @@
   <title>GP Song Tools</title>
   <meta name="description" content="One place to open every tool in the gp-songtools collection.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
+  <meta name="theme-color" content="#0f0f23" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f5f5fb" media="(prefers-color-scheme: light)">
+  <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/atkinson-hyperlegible-next-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://static.cloudflareinsights.com">
   <link rel="stylesheet" href="css/gp.css">
   <style>
     /* Menu page. Tokens and buttons come from css/gp.css (design-system/gp-song-tools/MASTER.md). */
@@ -17,7 +22,7 @@
     header p a { font-weight: 700; }
 
     /* Signature: a spectrum in the tool colours, drawn once on load */
-    .spectrum { display: flex; align-items: flex-end; gap: 3px; height: 72px; margin: var(--s-6) 0 var(--s-5); }
+    .spectrum { display: flex; align-items: flex-end; gap: 3px; height: 72px; margin: var(--s-5) 0 var(--s-4); }
     .spectrum i {
       flex: 1; min-width: 2px; border-radius: 2px 2px 0 0; background: var(--c);
       height: var(--h); transform-origin: bottom;
@@ -38,8 +43,10 @@
     .card {
       --c: var(--gen);
       display: grid;
-      grid-template-columns: 56px minmax(140px, 210px) 1fr auto;
-      gap: var(--s-2) var(--s-5);
+      /* name over description, so the text has the full middle column */
+      grid-template-columns: 56px minmax(0, 1fr) auto;
+      grid-template-areas: "icon title actions" "icon desc actions";
+      gap: var(--s-1) var(--s-5);
       align-items: center;
       padding: var(--s-4) var(--s-5) var(--s-4) var(--s-4);
       background: var(--surface);
@@ -63,48 +70,50 @@
       background: color-mix(in srgb, var(--c) 16%, var(--bg));
       border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
     }
-    .card h2 { margin: 0; font-size: var(--text-xl); line-height: 1.15; font-weight: 700; letter-spacing: -.015em; }
-    .card p { margin: 0; color: var(--muted); font-size: var(--text-sm); line-height: 1.55; max-width: 64ch; }
-    .actions { display: flex; gap: var(--s-2); align-items: center; justify-content: flex-end; }
+    .card .icon { grid-area: icon; align-self: start; }
+    .card h2 { grid-area: title; align-self: end; margin: 0; font-size: var(--text-xl); line-height: 1.15; font-weight: 700; letter-spacing: -.015em; }
+    .card p { grid-area: desc; align-self: start; margin: 0; color: var(--muted); font-size: var(--text-sm); line-height: 1.55; max-width: 64ch; text-wrap: pretty; }
+    .actions { grid-area: actions; display: flex; gap: var(--s-2); align-items: center; justify-content: flex-end; }
     .card .btn.primary { background: var(--c); color: var(--on-tool); }
     .card .btn.primary:hover { background: var(--c); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 35%, transparent); }
-    .card .btn.ghost { border-color: transparent; color: var(--muted); padding: 0 var(--s-3); }
-    .card .btn.ghost:hover { color: var(--text); background: color-mix(in srgb, var(--c) 12%, transparent); }
+    .card .btn.ghost { border-color: transparent; color: var(--muted); padding: 0 var(--s-3); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--muted) 45%, transparent); text-underline-offset: 4px; }
+    .card .btn.ghost:hover { color: var(--text); background: color-mix(in srgb, var(--c) 12%, transparent); text-decoration-color: currentColor; }
 
     .empty { color: var(--muted); display: none; padding: var(--s-5) 0; }
     footer { margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--border); color: var(--muted); font-size: var(--text-xs); }
-    footer a { color: var(--text); }
+    footer a { color: var(--text); display: inline-block; line-height: 44px; } /* 44px hit area; lines stay 44px apart so targets never overlap */
 
     @media (max-width: 900px) {
-      .card { grid-template-columns: 56px 1fr; }
-      .card p, .actions { grid-column: 2; }
+      .card { grid-template-columns: 56px minmax(0, 1fr); grid-template-areas: "icon title" "icon desc" "icon actions"; }
       .actions { justify-content: flex-start; margin-top: var(--s-2); }
     }
     @media (max-width: 560px) {
       main { padding-top: var(--s-6); }
       .spectrum { height: 52px; gap: 2px; }
-      .card { grid-template-columns: 48px 1fr; gap: var(--s-2) var(--s-4); padding: var(--s-4); }
+      .card { grid-template-columns: 48px minmax(0, 1fr); grid-template-areas: "icon title" "desc desc" "actions actions"; gap: var(--s-2) var(--s-4); padding: var(--s-4); }
       .icon { width: 48px; height: 48px; font-size: 1.375rem; }
-      .card p, .actions { grid-column: 1 / -1; }
+      .card h2 { align-self: center; }
       .actions { flex-wrap: wrap; }
     }
   </style>
 </head>
 <body>
-  <main>
+<a class="skip" href="#main">Skip to content</a>
+  <main id="main">
     <header>
-      <h1>🎛️ GP Song Tools</h1>
+      <h1 translate="no"><span aria-hidden="true">🎛️</span> GP Song Tools</h1>
       <p>Every songwriting and production tool in one place. <a href="about.html">See how they work together →</a></p>
       <div class="spectrum" id="spectrum" aria-hidden="true"></div>
-      <input class="search" type="search" placeholder="Filter tools…" aria-label="Filter tools" id="search">
+      <input class="search" type="search" placeholder="Filter tools…" aria-label="Filter tools" id="search" name="q" autocomplete="off" spellcheck="false">
     </header>
 
     <ul class="grid" id="tools"></ul>
     <p class="empty" id="empty">No tools match that filter.</p>
+    <p class="sr" id="status" role="status" aria-live="polite"></p>
 
     <footer>
       Source for every tool lives in the
-      <a href="https://github.com/gp-songtools">gp-songtools GitHub organization</a>.
+      <a href="https://github.com/gp-songtools" target="_blank" rel="noopener">gp-songtools GitHub organization</a>.
       · <a href="about.html">About</a>
       · <a href="privacy.html">Privacy &amp; credits</a>
     </footer>
@@ -135,7 +144,7 @@
         name: "Idea Wizard",
         repo: "ideawizard",
         icon: "🧙",
-        description: "Get three song ideas that fit your sound from GP Blueprint's style and structure and Earprint's analysis, then expand one down to line-by-line directions.",
+        description: "Get three song ideas that fit your sound from GP Blueprint’s style and structure and Earprint’s analysis, then expand one down to line-by-line directions.",
         url: "https://gp-songtools.github.io/ideawizard/",
         changelog: "https://gp-songtools.github.io/ideawizard/changelog.html"
       },
@@ -151,7 +160,7 @@
         name: "Earprint",
         repo: "earprint",
         icon: "👂",
-        description: "Measure a track's tempo, key, loudness and mood in your browser, then get an AI review with edits you can send to GP Mastering.",
+        description: "Measure a track’s tempo, key, loudness and mood in your browser, then get an AI review with edits you can send to GP Mastering.",
         url: "https://gp-songtools.github.io/earprint/",
         changelog: "https://gp-songtools.github.io/earprint/changelog.html"
       },
@@ -183,8 +192,9 @@
 
     const list = document.getElementById("tools");
     const empty = document.getElementById("empty");
+    const status = document.getElementById("status");
 
-    function render(filter = "") {
+    function render(filter = "", announce = false) {
       const q = filter.trim().toLowerCase();
       const shown = TOOLS.filter(t =>
         !q || (t.name + " " + t.description).toLowerCase().includes(q));
@@ -195,7 +205,7 @@
         li.dataset.repo = t.repo;
         li.innerHTML = `
           <div class="icon" aria-hidden="true"></div>
-          <h2></h2>
+          <h2 translate="no"></h2>
           <p></p>
           <div class="actions">
             <a class="btn primary" target="_blank" rel="noopener">Open</a>
@@ -215,6 +225,7 @@
         list.appendChild(li);
       }
       empty.style.display = shown.length ? "none" : "block";
+      if (announce) status.textContent = shown.length === 1 ? "1 tool shown" : shown.length + " tools shown";
     }
 
     // Decorative spectrum in the tool colours (one band per tool, fixed shape, drawn once).
@@ -233,8 +244,18 @@
       }
     })();
 
-    document.getElementById("search").addEventListener("input", e => render(e.target.value));
-    render();
+    // The filter lives in the URL (?q=) so a filtered menu can be shared and survives a reload.
+    const search = document.getElementById("search");
+    try { search.value = new URLSearchParams(location.search).get("q") || ""; } catch (e) {}
+    search.addEventListener("input", e => {
+      render(e.target.value, true);
+      try {
+        const u = new URL(location.href);
+        if (e.target.value) u.searchParams.set("q", e.target.value); else u.searchParams.delete("q");
+        history.replaceState(null, "", u);
+      } catch (err) {}
+    });
+    render(search.value);
   </script>
   <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2c5b0c69f74b496998f02d0e1f651bd5"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
