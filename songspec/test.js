@@ -398,5 +398,68 @@ for (const [name, text] of [
   });
 }
 
+// ---------- timed lyrics and video sequence (library 1.1.0) ----------
+const FC = { by: 'framecut' }, PR = { by: 'gp-producer' };
+const TL = '[00:12.40] Your name still glows\n[00:16.85] A message never sent';
+const VS = '[00:00.00] 01_Intro_0-12.mp4\n[00:12.00] 02_Verse1_12-26.mp4\n[00:26.00] 03_Verse1A_26-39.mp4';
+test('new sections sit after lyrics and before sound, in order', () => {
+  const ids = S.summary(S.parse(EXAMPLE)).map((r) => r.id);
+  assert.deepStrictEqual(ids.slice(ids.indexOf('lyrics'), ids.indexOf('sound') + 1), ['lyrics', 'timed-lyrics', 'video-sequence', 'sound']);
+  assert.strictEqual(S.SECTIONS.find((s) => s.id === 'timed-lyrics').owner, 'framecut');
+  assert.strictEqual(S.SECTIONS.find((s) => s.id === 'video-sequence').owner, 'gp-producer');
+});
+test('example has both new sections parsed', () => {
+  const rows = S.summary(S.parse(EXAMPLE));
+  for (const id of ['timed-lyrics', 'video-sequence']) assert.ok(rows.find((r) => r.id === id).present, id);
+  assert.strictEqual(rows.find((r) => r.id === 'timed-lyrics').by, 'framecut');
+  assert.strictEqual(rows.find((r) => r.id === 'video-sequence').by, 'gp-producer');
+});
+test('timed-lyrics: framecut writes, lyricpad throws', () => {
+  const d = S.parse(mk());
+  S.setSection(d, 'timed-lyrics', TL, FC);
+  assert.strictEqual(S.section(d, 'timed-lyrics').body, TL);
+  assert.strictEqual(S.section(d, 'timed-lyrics').by, 'framecut');
+  assert.throws(() => S.setSection(d, 'timed-lyrics', TL, LP));
+});
+test('video-sequence: gp-producer writes, lyricpad throws', () => {
+  const d = S.parse(mk());
+  S.setSection(d, 'video-sequence', VS, PR);
+  assert.strictEqual(S.section(d, 'video-sequence').body, VS);
+  assert.throws(() => S.setSection(d, 'video-sequence', VS, LP));
+  assert.throws(() => S.setSection(d, 'video-sequence', VS, FC));
+});
+test('round trip with the new sections, and marker not in body', () => {
+  const d = S.parse(EXAMPLE);
+  S.setSection(d, 'timed-lyrics', TL, { ...FC, from: ['lyrics'] });
+  S.setSection(d, 'video-sequence', VS, PR);
+  const t = S.serialize(d);
+  rt(t);
+  rt(t.replace(/\n/g, '\r\n'));
+  assert.ok(!S.section(S.parse(t), 'timed-lyrics').body.includes('song-spec'));
+});
+test('validate: good timed lyrics and video sequence give no warnings', () => {
+  const t = mk('', sec('Timed lyrics', TL) + sec('Video sequence', VS));
+  assert.deepStrictEqual(warns(t), []);
+  good(t);
+});
+test('validate: timed lyrics warnings', () => {
+  const w = warns(mk('', sec('Timed lyrics', '[00:01.00] a\nplain line\nanother plain')));
+  assert.deepStrictEqual(w.map((x) => x.message), ['Timed lyrics line 2 has no [mm:ss.xx] timestamp.']);
+  const o = warns(mk('', sec('Timed lyrics', '[00:10.00] a\n[00:05.00] b')));
+  assert.deepStrictEqual(o.map((x) => x.message), ['Timed lyrics timestamps are not in order.']);
+  assert.strictEqual(errs(mk('', sec('Timed lyrics', 'x'))).length, 0);
+});
+test('validate: video sequence warnings', () => {
+  const w = warns(mk('', sec('Video sequence', '[00:00.00] a.mp4\n[00:05.00]\nfoo')));
+  assert.deepStrictEqual(w.map((x) => x.message), ['Video sequence line 2 should be "[mm:ss.xx] clip-name".']);
+  const o = warns(mk('', sec('Video sequence', '[00:20.00] a.mp4\n[00:05.00] b.mp4')));
+  assert.deepStrictEqual(o.map((x) => x.message), ['Video sequence clips are not in time order.']);
+});
+test('toolName: framecut and gp-producer', () => {
+  assert.strictEqual(S.toolName('framecut'), 'Framecut');
+  assert.strictEqual(S.toolName('gp-producer'), 'GP Producer');
+  assert.strictEqual(S.VERSION, '1.1.0');
+});
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed) process.exit(1);

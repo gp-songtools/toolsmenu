@@ -69,6 +69,8 @@ Title: Paper Lanterns
 | `## Structure` | GP Blueprint | A structure in the `structure-format.md` format | — |
 | `## Stems` | GP Blueprint | `group \|\| prompt` lines | — |
 | `## Lyrics` | Lyricpad | Complete lyrics **with section tags** (`[VERSE 1]`, `[CHORUS\|…]`), ready for Suno | 5000 |
+| `## Timed lyrics` | Framecut | The sung lines as LRC, `[mm:ss.xx] text`, in song time | — |
+| `## Video sequence` | GP Producer | One `[mm:ss.xx] clip-name` line per scene, in song time | — |
 | `## Sound` | you | A sound or loop description (`request: sound`) | 500 |
 | `## Notes` | you | Anything. No tool reads it. | — |
 
@@ -116,7 +118,41 @@ No dependency below is required. Every tool works the same as today when a secti
 | Lyricpad | Lyrics (with tags), `title` | Structure, Idea structure, Idea | Shows "Use structure from: Idea Wizard / GP Blueprint", defaulting to the newest structure that isn't out of date. Topic/feel starts from Idea. Title starts from Idea's `Title:` when empty. | Paste a structure and type a topic, as now |
 | Idea Wizard | Idea, Idea structure | Style, Structure, Analysis | Fills its style, structure and track-analysis boxes | You paste them, as now |
 | Earprint | Analysis; `bpm`, `key`, `bpm_key_by` only when its "Also set the song's BPM and key" option is ticked (off by default) | Lyrics | Fills its lyrics box (tags stripped) | You paste lyrics, or leave them out, as now |
+| Framecut | Timed lyrics | Lyrics, Timed lyrics (Video sequence in a later phase) | Lyrics seed the alignment and Timed lyrics fill lyric clips with timings already set | You transcribe or paste lyrics, as now |
+| GP Producer | Video sequence | Timed lyrics | Scene timing can follow the sung lines | You set scene times by hand, as now |
 | AuraLyrics Studio | nothing (read only) | Lyrics | **Use these lyrics** fills the lyric editor, tags stripped | Transcribe, paste or upload, as now |
+
+### Timed lyrics format
+
+Written by Framecut after Whisper or audio alignment.
+- One sung line per line, as LRC: `[mm:ss.xx] text` (`[m+:ss]` or up to three decimals also read).
+- Times are seconds from the start of the song's master audio (song time), in ascending order.
+- No Suno section tags (`[VERSE 1]` and the like).
+- Framecut adds `from=lyrics:<hash>` to the marker when the text was derived from the Lyrics section.
+- Readers that need plain LRC can use the section body as-is.
+
+```
+## Timed lyrics
+<!-- song-spec: by=framecut at=2026-11-20T10:15Z hash=46a5a37d from=lyrics:c973ca35 -->
+[00:12.40] Your name still glows across my screen
+[00:16.85] A message never sent
+```
+
+### Video sequence format
+
+Written by GP Producer. Framecut will read it in a later phase.
+- One line per scene, in scene order: `[mm:ss.xx] <clip file name>`.
+- The time is the scene's start in song time.
+- The file name is the clip name from GP Producer's Production tab, `{NN}_{SectionSlug}_{startSec}-{endSec}.mp4`, for example `[00:26.00] 03_Verse1A_26-39.mp4`.
+
+```
+## Video sequence
+<!-- song-spec: by=gp-producer at=2026-11-20T10:40Z hash=708746a6 -->
+[00:00.00] 01_Intro_0-12.mp4
+[00:12.00] 02_Verse1_12-26.mp4
+```
+
+Both sections are warned about, never rejected, when a line doesn't match or times go backwards.
 
 **Which structure Lyricpad uses** (`SongSpec.pickStructure`):
 - It picks the newest of Structure and Idea structure.
@@ -150,3 +186,7 @@ Every tool also offers:
 - Additive changes (a new optional key or section) keep `schema_version: 1`. Older tools keep the new parts untouched.
 - A change that alters the meaning of existing parts raises the version.
 - `songspec.js` is copied into each tool. Change it here, then copy it into every tool (see README).
+
+## Changes
+
+- **Library 1.1.0 (schema 1, additive):** added the `Timed lyrics` (Framecut) and `Video sequence` (GP Producer) sections. `schema_version` stays 1. Older copies keep these sections as unknown sections, unchanged.
