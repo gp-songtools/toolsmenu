@@ -109,6 +109,29 @@ And one for the truth
 I let the light go up instead of you
 I let the light go up instead of you
 
+## Timed lyrics
+<!-- song-spec: by=framecut at=2026-11-20T10:15Z hash=46a5a37d from=lyrics:c973ca35 -->
+[00:12.40] Your name still glows across my screen
+[00:16.85] A message never sent
+[00:21.30] The river keeps what lies between
+[00:25.75] The words and what they meant
+[00:30.20] I wear the jacket you forgot
+[00:34.60] It never fit me right
+[00:39.05] I hold the things that we were not
+[00:43.50] And set them all alight
+[00:50.10] So I light one for you
+[00:53.90] And one for the truth
+[00:57.40] I let the light go up instead of you
+[01:02.80] I let the light go up instead of you
+
+## Video sequence
+<!-- song-spec: by=gp-producer at=2026-11-20T10:40Z hash=9b8a4ada -->
+[00:00.00] 01_Intro_00-12.mp4
+[00:12.00] 02_Verse1_12-26.mp4
+[00:26.00] 03_Verse1A_26-39.mp4
+[00:39.00] 04_Verse1B_39-50.mp4
+[00:50.00] 05_Chorus_50-67.mp4
+
 ## Sound
 
 ## Notes

@@ -47,6 +47,8 @@
 - `earprint` — Earprint
 - `gp-master` — GP Mastering
 - `auralyrics-studio` — AuraLyrics Studio
+- `framecut` — Framecut (song spec consumer: writes Timed lyrics, reads Lyrics)
+- `gp-producer` — GP Producer (song spec consumer: writes Video sequence, reads Timed lyrics)
 
 ## Constraints
 - No frameworks, bundlers, or external scripts, except the Cloudflare Web Analytics snippet
