@@ -84,6 +84,12 @@
     .handoff p { margin: 0 0 var(--s-3); color: var(--muted); }
     .handoff ol, .handoff ul { margin: 0; padding-left: var(--s-5); }
     .handoff li { margin: 0 0 6px; text-wrap: pretty; }
+    .ways { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-3); margin: 0 0 var(--s-3); }
+    .way { background: var(--surface-2); border: 1px solid var(--border); border-left: 3px solid var(--ss); border-radius: var(--r-md); padding: var(--s-3) var(--s-4); }
+    .way h4 { font-size: var(--text-md); font-weight: 700; margin: 0 0 var(--s-2); }
+    .way p { margin: 0 0 var(--s-2); }
+    .way p:last-child { margin: 0; }
+    .way .need { color: var(--text); }
     .handoff li::marker { color: var(--muted); font-weight: 700; }
     .duo { display: grid; grid-template-columns: 1.45fr 1fr; gap: var(--s-5); align-items: start; margin: 0 0 var(--s-5); }
     .duo .shot { max-height: 520px; object-fit: cover; object-position: top; }
@@ -109,7 +115,7 @@
       .flow { grid-template-columns: repeat(3, 1fr); }
       .tool, .tool:nth-of-type(even) { grid-template-columns: 1fr; gap: var(--s-5); margin-bottom: var(--s-8); }
       .tool:nth-of-type(even) .copy { order: 0; }
-      .handoffs, .principles { grid-template-columns: 1fr; }
+      .handoffs, .principles, .ways { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {
       body { font-size: var(--text-md); }
@@ -397,11 +403,23 @@
 <article class="handoff">
 <p class="route"><span class="pill" translate="no" style="--c: var(--gen)">Song spec</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--ss)">Spec to Suno</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gen)">Suno</span></p>
 <h3>Your song, sent to Suno</h3>
-<p><a href="songspec/spec-to-suno/">Spec to Suno</a> works in your own Claude account, as a skill or a page. It reads your song spec, asks about or lets you adjust Suno’s settings, shows the exact request, and sends it to your Suno account through the Suno connector.</p>
+<p>Two ways to send a song spec to Suno. Both read your song spec, let you adjust Suno’s settings, show the exact request, and send it to your own Suno account.</p>
+<div class="ways">
+<div class="way">
+<h4>In your own Claude</h4>
+<p><a href="songspec/spec-to-suno/">Spec to Suno</a> as a Claude skill (one upload, the simplest) or a page you publish in Claude. It is not a service: it runs inside your Claude account and sends through Claude’s Suno connector.</p>
+<p class="need"><b>You need:</b> a Claude plan that allows skills or published pages, the Suno connector added in Claude, and a Suno plan.</p>
+</div>
+<div class="way">
+<h4>On the hosted site (experimental)</h4>
+<p>The <a href="https://suno-oauth-poc.pcarenza.workers.dev/" target="_blank" rel="noopener">hosted Spec to Suno</a> is a web page run by the owner. You press <b>Connect Suno</b> and sign in on Suno’s own page; the site never sees your password. No Claude needed.</p>
+<p class="need"><b>You need:</b> just a Suno account, in your browser. It is a proof of concept: sign-in and loops are confirmed, while songs, covers and in-page playback are only partly confirmed.</p>
+</div>
+</div>
 <ol>
 <li>In any tool’s Song spec panel, press <b>Download</b>.</li>
-<li><a href="songspec/spec-to-suno/">Get Spec to Suno</a>: add the Claude skill (one upload, the simplest way), or publish the page in Claude.</li>
-<li>Choose your song spec, press <b>Generate</b>, check the request, then <b>Send to Suno</b>.</li>
+<li>Pick a way on <a href="songspec/spec-to-suno/">Get Spec to Suno</a>, or open the <a href="https://suno-oauth-poc.pcarenza.workers.dev/" target="_blank" rel="noopener">hosted Spec to Suno</a> (opens in a new tab).</li>
+<li>Choose your song spec, check the request, then <b>Send to Suno</b>.</li>
 </ol>
 </article>
 </div>
@@ -527,7 +545,7 @@
         <p>Like a blend? Take it to Suno as a loop. Randomash writes a song spec for a sound, not a full song: always instrumental, with your tempo, key and the prompt as its loop description.</p>
         <ol>
           <li>In Randomash, pick a mix and press <b>Download song spec (loop)</b>.</li>
-          <li>Give the file to <a href="songspec/spec-to-suno/">Spec to Suno</a> in Claude.</li>
+          <li>Give the file to <a href="songspec/spec-to-suno/">Spec to Suno</a>, either in your own Claude or on the <a href="https://suno-oauth-poc.pcarenza.workers.dev/" target="_blank" rel="noopener">hosted Spec to Suno</a> (sign in with Suno).</li>
           <li>Check the request and make the loop.</li>
         </ol>
       </article>
@@ -551,7 +569,7 @@
     <div class="principles">
       <div class="principle"><div class="icon" aria-hidden="true">🔒</div><h3>Your music stays yours</h3><p>Everything runs in your browser. Audio is only ever sent to an AI service when you press the button that asks it to listen, and your song spec stays in this browser until you download it.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🔑</div><h3>Your own AI keys</h3><p>AI features use your own Gemini, Claude, Groq or OpenAI key, sent straight to that provider and nowhere else. Each tool says whether it remembers a key on your device (the <a href="privacy.html#keys">privacy page</a> lists them); GP Producer always does, until you press Forget keys. Gemini and Groq both have free tiers; Randomash’s Lyria music models need billing turned on.</p></div>
-      <div class="principle"><div class="icon" aria-hidden="true">🚪</div><h3>No accounts, no installs</h3><p>Open a link and start. There’s nothing to sign up for and nothing to install, on desktop or phone. Only the optional last step, Spec to Suno, runs in your own Claude account with your own Suno plan.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🚪</div><h3>No accounts, no installs</h3><p>Open a link and start. There’s nothing to sign up for and nothing to install, on desktop or phone. The tools themselves have no accounts. Only the optional last step, Spec to Suno, needs one: either your own Claude account with the Suno connector, or, on the <a href="https://suno-oauth-poc.pcarenza.workers.dev/" target="_blank" rel="noopener">hosted Spec to Suno</a>, signing in to Suno.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🆓</div><h3>Free to use</h3><p>Every tool here is free. The visit counter is anonymous, uses no cookies and never sees your work.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🧭</div><h3>Honest about what it does</h3><p>Plain-language help pages, a changelog for every tool, and a <a href="privacy.html">privacy page</a> that lists exactly what goes where.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🛠️</div><h3>Open on GitHub</h3><p>The code for every tool is <a href="https://github.com/gp-songtools" target="_blank" rel="noopener">public on GitHub</a>, so you can see exactly how it works.</p></div>
