@@ -458,7 +458,53 @@ test('validate: video sequence warnings', () => {
 test('toolName: framecut and gp-producer', () => {
   assert.strictEqual(S.toolName('framecut'), 'Framecut');
   assert.strictEqual(S.toolName('gp-producer'), 'GP Producer');
-  assert.strictEqual(S.VERSION, '1.1.0');
+  assert.strictEqual(S.VERSION, '1.2.0');
+});
+
+// ---------- drive_folder (library 1.2.0) ----------
+test('drive_folder: round trip and unchanged neighbours', () => {
+  const t = mk('title: T\ndrive_folder: 1AbC_dEf-9\nbpm: 90', sec('Notes', 'n'));
+  rt(t);
+  const d = S.parse(t);
+  assert.strictEqual(S.setting(d, 'drive_folder'), '1AbC_dEf-9');
+  const out = S.serialize(S.setSetting(S.parse(mk('title: T\nbpm: 90')), 'drive_folder', 'abc', { by: 'framecut' }));
+  assert.ok(out.includes('title: T\ndrive_folder: abc\nbpm: 90\n'), out);
+});
+test('drive_folder: validate charset and length', () => {
+  good(mk('drive_folder: 1AbC_dEf-9'));
+  bad(mk('drive_folder: has space'), 'drive_folder');
+  bad(mk('drive_folder: a/b'), 'drive_folder');
+  bad(mk('drive_folder: ' + rep('a', 201)), 'drive_folder');
+  good(mk('drive_folder: ' + rep('a', 200)));
+});
+test('drive_folder: any tool fills it while empty, then only the person changes it', () => {
+  for (const by of ['framecut', 'gp-producer', 'lyricpad', 'earprint']) {
+    const d = S.parse(mk());
+    S.setSetting(d, 'drive_folder', 'id1', { by });
+    assert.strictEqual(S.setting(d, 'drive_folder'), 'id1');
+  }
+  const d = S.parse(mk('drive_folder: id1'));
+  S.setSetting(d, 'drive_folder', 'id1', { by: 'framecut' }); // same value: no-op
+  assert.strictEqual(S.serialize(d), mk('drive_folder: id1'));
+  assert.throws(() => S.setSetting(d, 'drive_folder', 'id2', { by: 'framecut' }));
+  assert.throws(() => S.setSetting(d, 'drive_folder', '', { by: 'framecut' }));
+  S.setSetting(d, 'drive_folder', 'id2', { by: 'person' });
+  assert.strictEqual(S.setting(d, 'drive_folder'), 'id2');
+  S.setSetting(d, 'drive_folder', '', { by: 'person' });
+  assert.strictEqual(S.setting(d, 'drive_folder'), '');
+  assert.throws(() => S.setSetting(S.parse(mk()), 'drive_folder', 'bad id', { by: 'person' }));
+});
+test('drive_folder: newSong drops it', () => {
+  const d = S.parse(mk('title: T\ndrive_folder: id1\nmodel: v6'));
+  S.newSong(d);
+  assert.strictEqual(S.setting(d, 'drive_folder'), '');
+  assert.strictEqual(S.setting(d, 'model'), 'v6');
+});
+test('title: the person may set it too', () => {
+  const d = S.parse(mk());
+  S.setSetting(d, 'title', 'Mine', { by: 'person' });
+  assert.strictEqual(S.setting(d, 'title'), 'Mine');
+  assert.throws(() => S.setSetting(d, 'title', 'x', { by: 'earprint' }));
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);
