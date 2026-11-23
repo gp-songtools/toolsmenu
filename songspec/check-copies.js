@@ -8,6 +8,7 @@ const COPIES = {
   ideawizard: 'songspec.js',
   earprint: 'songspec.js',
   'auralyrics-studio': 'songspec.js',
+  framecut: 'src/songspec.js',
 };
 const root = path.resolve(__dirname, '..', '..');
 const canon = fs.readFileSync(path.join(__dirname, 'songspec.js'));
