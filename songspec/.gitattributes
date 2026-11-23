@@ -1,0 +1,4 @@
+# Keep the canonical library byte-identical across checkouts.
+songspec.js text eol=lf
+# The format tests edit the example using literal LF line boundaries.
+example.songspec.md text eol=lf
