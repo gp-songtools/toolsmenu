@@ -19,6 +19,7 @@
     h1 { font-size: var(--text-4xl); line-height: 1.04; font-weight: 700; letter-spacing: -.035em; margin: var(--s-5) 0 var(--s-3); }
     h2 { font-size: var(--text-2xl); line-height: 1.2; font-weight: 700; letter-spacing: -.02em; margin: var(--s-8) 0 var(--s-3); padding-top: var(--s-5); border-top: 1px solid var(--border); }
     h3 { font-size: var(--text-lg); font-weight: 700; margin: var(--s-7) 0 var(--s-2); }
+    h4 { font-size: var(--text-md); font-weight: 700; margin: var(--s-5) 0 var(--s-2); }
     p, li { margin: 0 0 var(--s-3); max-width: 58ch; text-wrap: pretty; }
     ul, ol { padding-left: var(--s-5); margin: 0 0 var(--s-4); }
     li::marker { color: var(--muted); }
@@ -53,7 +54,7 @@
   <a class="back" href="./">← All tools</a>
   <h1>Privacy &amp; credits</h1>
   <p class="meta">Last updated: <time datetime="2026-11-23">November 23, 2026</time></p>
-  <p>This page covers every tool at <code translate="no">gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint, GP Mastering, AuraLyrics Studio, Randomash, Idea Wizard, GP Producer, Framecut and Spec to Suno. None of them has accounts, a server of its own or a database. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
+  <p>This page covers every tool at <code translate="no">gp-songtools.github.io</code>: the tools menu, Lyricpad, GP Blueprint (formerly Suno Style Creator), Earprint, GP Mastering, AuraLyrics Studio, Randomash, Idea Wizard, GP Producer, Framecut and Spec to Suno. None of the tools has accounts, a server of its own or a database; the one exception is the optional hosted Spec to Suno, described below. Your songs, lyrics, audio and settings stay in your own browser unless you choose a feature that sends them somewhere, as described below.</p>
 
   <nav class="toc" aria-label="On this page">
     <ul>
@@ -67,7 +68,7 @@
   </nav>
 
   <h2 id="stats">Visit statistics (all tools)</h2>
-  <p>Every page on this site and in every tool except Framecut and GP Producer (which load no statistics service at all) loads <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">Cloudflare Web Analytics</a> so we can see how many people use each tool. It reports, in aggregate:</p>
+  <p>Every page on this site and in every tool loads <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">Cloudflare Web Analytics</a> so we can see how many people use each tool. It reports, in aggregate:</p>
   <ul>
     <li>which page was visited, and the site you came from;</li>
     <li>your browser, operating system and device type;</li>
@@ -149,7 +150,7 @@
     <li><b>Claude:</b> only when you press a button that asks it to work (for example <b>Generate blueprint</b>, <b>Ask Claude to fix</b> or <b>Ask Claude to revise</b>), your lyrics, your vision text, any audio brief and the scene prompts go from your browser directly to <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic</a> under your own key. Anthropic’s privacy terms apply.</li>
     <li><b>Gemini images:</b> when you generate an anchor or storyboard frame, its image prompt, and any reference images that go with it, go to Google’s Gemini API under your own key. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google’s privacy policy</a> and the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Gemini API terms</a> apply. <b>Test key &amp; list models</b> in Settings sends your Gemini key to Google to see which models it can use.</li>
     <li><b>Audio (optional):</b> your song file is sent to Google only when you press <b>Generate with Gemini</b> in the audio brief, and only after you confirm the first time. Added under <b>Local audio</b>, it otherwise stays in the browser tab’s memory: it is not saved, not exported and not sent anywhere.</li>
-    <li><b>No other requests:</b> the app’s Content-Security-Policy blocks connections to any address except Anthropic and Google. It loads no fonts or scripts from other hosts and has no visit statistics. GP Producer makes no videos: you take its prompts to Google Flow yourself, which is outside these tools.</li>
+    <li><b>No other requests:</b> the app’s Content-Security-Policy blocks connections to any address except Anthropic and Google. It loads no fonts or scripts from other hosts. Apart from the visit statistics above, it makes no other requests. GP Producer makes no videos: you take its prompts to Google Flow yourself, which is outside these tools.</li>
     <li><b>Stored on your device:</b> your Anthropic and Gemini keys are saved in this browser’s storage <b>in plain text, as soon as you enter them</b> (there is no Remember option; see <a href="#keys">Your API keys</a>), along with your settings and whether you agreed to send audio to Gemini. Projects, scenes, reference images and frames are stored in this browser’s database (IndexedDB), on this computer only.</li>
     <li><b>Deleting it:</b> <b>Forget keys</b> in Settings removes both keys, and <b>Delete</b> on the project list removes a project. Clearing this site’s data in your browser removes everything. <b>Export whole project (.zip)</b> and <b>Download export bundle (.zip)</b> save files on your device and never contain your keys or your audio.</li>
     <li><b>Song spec:</b> <b>Use as lyrics</b>, <b>Use as runtime</b> and <b>Use as project name</b> copy from the shared song spec in your browser into the project; the lyrics then go to Anthropic like any lyrics you paste. <b>Save video sequence to song spec</b> writes the scene list there, in your browser, and sends nothing.</li>
@@ -164,14 +165,24 @@
     <li><b>Stored on your device:</b> your Groq or OpenAI key is saved in this browser’s storage only if you tick “Remember API key on this device” (it starts off), and <b>Forget saved key</b> removes it. Other pages on <code translate="no">gp-songtools.github.io</code> can read saved keys. Framecut keeps no other settings or media in browser storage. <b>Save Project</b> downloads a <code translate="no">.framecut</code> file with your media and edits to your device.</li>
     <li><b>Song spec:</b> <b>Use Song Spec Lyrics</b> and <b>Use Song Spec Timed Lyrics</b> copy from the shared song spec in your browser into the importer, and <b>Save Timed Lyrics to Song Spec</b> writes the timed lines back to it. Nothing is sent anywhere.</li>
     <li><b>From AuraLyrics Studio:</b> when you click <b>Send to Framecut</b> there, the timed lyrics and soundtrack filename are passed through this browser’s storage. Framecut clears the hand-off when you import or dismiss it, and discards ones older than a day.</li>
-    <li><b>No other requests:</b> Framecut loads no fonts or scripts from other hosts and has no visit statistics.</li>
+    <li><b>No other requests:</b> Apart from the visit statistics above, Framecut loads no fonts or scripts from other hosts.</li>
   </ul>
 
   <h3>Spec to Suno</h3>
   <ul>
-    <li><b>Download only:</b> this site just offers the files (a Claude skill and a page). They don’t run here and nothing is sent from this site.</li>
-    <li><b>The skill:</b> you add it to your own Claude account. When you ask for a song in a chat, Claude reads the song spec you attached and, only after you confirm the request, sends it to your own Suno account through the Suno connector. The skill contains no passwords or keys.</li>
-    <li><b>In Claude:</b> you publish it as a page in your own Claude account, where it runs. It reads the song spec file you choose and, only after you confirm a request, sends that request to your own Suno account through the Suno connector you added in Claude. Anthropic’s and Suno’s privacy terms apply to that. The page contains no passwords or keys.</li>
+    <li><b>The files on this site:</b> this site only offers two downloads (a Claude skill and a page). They don’t run here, and nothing is sent from this site when you download them.</li>
+    <li><b>The skill (in your own Claude):</b> you add it to your own Claude account. When you ask for a song in a chat, Claude reads the song spec you attached and, only after you confirm the request, sends it to your own Suno account through the Suno connector. The skill contains no passwords or keys.</li>
+    <li><b>The page (in your own Claude):</b> you publish it as a page in your own Claude account, where it runs. It reads the song spec file you choose and, only after you confirm a request, sends that request to your own Suno account through the Suno connector you added in Claude. Anthropic’s and Suno’s privacy terms apply to that. The page contains no passwords or keys.</li>
+  </ul>
+  <h4 id="hosted-spec-to-suno">Hosted Spec to Suno (experimental)</h4>
+  <p>A separate web page at <a href="https://suno-oauth-poc.pcarenza.workers.dev/" target="_blank" rel="noopener">suno-oauth-poc.pcarenza.workers.dev</a>, run by the owner on Cloudflare Workers. Unlike the tools above, it has a small server. It has its own <a href="https://suno-oauth-poc.pcarenza.workers.dev/privacy" target="_blank" rel="noopener">privacy page</a>, which is the one to trust if the two ever differ.</p>
+  <ul>
+    <li><b>Signing in:</b> you press <b>Connect Suno</b> and sign in on Suno’s own page (OAuth with PKCE). The site never sees your Suno password.</li>
+    <li><b>What it stores:</b> your Suno access and refresh tokens, encrypted (AES-GCM) in Cloudflare KV, tied to a random session id kept in an HttpOnly cookie in your browser. A session lasts up to 7 days after your sign-in or the last token refresh, then it is deleted.</li>
+    <li><b>What passes through:</b> the song spec you open (file picker or drag and drop; it does not read the shared copy in your browser) is read in your browser. Only the request you approve, with its lyrics and prompts, passes through the Worker to Suno. It is not stored.</li>
+    <li><b>What it can do:</b> use your Suno credits for requests you send. It can call only five Suno functions (create a song, create a cover, create a sound or loop, retrieve a clip, read your plan and credits) and does not read your library. Limits: 6 creation requests a minute and 60 a day per session.</li>
+    <li><b>Removing it:</b> <b>Disconnect</b> deletes your session and asks Suno to revoke the token when Suno supports it; otherwise remove the app in your Suno account settings.</li>
+    <li><b>Other requests:</b> Cloudflare keeps standard request logs. The page loads fonts from Google Fonts. It has no analytics.</li>
   </ul>
 
   <h2 id="keys">Your API keys</h2>

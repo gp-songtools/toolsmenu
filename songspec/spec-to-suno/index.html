@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Spec to Suno</title>
-  <meta name="description" content="Send a song spec to your Suno account from Claude, with a Claude skill or a page you publish in Claude.">
+  <meta name="description" content="Send a song spec to Suno: in your own Claude with a skill or a published page, or on the hosted site (experimental) where you sign in with Suno.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
   <meta name="theme-color" content="#0f0f23" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f5f5fb" media="(prefers-color-scheme: light)">
@@ -51,17 +51,19 @@
 <main id="main">
   <a class="back" href="../../">← All tools</a>
   <h1>Spec to Suno</h1>
-  <p class="meta">Send a song spec to Suno from Claude</p>
+  <p class="meta">Send a song spec to Suno: in your own Claude, or on the hosted site</p>
 
   <div class="choose">
     <h2 id="which">Which should I use?</h2>
+    <p>Two ways run <b>in your own Claude</b>. They are not a service: nothing runs on a GP Song Tools server, and you pay for your own Claude and Suno use. A third way is a <a href="#hosted">hosted site</a> that needs no Claude.</p>
     <ul>
       <li><a href="#skill">The Claude skill</a> is simpler for casual use: one upload, then ask for a song in any chat.</li>
       <li><a href="#page">The page</a> is a form with sliders and a request preview. It needs to be published as a page in your own Claude.</li>
+      <li><a href="#hosted">Prefer not to use Claude?</a> Use hosted Spec to Suno (experimental): sign in with Suno in your browser.</li>
     </ul>
   </div>
 
-  <h2 id="page">Option 1: the page (spec-to-suno.html)</h2>
+  <h2 id="page">Option 1: the page (spec-to-suno.html), in your own Claude</h2>
   <div class="download">
     <a class="btn primary" href="spec-to-suno.html.download" download="spec-to-suno.html">Download spec-to-suno.html</a>
     <p>A single page you publish in your own Claude account. It only works there: opened straight from your computer or another website, it just tells you to open it in claude.ai.</p>
@@ -100,7 +102,7 @@
 
   <p class="safe">The page contains no passwords or keys, and it only sends requests you confirm.</p>
 
-  <h2 id="skill">Option 2: the Claude skill (suno-from-spec.zip)</h2>
+  <h2 id="skill">Option 2: the Claude skill (suno-from-spec.zip), in your own Claude</h2>
   <p class="meta">Suno from a song spec: a Claude skill</p>
   <div class="download">
     <a class="btn primary" href="suno-from-spec.zip" download="suno-from-spec.zip">Download suno-from-spec.zip</a>
@@ -142,8 +144,39 @@
 
   <p class="safe">The skill contains no passwords or keys, and it only sends requests you confirm.</p>
 
+  <h2 id="hosted">Option 3: hosted Spec to Suno (experimental)</h2>
+  <div class="download">
+    <a class="btn primary" href="https://suno-oauth-poc.pcarenza.workers.dev/" target="_blank" rel="noopener">Open hosted Spec to Suno</a>
+    <p>A web page on a Cloudflare Worker run by the owner. Unlike options 1 and 2, this one is a service. No Claude needed.</p>
+  </div>
+
+  <h3 id="hosted-what">What it does</h3>
+  <p>Press <b>Connect Suno</b> and sign in on Suno’s own page (OAuth with PKCE); the site never sees your password. Then open a <code translate="no">.songspec.md</code> with the file picker or by dragging it in (it does not read the shared copy in your browser), adjust the Suno settings, check the exact request, and press <b>Send to Suno</b>. It checks for the results and shows them on the page. The top bar shows your plan and credits, and a <b>Disconnect</b> button.</p>
+
+  <h3 id="hosted-need">What you need</h3>
+  <ul>
+    <li>A Suno account. Everything uses your own Suno credits, and loops need a Pro plan or higher.</li>
+    <li>No Claude account and no connector.</li>
+  </ul>
+
+  <h3 id="hosted-data">What it keeps</h3>
+  <ul>
+    <li>Your Suno tokens, encrypted (AES-GCM) in Cloudflare KV, tied to a random session id in an HttpOnly cookie. A session lasts up to 7 days after sign-in or the last token refresh.</li>
+    <li>Your spec text, lyrics and prompts pass through the Worker to Suno for each request and are not stored.</li>
+    <li>It can call only five Suno functions (create a song, create a cover, create a sound or loop, retrieve a clip, read your plan and credits) and does not read your library. Limits: 6 creation requests a minute and 60 a day per session.</li>
+    <li><b>Disconnect</b> deletes the session and asks Suno to revoke the token when Suno supports it. Otherwise remove the app in your Suno account settings.</li>
+    <li>Cloudflare keeps standard request logs. It loads Google Fonts and has no analytics.</li>
+  </ul>
+  <p>Read its own <a href="https://suno-oauth-poc.pcarenza.workers.dev/privacy" target="_blank" rel="noopener">privacy page</a> for the details.</p>
+
+  <h3 id="hosted-limits">Limits</h3>
+  <ul>
+    <li>It is experimental, a proof of concept. Sign-in and loop creation are confirmed on real Suno. Songs, covers and in-page playback are only partly confirmed, so use the link to the song on suno.com if the player stays silent.</li>
+    <li>It has no “Suggest options” helper, because that relied on Claude.</li>
+  </ul>
+
   <h2 id="blank">Blank spec files</h2>
-  <p>Both options read the same song spec files. Start from a blank template, or follow the format in <a href="https://github.com/gp-songtools/toolsmenu/blob/main/songspec/SPEC.md" target="_blank" rel="noopener">songspec/SPEC.md</a>.</p>
+  <p>All options read the same song spec files. Start from a blank template, or follow the format in <a href="https://github.com/gp-songtools/toolsmenu/blob/main/songspec/SPEC.md" target="_blank" rel="noopener">songspec/SPEC.md</a>.</p>
   <div class="tpl">
     <a class="btn ghost" href="../templates/blank-song.songspec.md" download="blank-song.songspec.md">Blank song</a>
     <a class="btn ghost" href="../templates/blank-cover.songspec.md" download="blank-cover.songspec.md">Blank cover</a>
