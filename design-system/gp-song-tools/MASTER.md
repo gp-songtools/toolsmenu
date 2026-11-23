@@ -60,15 +60,17 @@ The tool colours are the categorical palette for anything chart-like: the hero s
 | Earprint | `--ep` | `#F472B6` | `#DB2777` | 6.4 / 4.6 |
 | GP Mastering | `--gm` | `#2DD4BF` | `#0F766E` | 9.1 / 5.5 |
 | AuraLyrics Studio | `--al` | `#E879F9` | `#C026D3` | 6.9 / 4.7 |
+| GP Producer | `--pr` | `#F87171` | `#CE2222` | 6.1 / 5.4 |
+| Framecut | `--fc` | `#38BDF8` | `#0369A1` | 7.9 / 5.9 |
 | Spec to Suno | `--ss` | `#22C55E` | `#15803D` | 7.4 / 5.0 |
 | Neutral / other | `--gen` | `#A3ADC2` | `#4B5068` | 7.5 / 7.9 |
 
 Rules (from the skill's chart guidance):
 - Every colour clears 3:1 against the surface it sits on, so it works for marks; all clear 4.5:1, so they also work as text.
 - Never let colour carry meaning alone: every coloured element sits next to the tool's name.
-- Text on a filled tool colour: `#0F0F23` in dark mode (6.9:1 or better), `#FFFFFF` in light mode (4.6:1 or better).
+- Text on a filled tool colour: `#0F0F23` in dark mode (6.8:1 or better), `#FFFFFF` in light mode (4.6:1 or better).
 - Tints: mix the tool colour into the surface (`color-mix(in srgb, var(--c) 10–16%, var(--surface))`) for clip backgrounds; 40–55% for their outlines.
-- For a sequential scale (one measure, low to high), step from `--border` through `--primary` to `--accent`. For more than 8 categories, use a bar chart with direct labels instead of more hues.
+- For a sequential scale (one measure, low to high), step from `--border` through `--primary` to `--accent`. The ten tool hues are already close to the limit of what people can tell apart (coral `--pr` sits near pink `--ep` and orange `--lp`; sky `--fc` near blue `--iw`), so the tool colour always sits next to the tool's name. For a chart with more than 8 categories, use a bar chart with direct labels instead of more hues.
 - Gridlines use `--border`; values and axis labels use the body font (see 4).
 
 ## 4. Typography
@@ -110,7 +112,7 @@ Headings: line-height 1.0–1.2, tracking −0.02 to −0.035em, `text-wrap: bal
 
 ### Buttons
 - **Primary** (`.btn.primary`): `--accent` fill, `--on-accent` text, 700 weight, 44px tall, `--r-md`. Hover: lighter (dark) or darker (light) green plus a soft glow. One per view.
-- **Tool open button** (menu lanes only): the same button filled with the lane's tool colour, so eight green buttons don't compete.
+- **Tool open button** (menu lanes only): the same button filled with the lane's tool colour, so ten green buttons don't compete.
 - **Secondary** (`.btn.ghost`): transparent, `--border-strong` outline, `--text`. Hover: `--surface-2`. In menu lanes it drops the outline and tints on hover.
 - Every button is at least 44px tall, has a visible focus ring, and moves 1px on press. Transitions 150ms on colour only.
 

@@ -47,17 +47,17 @@
 - `earprint` — Earprint
 - `gp-master` — GP Mastering
 - `auralyrics-studio` — AuraLyrics Studio
-- `framecut` — Framecut (song spec consumer: writes Timed lyrics, reads Lyrics)
-- `gp-producer` — GP Producer (song spec consumer: writes Video sequence, reads Timed lyrics)
+- `framecut` — Framecut (browser video editor; song spec consumer: writes Timed lyrics, reads Lyrics; receives AuraLyrics' "Send to Framecut")
+- `gp-producer` — GP Producer (plans an AI music video, does not generate it; the app itself is titled "Music Video Director", the suite name is GP Producer; song spec consumer: writes Video sequence, reads Timed lyrics; saving clips to Google Drive and Framecut placing them is planned, not shipped)
 
 ## Constraints
 - No frameworks, bundlers, or external scripts, except the Cloudflare Web Analytics snippet
-- Every page ends with the Cloudflare Web Analytics snippet (token `2c5b0c69f74b496998f02d0e1f651bd5`, one site for all of `gp-songtools.github.io`)
+- Every page here ends with the Cloudflare Web Analytics snippet (token `2c5b0c69f74b496998f02d0e1f651bd5`, one site for all of `gp-songtools.github.io`); Framecut and GP Producer themselves load no analytics, and privacy.html says so
 - `privacy.html` — suite-wide Privacy & credits page that every tool links to; update it when any tool changes what it sends, stores or credits
 - `about.html` — sells the suite: per-tool highlights and the hand-offs between tools; keep claims true to each app (exact button names) and update it when a tool gains a headline feature, a new hand-off, or a new tool joins
 - Cards render via `textContent`, not `innerHTML`, for tool data
 - Colors are CSS vars on `:root`; dark mode via `prefers-color-scheme`
-- Design: follow `design-system/gp-song-tools/MASTER.md`; use the tokens in `css/gp.css`, not raw hex, in page styles; tool colours `--bp`, `--iw`, `--lp`, `--rm`, `--ep`, `--gm`, `--al`, `--ss`; menu lanes are coloured by `data-repo`, so give a new tool a `.card[data-repo=…]` rule, a colour token (dark and light, 3:1+ on the surface) and a row in MASTER.md section 3; numbers and small text use Atkinson Hyperlegible Next, 14px minimum
+- Design: follow `design-system/gp-song-tools/MASTER.md`; use the tokens in `css/gp.css`, not raw hex, in page styles; tool colours `--bp`, `--iw`, `--lp`, `--rm`, `--ep`, `--gm`, `--al`, `--pr` (GP Producer), `--fc` (Framecut), `--ss`; menu lanes are coloured by `data-repo`, so give a new tool a `.card[data-repo=…]` rule, a colour token (dark and light, 3:1+ on the surface) and a row in MASTER.md section 3; numbers and small text use Atkinson Hyperlegible Next, 14px minimum
 - Layout must work at 390px width with no horizontal scroll
 - Links open in new tab with `rel="noopener"`
 

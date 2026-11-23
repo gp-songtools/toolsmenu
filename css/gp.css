@@ -56,6 +56,8 @@
   --ep: #f472b6;   /* Earprint */
   --gm: #2dd4bf;   /* GP Mastering */
   --al: #e879f9;   /* AuraLyrics Studio */
+  --pr: #f87171;   /* GP Producer */
+  --fc: #38bdf8;   /* Framecut */
   --ss: #22c55e;   /* Spec to Suno */
   --gen: #a3adc2;  /* your generator / neutral */
   --on-tool: #0f0f23; /* text on a filled tool colour */
@@ -114,6 +116,8 @@
     --ep: #db2777;
     --gm: #0f766e;
     --al: #c026d3;
+    --pr: #ce2222;
+    --fc: #0369a1;
     --ss: #15803d;
     --gen: #4b5068;
     --on-tool: #ffffff;

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About GP Song Tools</title>
-  <meta name="description" content="Seven free tools that take a song from first idea to finished lyric video, all in your browser, and hand your work from one to the next.">
+  <meta name="description" content="Nine free tools that take a song from first idea to finished video, all in your browser, and hand your work from one to the next.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
   <meta name="theme-color" content="#0f0f23" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f5f5fb" media="(prefers-color-scheme: light)">
@@ -25,8 +25,8 @@
     .lede { font-size: var(--text-lg); color: var(--muted); margin: 0 0 var(--s-6); max-width: 58ch; text-wrap: pretty; }
     .cta { display: flex; flex-wrap: wrap; gap: var(--s-3); }
 
-    /* Workflow: seven steps on one track, each a clip in its tool colour */
-    .flow { list-style: none; margin: var(--s-7) 0 var(--s-2); padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--s-2); }
+    /* Workflow: nine steps on one track, each a clip in its tool colour */
+    .flow { list-style: none; margin: var(--s-7) 0 var(--s-2); padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--s-2); }
     .flow li {
       position: relative; padding: var(--s-4) var(--s-3) var(--s-3);
       background: color-mix(in srgb, var(--c) 10%, var(--surface));
@@ -106,7 +106,7 @@
     footer a { color: var(--text); display: inline-block; line-height: 44px; } /* 44px hit area; lines stay 44px apart so targets never overlap */
 
     @media (max-width: 900px) {
-      .flow { grid-template-columns: repeat(4, 1fr); }
+      .flow { grid-template-columns: repeat(3, 1fr); }
       .tool, .tool:nth-of-type(even) { grid-template-columns: 1fr; gap: var(--s-5); margin-bottom: var(--s-8); }
       .tool:nth-of-type(even) .copy { order: 0; }
       .handoffs, .principles { grid-template-columns: 1fr; }
@@ -129,8 +129,8 @@
 
   <header class="hero">
     <p class="eyebrow">About GP Song Tools</p>
-    <h1>From first idea to finished lyric video, without leaving your browser.</h1>
-    <p class="lede">Seven free tools that each do one job brilliantly, and share one song file between them. Plan the sound, find the idea, write the words, generate the music, check the track, master it and make the video. No accounts, no uploads you didn’t ask for, nothing to install.</p>
+    <h1>From first idea to finished video, without leaving your browser.</h1>
+    <p class="lede">Nine free tools that each do one job brilliantly, and share one song file between them. Plan the sound, find the idea, write the words, generate the music, check the track, master it, then make the video: a lyric video, or a music video you direct and cut. No accounts, no uploads you didn’t ask for, nothing to install.</p>
     <div class="cta">
       <a class="btn primary" href="./">Open the tools</a>
       <a class="btn ghost" href="#songspec">How they share your song</a>
@@ -144,12 +144,14 @@
     <li style="--c: var(--rm)"><span class="verb">4 · Generate</span><a translate="no" href="#randomash">Randomash</a><span class="what">Blend genres into Lyria&nbsp;3 music, or send your song to Suno</span></li>
     <li style="--c: var(--ep)"><span class="verb">5 · Analyze</span><a translate="no" href="#earprint">Earprint</a><span class="what">Measure it, review it</span></li>
     <li style="--c: var(--gm)"><span class="verb">6 · Finish</span><a translate="no" href="#gpmastering">GP Mastering</a><span class="what">Fix, master, split stems</span></li>
-    <li style="--c: var(--al)"><span class="verb">7 · Share</span><a translate="no" href="#auralyrics">AuraLyrics Studio</a><span class="what">A lyric video, ready to post</span></li>
+    <li style="--c: var(--al)"><span class="verb">7 · Visualize</span><a translate="no" href="#auralyrics">AuraLyrics Studio</a><span class="what">A lyric video, ready to post</span></li>
+    <li style="--c: var(--pr)"><span class="verb">8 · Direct</span><a translate="no" href="#gpproducer">GP Producer</a><span class="what">Scenes, shots and prompts for an AI music video</span></li>
+    <li style="--c: var(--fc)"><span class="verb">9 · Edit</span><a translate="no" href="#framecut">Framecut</a><span class="what">Cut the final video, lyrics and all</span></li>
   </ol>
 
   <section class="block" aria-labelledby="tools-h">
     <h2 id="tools-h">Meet the tools</h2>
-    <p class="section-intro">Each one is fast, focused and runs entirely on your device. Here’s what they can do.</p>
+    <p class="section-intro">Each one is fast, focused and runs in your browser. Here’s what they can do.</p>
 
     <article class="tool" id="blueprint" style="--c: var(--bp)">
       <div class="copy">
@@ -274,7 +276,7 @@
 
     <article class="tool" id="auralyrics" style="--c: var(--al)">
       <div class="copy">
-        <span class="tag">7 · Share</span>
+        <span class="tag">7 · Visualize</span>
         <h3 translate="no"><a href="https://gp-songtools.github.io/auralyrics-studio/" target="_blank" rel="noopener">AuraLyrics Studio</a></h3>
         <p class="pitch">Turn your finished song into a lyric video that moves with the music.</p>
         <ul>
@@ -291,14 +293,55 @@
         <img class="shot" src="img/auralyrics.webp" width="1600" height="1000" loading="lazy" alt="AuraLyrics Studio playing a demo song with a glowing radial visualizer, a spinning turntable and the lyric 'Riding through the neon light'">
       </figure>
     </article>
+
+    <article class="tool" id="gpproducer" style="--c: var(--pr)">
+      <div class="copy">
+        <span class="tag">8 · Direct</span>
+        <h3 translate="no"><a href="https://gp-songtools.github.io/gp-producer/" target="_blank" rel="noopener">GP Producer</a></h3>
+        <p class="pitch">Plan an AI music video for your song: a director’s treatment, reference images and a scene-by-scene shot list. It doesn’t make the video itself; you generate the clips in Google Flow.</p>
+        <ul>
+          <li><b>Setup</b> takes your timed lyrics, the song’s length and your vision for the look. <b>Use as lyrics</b> brings in the Timed lyrics Framecut saved to the song spec, and <b>Generate with Gemini</b> writes an audio brief so Claude knows where the singing stops.</li>
+          <li><b>Generate blueprint</b>: Claude writes the treatment, reference anchors for the character, places and props, and a scene ledger of 10 to 15 second clips (with 3 or 4 second extensions where needed), checked against your lyric timestamps.</li>
+          <li><b>Anchor images and storyboard frames</b> drawn by Gemini, or your own uploads, so the same face and place carry through every scene.</li>
+          <li><b>Production</b> takes one scene at a time: copy the Google Flow prompts, download the references, tick the checklist and name each clip with its file tag, like <code translate="no">01_Intro_00-12.mp4</code>. <b>Revise scene with Claude</b> rewrites a prompt that missed.</li>
+          <li><b>Post</b> prepares lip-sync files for the singing scenes and a <b>Download export bundle (.zip)</b>.</li>
+          <li><b>Save video sequence to song spec</b> records which clip plays when. Placing those clips on Framecut’s timeline is coming next.</li>
+          <li>Works with your own <b>Claude</b> key (required) and <b>Gemini</b> key (images and the audio brief).</li>
+        </ul>
+        <a class="open" href="https://gp-songtools.github.io/gp-producer/" target="_blank" rel="noopener">Open GP Producer →</a>
+      </div>
+      <figure>
+        <img class="shot" src="img/gpproducer.webp" width="1600" height="1000" loading="lazy" alt="GP Producer's Blueprint tab for the demo song Paper Lanterns, with the song spec panel open and listing Timed lyrics from Framecut and a Video sequence, above a validated five-scene plan and the director's treatment">
+      </figure>
+    </article>
+
+    <article class="tool" id="framecut" style="--c: var(--fc)">
+      <div class="copy">
+        <span class="tag">9 · Edit</span>
+        <h3 translate="no"><a href="https://gp-songtools.github.io/framecut/" target="_blank" rel="noopener">Framecut</a></h3>
+        <p class="pitch">Cut the final video on a multitrack timeline, with your lyrics timed and on screen.</p>
+        <ul>
+          <li><b>Multitrack timeline</b> for video, image, audio, text, overlay and effects, with snapping, a main-track magnet, split, ripple delete, transitions between clips and undo.</li>
+          <li><b>Import Lyrics</b> from timed LRC or <b>Transcribe</b> them with in-browser Whisper, Groq or OpenAI on your own key, or Chrome’s Live Browser Listener. <b>Align my lyrics to the editor</b> keeps your exact wording and line breaks, and every line becomes an editable text clip.</li>
+          <li><b>Text animations</b> (In, Out and Loop) and a library of <b>Video Effects</b> and <b>Body Effects</b>, plus background removal and replacement that run on your device.</li>
+          <li><b>Audio visualizers</b>: the 13 presets from AuraLyrics Studio, on any audio clip.</li>
+          <li><b>Export ↗</b> to MP4 or WebM, or a transparent WebM, as your browser supports. <b>Save Project</b> keeps your media and edits in one <code translate="no">.framecut</code> file that <b>Open Project</b> reads.</li>
+          <li><b>From the song spec</b>: <b>Use Song Spec Lyrics</b> or <b>Use Song Spec Timed Lyrics</b>, and <b>Save Timed Lyrics to Song Spec</b> for GP Producer. It also shows GP Producer’s Video sequence.</li>
+        </ul>
+        <a class="open" href="https://gp-songtools.github.io/framecut/" target="_blank" rel="noopener">Open Framecut →</a>
+      </div>
+      <figure>
+        <img class="shot" src="img/framecut.webp" width="1600" height="1000" loading="lazy" alt="Framecut editing the demo song Paper Lanterns: a gradient video preview with the lyric 'The river keeps what lies between', the From the song spec box, and a timeline with lyric text clips above two video clips and an audio waveform">
+      </figure>
+    </article>
   </section>
 
   <section class="block" id="songspec" aria-labelledby="songspec-h">
 <h2 id="songspec-h">One song file for every tool</h2>
-<p class="section-intro">The <b>song spec</b> is a single file for your song that the tools share in your browser. Each tool fills in its own part, and every tool can use what the others saved, or ignore it. Nothing depends on anything else: use one tool or all seven, in any order.</p>
+<p class="section-intro">The <b>song spec</b> is a single file for your song that the tools share in your browser. Each tool fills in its own part, and every tool can use what the others saved, or ignore it. Nothing depends on anything else: use one tool or all nine, in any order.</p>
 <div class="handoffs">
 <article class="handoff">
-<p class="route"><span class="pill" translate="no" style="--c: var(--bp)">GP Blueprint</span><span class="pill" translate="no" style="--c: var(--iw)">Idea Wizard</span><span class="pill" translate="no" style="--c: var(--ep)">Earprint</span><span class="pill" translate="no" style="--c: var(--lp)">Lyricpad</span></p>
+<p class="route"><span class="pill" translate="no" style="--c: var(--bp)">GP Blueprint</span><span class="pill" translate="no" style="--c: var(--iw)">Idea Wizard</span><span class="pill" translate="no" style="--c: var(--ep)">Earprint</span><span class="pill" translate="no" style="--c: var(--lp)">Lyricpad</span><span class="pill" translate="no" style="--c: var(--fc)">Framecut</span><span class="pill" translate="no" style="--c: var(--pr)">GP Producer</span></p>
 <h3>Each tool fills in its part</h3>
 <p>Press save in a tool and its work goes into the song spec. It never touches what the other tools wrote.</p>
 <ul>
@@ -306,10 +349,12 @@
 <li><b>Idea Wizard</b> › <b>Save to song spec</b>: the idea and, once expanded, its song structure.</li>
 <li><b>Earprint</b> › <b>Save to song spec</b>: the analysis, and the BPM and key only if you tick <b>Also set the song’s BPM and key</b>.</li>
 <li><b>Lyricpad</b> › <b>Copy ▾ › Add to song spec</b>: the lyrics with their section tags, and the title.</li>
+<li><b>Framecut</b> › <b>Save Timed Lyrics to Song Spec</b>: the sung lines with their times.</li>
+<li><b>GP Producer</b> › <b>Save video sequence to song spec</b>: which clip plays when.</li>
 </ul>
 </article>
 <article class="handoff">
-<p class="route"><span class="pill" translate="no" style="--c: var(--lp)">Lyricpad</span><span class="pill" translate="no" style="--c: var(--iw)">Idea Wizard</span><span class="pill" translate="no" style="--c: var(--bp)">GP Blueprint</span><span class="pill" translate="no" style="--c: var(--ep)">Earprint</span><span class="pill" translate="no" style="--c: var(--al)">AuraLyrics Studio</span></p>
+<p class="route"><span class="pill" translate="no" style="--c: var(--lp)">Lyricpad</span><span class="pill" translate="no" style="--c: var(--iw)">Idea Wizard</span><span class="pill" translate="no" style="--c: var(--bp)">GP Blueprint</span><span class="pill" translate="no" style="--c: var(--ep)">Earprint</span><span class="pill" translate="no" style="--c: var(--al)">AuraLyrics Studio</span><span class="pill" translate="no" style="--c: var(--fc)">Framecut</span><span class="pill" translate="no" style="--c: var(--pr)">GP Producer</span></p>
 <h3>The next tool picks it up</h3>
 <p>Open another tool and a <b>From the song spec</b> box offers what’s there, and says what was used.</p>
 <ul>
@@ -317,12 +362,13 @@
 <li><b>Idea Wizard</b> fills its boxes with Blueprint’s style and structure and Earprint’s analysis.</li>
 <li><b>GP Blueprint</b> can start from Idea Wizard’s topic, Lyricpad’s lyrics and Earprint’s analysis.</li>
 <li><b>Earprint</b> and <b>AuraLyrics Studio</b> offer Lyricpad’s lyrics with <b>Use these lyrics</b>.</li>
+<li><b>Framecut</b> offers the lyrics and Timed lyrics, and <b>GP Producer</b> offers the Timed lyrics, its runtime and the title.</li>
 </ul>
 </article>
 <article class="handoff">
-<p class="route"><span class="pill" translate="no" style="--c: var(--gen)">Framecut</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gen)">Song spec: Timed lyrics</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gen)">GP Producer</span></p>
+<p class="route"><span class="pill" translate="no" style="--c: var(--fc)">Framecut</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gen)">Song spec: Timed lyrics</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--pr)">GP Producer</span></p>
 <h3>Lyrics with their timings</h3>
-<p>Framecut times your lyrics against the song. Save the result to the song spec and GP Producer can follow the sung lines.</p>
+<p>Framecut times your lyrics against the song. Save the result to the song spec and GP Producer builds its scenes around the sung lines.</p>
 <ol>
 <li>In Framecut, select the full-song audio clip and open <b>Import Lyrics</b>. Press <b>Use Song Spec Lyrics</b> (or <b>Use in Import Lyrics</b> in the "From the song spec" box) to fill it from the spec's Lyrics section.</li>
 <li>Once the lines are timed, press <b>Save Timed Lyrics to Song Spec</b>.</li>
@@ -330,9 +376,9 @@
 </ol>
 </article>
 <article class="handoff">
-<p class="route"><span class="pill" translate="no" style="--c: var(--gen)">GP Producer</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gen)">Song spec: Video sequence</span></p>
+<p class="route"><span class="pill" translate="no" style="--c: var(--pr)">GP Producer</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gen)">Song spec: Video sequence</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--fc)">Framecut</span></p>
 <h3>Your scene order, saved</h3>
-<p>GP Producer records which clip plays when, as a Video sequence in the song spec. Everything stays in your browser or the file you download.</p>
+<p>GP Producer records which clip plays when, as a Video sequence in the song spec. Framecut already lists it in its “From the song spec” box; placing the clips on its timeline is coming next. Everything stays in your browser or the file you download.</p>
 <ol>
 <li>In GP Producer's Production tab, press <b>Save video sequence to song spec</b>. It shows whether the saved sequence is up to date.</li>
 <li>Press <b>Download</b> in the Song spec panel to keep it as a file.</li>
@@ -349,7 +395,7 @@
 </ul>
 </article>
 <article class="handoff">
-<p class="route"><span class="pill" translate="no" style="--c: var(--gen)">Song spec</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--accent)">Spec to Suno</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gen)">Suno</span></p>
+<p class="route"><span class="pill" translate="no" style="--c: var(--gen)">Song spec</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--ss)">Spec to Suno</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gen)">Suno</span></p>
 <h3>Your song, sent to Suno</h3>
 <p><a href="songspec/spec-to-suno/">Spec to Suno</a> works in your own Claude account, as a skill or a page. It reads your song spec, asks about or lets you adjust Suno’s settings, shows the exact request, and sends it to your Suno account through the Suno connector.</p>
 <ol>
@@ -433,8 +479,9 @@
       </article>
 
       <article class="handoff">
-        <p class="route"><span class="pill" translate="no" style="--c: var(--al)">AuraLyrics Studio</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--accent)">Framecut</span></p>
+        <p class="route"><span class="pill" translate="no" style="--c: var(--al)">AuraLyrics Studio</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--fc)">Framecut</span></p>
         <h3>Timed lyrics become editable text</h3>
+        <p>Already synced your lyrics in AuraLyrics Studio? Framecut turns each line into a text clip you can restyle, animate and move.</p>
         <ol>
           <li>Sync lyrics to your song in AuraLyrics Studio and click <b>Send to Framecut</b>.</li>
           <li>In Framecut, select the matching Audio clip and choose <b>Import Lyrics</b>.</li>
@@ -453,6 +500,17 @@
       </article>
 
       <article class="handoff">
+        <p class="route"><span class="pill" translate="no" style="--c: var(--gm)">GP Mastering</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--pr)">GP Producer</span><span class="arrow">+</span><span class="pill" translate="no" style="--c: var(--fc)">Framecut</span></p>
+        <h3>Your finished master, under the video</h3>
+        <p>Use the same mastered file when you plan the video and when you cut it, so the scene times and the lyrics line up with what you hear.</p>
+        <ol>
+          <li>In GP Mastering, press <b>Master full song</b> and save the file.</li>
+          <li>In GP Producer’s Setup tab, add it under <b>Local audio</b> to scrub through and check your lyric times. The file stays in your browser tab.</li>
+          <li>In Framecut, press <b>＋ Import media</b> and pick the same file to cut your clips over it.</li>
+        </ol>
+      </article>
+
+      <article class="handoff">
         <p class="route"><span class="pill" translate="no" style="--c: var(--rm)">Randomash</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gm)">GP Mastering’s splitter</span></p>
         <h3>Stems without leaving the page</h3>
         <p>Randomash doesn’t have its own stem splitter. It borrows GP Mastering’s, running the same models in your browser, so a generated mix comes back as drums, bass, other and (with vocals on) vocals.</p>
@@ -464,7 +522,7 @@
       </article>
 
       <article class="handoff">
-        <p class="route"><span class="pill" translate="no" style="--c: var(--rm)">Randomash</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--accent)">Spec to Suno</span></p>
+        <p class="route"><span class="pill" translate="no" style="--c: var(--rm)">Randomash</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--ss)">Spec to Suno</span></p>
         <h3>Your genre mash as a Suno loop</h3>
         <p>Like a blend? Take it to Suno as a loop. Randomash writes a song spec for a sound, not a full song: always instrumental, with your tempo, key and the prompt as its loop description.</p>
         <ol>
@@ -492,7 +550,7 @@
     <p class="section-intro">Every GP Song Tool follows the same rules.</p>
     <div class="principles">
       <div class="principle"><div class="icon" aria-hidden="true">🔒</div><h3>Your music stays yours</h3><p>Everything runs in your browser. Audio is only ever sent to an AI service when you press the button that asks it to listen, and your song spec stays in this browser until you download it.</p></div>
-      <div class="principle"><div class="icon" aria-hidden="true">🔑</div><h3>Your own AI keys</h3><p>AI features use your own Gemini, Claude, Groq or OpenAI key, sent straight to that provider and nowhere else. Gemini and Groq both have free tiers; Randomash’s Lyria music models need billing turned on.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🔑</div><h3>Your own AI keys</h3><p>AI features use your own Gemini, Claude, Groq or OpenAI key, sent straight to that provider and nowhere else. Each tool says whether it remembers a key on your device (the <a href="privacy.html#keys">privacy page</a> lists them); GP Producer always does, until you press Forget keys. Gemini and Groq both have free tiers; Randomash’s Lyria music models need billing turned on.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🚪</div><h3>No accounts, no installs</h3><p>Open a link and start. There’s nothing to sign up for and nothing to install, on desktop or phone. Only the optional last step, Spec to Suno, runs in your own Claude account with your own Suno plan.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🆓</div><h3>Free to use</h3><p>Every tool here is free. The visit counter is anonymous, uses no cookies and never sees your work.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🧭</div><h3>Honest about what it does</h3><p>Plain-language help pages, a changelog for every tool, and a <a href="privacy.html">privacy page</a> that lists exactly what goes where.</p></div>
