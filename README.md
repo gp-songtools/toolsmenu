@@ -15,6 +15,8 @@ Live site (once GitHub Pages is enabled): https://gp-songtools.github.io/toolsme
 | [Earprint](https://github.com/gp-songtools/earprint) | Track analyzer with AI review | https://gp-songtools.github.io/earprint/ | https://gp-songtools.github.io/earprint/changelog.html |
 | [GP Mastering](https://github.com/gp-songtools/gp-master) | Browser-based mastering | https://gp-songtools.github.io/gp-master/ | https://gp-songtools.github.io/gp-master/changelog.html |
 | [AuraLyrics Studio](https://github.com/gp-songtools/auralyrics-studio) | Music visualizer and lyric video maker | https://gp-songtools.github.io/auralyrics-studio/ | https://gp-songtools.github.io/auralyrics-studio/changelog.html |
+| [GP Producer](https://github.com/gp-songtools/gp-producer) | AI music video planner: treatment, scene ledger and Google Flow prompts from timed lyrics | https://gp-songtools.github.io/gp-producer/ | https://github.com/gp-songtools/gp-producer/commits/main/ |
+| [Framecut](https://github.com/gp-songtools/framecut) | Browser video editor with lyric timing, effects and export | https://gp-songtools.github.io/framecut/ | https://github.com/gp-songtools/framecut/commits/main/ |
 | [Spec to Suno](https://github.com/gp-songtools/toolsmenu/tree/main/songspec/spec-to-suno) | Send a song spec to Suno from Claude: a downloadable Claude skill or a page you publish in Claude | https://gp-songtools.github.io/toolsmenu/songspec/spec-to-suno/ | https://github.com/gp-songtools/toolsmenu/commits/main/songspec/spec-to-suno |
 
 ## About page

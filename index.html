@@ -63,6 +63,8 @@
     .card[data-repo="earprint"] { --c: var(--ep); }
     .card[data-repo="gp-master"] { --c: var(--gm); }
     .card[data-repo="auralyrics-studio"] { --c: var(--al); }
+    .card[data-repo="gp-producer"] { --c: var(--pr); }
+    .card[data-repo="framecut"] { --c: var(--fc); }
     .card[data-repo="toolsmenu"] { --c: var(--ss); }
     .icon {
       display: grid; place-items: center; width: 56px; height: 56px;
@@ -181,6 +183,22 @@
         changelog: "https://gp-songtools.github.io/auralyrics-studio/changelog.html"
       },
       {
+        name: "GP Producer",
+        repo: "gp-producer",
+        icon: "🎥",
+        description: "Plan an AI music video from your timed lyrics: Claude writes the treatment and a scene ledger with Google Flow prompts, and Gemini draws reference images.",
+        url: "https://gp-songtools.github.io/gp-producer/",
+        changelog: "https://github.com/gp-songtools/gp-producer/commits/main/"
+      },
+      {
+        name: "Framecut",
+        repo: "framecut",
+        icon: "🎞️",
+        description: "Edit your video in the browser: a timeline with text, effects and audio visualizers, lyrics timed from LRC or Whisper, on-device background removal and export.",
+        url: "https://gp-songtools.github.io/framecut/",
+        changelog: "https://github.com/gp-songtools/framecut/commits/main/"
+      },
+      {
         name: "Spec to Suno",
         repo: "toolsmenu",
         icon: "🚀",
@@ -231,7 +249,7 @@
     // Decorative spectrum in the tool colours (one band per tool, fixed shape, drawn once).
     (function spectrum() {
       const el = document.getElementById("spectrum");
-      const vars = { lyricpad: "lp", "gp-blueprint": "bp", ideawizard: "iw", "gp-randomash": "rm", earprint: "ep", "gp-master": "gm", "auralyrics-studio": "al", toolsmenu: "ss" };
+      const vars = { lyricpad: "lp", "gp-blueprint": "bp", ideawizard: "iw", "gp-randomash": "rm", earprint: "ep", "gp-master": "gm", "auralyrics-studio": "al", "gp-producer": "pr", framecut: "fc", toolsmenu: "ss" };
       const per = 7, n = TOOLS.length * per;
       for (let i = 0; i < n; i++) {
         const x = i / n;
