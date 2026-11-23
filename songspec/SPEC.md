@@ -154,7 +154,7 @@ Written by GP Producer. Framecut will read it in a later phase.
 
 Both sections are warned about, never rejected, when a line doesn't match or times go backwards.
 
-**Planned (Phase 2, to do, not implemented):** GP Producer will upload the produced clips and save them to a Google Drive folder. Framecut will retrieve them from that folder and place them on the timeline in order, using this Video sequence section (clip names and start times). Nothing reads or writes Google Drive yet.
+**Planned:** clips will be saved to and read from a Google Drive song folder (see section 8, a draft), and Framecut will get a **Place clips…** button that puts them on the timeline using this section. Nothing reads or writes Google Drive yet.
 
 **Which structure Lyricpad uses** (`SongSpec.pickStructure`):
 - It picks the newest of Structure and Idea structure.
@@ -190,6 +190,45 @@ Framecut and GP Producer show the shared Song spec panel like the other tools. *
 - Additive changes (a new optional key or section) keep `schema_version: 1`. Older tools keep the new parts untouched.
 - A change that alters the meaning of existing parts raises the version.
 - `songspec.js` is copied into each tool. Change it here, then copy it into every tool (see README).
+
+## 8. Song folder in Google Drive (draft, not implemented)
+
+**This is a draft for Song Spec 1.2.0. No tool reads or writes Google Drive this way yet, and `songspec.js` does not know the `drive_folder` setting.** The owner decided the plan on 2026-11-23.
+
+**Folder.** Every GP Song Tools app uses one Drive folder per song:
+
+```
+My Drive/
+  GP Song Tools/
+    <Song title>/
+      <song>.songspec.md   the song spec (cross-device copy)
+      lyrics/              Lyricpad (.txt), LRC exports
+      audio/               masters (GP Mastering), generated clips (Randomash), stems
+      images/              GP Producer anchors and keyframes, cover art
+      clips/               GP Producer video clips, named by file tag (01_Intro_00-12.mp4)
+      exports/             finished videos (Framecut, AuraLyrics Studio)
+      projects/            app project files (.framecut, GP Producer .zip)
+```
+
+**Naming.** The folder is named from the spec `title`, with characters Drive can't take removed. A song with no title asks for one first.
+
+**`drive_folder` setting (planned).** The Drive ID of the song's folder, so the link survives renames. Any tool may fill it, and only while it is empty. It is an additive setting, so `schema_version` stays 1.
+
+**Cross-device copy.** The `.songspec.md` in the folder is the copy that travels between devices. The shared Song spec panel gets **Save to Drive** and **Open from Drive**. The browser copy (section 5) stays the working copy.
+
+**Who writes where.** Each tool writes only its own subfolders. Every tool may read all of them.
+
+| Tool | Writes |
+|---|---|
+| Lyricpad | `lyrics/` |
+| GP Mastering, Randomash | `audio/` |
+| GP Producer | `images/`, `clips/`, `projects/` |
+| Framecut | `exports/`, `projects/` |
+| AuraLyrics Studio | `exports/` |
+
+**Permission.** One Google client is shared by every tool, using the `drive.file` scope only. A tool sees just the files and folders the GP Song Tools apps created. A tool that must open files our apps didn't create would need Google's Picker, which is not planned.
+
+**Library.** A new `songdrive.js` will sit next to `songspec.js` in this folder. Tools keep byte-identical copies, checked by `check-copies.js`. It will handle sign-in (the Google Identity Services token client, loaded only on click), finding or creating the song folder and its subfolders, resumable upload for video, listing, download, and saving and opening the spec.
 
 ## Changes
 
