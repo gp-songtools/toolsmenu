@@ -125,8 +125,8 @@ I let the light go up instead of you
 [01:02.80] I let the light go up instead of you
 
 ## Video sequence
-<!-- song-spec: by=gp-producer at=2026-11-20T10:40Z hash=708746a6 -->
-[00:00.00] 01_Intro_0-12.mp4
+<!-- song-spec: by=gp-producer at=2026-11-20T10:40Z hash=9b8a4ada -->
+[00:00.00] 01_Intro_00-12.mp4
 [00:12.00] 02_Verse1_12-26.mp4
 [00:26.00] 03_Verse1A_26-39.mp4
 [00:39.00] 04_Verse1B_39-50.mp4

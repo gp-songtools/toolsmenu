@@ -143,16 +143,18 @@ Written by Framecut after Whisper or audio alignment.
 Written by GP Producer. Framecut will read it in a later phase.
 - One line per scene, in scene order: `[mm:ss.xx] <clip file name>`.
 - The time is the scene's start in song time.
-- The file name is the clip name from GP Producer's Production tab, `{NN}_{SectionSlug}_{startSec}-{endSec}.mp4`, for example `[00:26.00] 03_Verse1A_26-39.mp4`.
+- The file name is the clip name from GP Producer's Production tab, `{NN}_{SectionSlug}_{startSec}-{endSec}.mp4`, from GP Producer's `buildFileTag`. Start and end seconds are zero-padded to at least 2 digits, so `[00:00.00] 01_Intro_00-12.mp4` and `[03:34.00] 04_Outro_214-230.mp4` (a 3-digit second isn't padded further). Example: `[00:26.00] 03_Verse1A_26-39.mp4`.
 
 ```
 ## Video sequence
 <!-- song-spec: by=gp-producer at=2026-11-20T10:40Z hash=708746a6 -->
-[00:00.00] 01_Intro_0-12.mp4
+[00:00.00] 01_Intro_00-12.mp4
 [00:12.00] 02_Verse1_12-26.mp4
 ```
 
 Both sections are warned about, never rejected, when a line doesn't match or times go backwards.
+
+**Planned (Phase 2, to do, not implemented):** GP Producer will upload the produced clips and save them to a Google Drive folder. Framecut will retrieve them from that folder and place them on the timeline in order, using this Video sequence section (clip names and start times). Nothing reads or writes Google Drive yet.
 
 **Which structure Lyricpad uses** (`SongSpec.pickStructure`):
 - It picks the newest of Structure and Idea structure.
