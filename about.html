@@ -311,7 +311,8 @@
           <li><b>Anchor images and storyboard frames</b> drawn by Gemini, or your own uploads, so the same face and place carry through every scene.</li>
           <li><b>Production</b> takes one scene at a time: copy the Google Flow prompts, download the references, tick the checklist and name each clip with its file tag, like <code translate="no">01_Intro_00-12.mp4</code>. <b>Revise scene with Claude</b> rewrites a prompt that missed.</li>
           <li><b>Post</b> prepares lip-sync files for the singing scenes and a <b>Download export bundle (.zip)</b>.</li>
-          <li><b>Save video sequence to song spec</b> records which clip plays when. Placing those clips on Framecut’s timeline is coming next.</li>
+          <li><b>Save video sequence to song spec</b> records which clip plays when, and Framecut places the clips with <b>Place clips…</b>.</li>
+          <li><b>Add clip files…</b> matches your Flow downloads to scenes by file tag. <b>Save clips to Drive</b> puts the clips, images and project file in the song’s Google Drive folder.</li>
           <li>Works with your own <b>Claude</b> key (required) and <b>Gemini</b> key (images and the audio brief).</li>
         </ul>
         <a class="open" href="https://gp-songtools.github.io/gp-producer/" target="_blank" rel="noopener">Open GP Producer →</a>
@@ -333,6 +334,8 @@
           <li><b>Audio visualizers</b>: the 13 presets from AuraLyrics Studio, on any audio clip.</li>
           <li><b>Export ↗</b> to MP4 or WebM, or a transparent WebM, as your browser supports. <b>Save Project</b> keeps your media and edits in one <code translate="no">.framecut</code> file that <b>Open Project</b> reads.</li>
           <li><b>From the song spec</b>: <b>Use Song Spec Lyrics</b> or <b>Use Song Spec Timed Lyrics</b>, and <b>Save Timed Lyrics to Song Spec</b> for GP Producer. It also shows GP Producer’s Video sequence.</li>
+          <li><b>Place clips…</b> or <b>Place clips from Drive…</b> puts GP Producer’s clips on the timeline in order, at song time, muted by default.</li>
+          <li><b>Save to Google Drive too</b> in the export dialog and the header <b>Drive</b> menu keep exports and project files in the song’s Google Drive folder.</li>
         </ul>
         <a class="open" href="https://gp-songtools.github.io/framecut/" target="_blank" rel="noopener">Open Framecut →</a>
       </div>
@@ -384,10 +387,11 @@
 <article class="handoff">
 <p class="route"><span class="pill" translate="no" style="--c: var(--pr)">GP Producer</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--gen)">Song spec: Video sequence</span><span class="arrow">→</span><span class="pill" translate="no" style="--c: var(--fc)">Framecut</span></p>
 <h3>Your scene order, saved</h3>
-<p>GP Producer records which clip plays when, as a Video sequence in the song spec. Framecut already lists it in its “From the song spec” box; placing the clips on its timeline is coming next. Everything stays in your browser or the file you download.</p>
+<p>GP Producer records which clip plays when, as a Video sequence in the song spec. Save the clips to the song’s Google Drive folder with <b>Save clips to Drive</b>, then Framecut places them in that order. Drive is optional: without it, everything stays in your browser or the files you download.</p>
 <ol>
 <li>In GP Producer's Production tab, press <b>Save video sequence to song spec</b>. It shows whether the saved sequence is up to date.</li>
-<li>Press <b>Download</b> in the Song spec panel to keep it as a file.</li>
+<li>Press <b>Add clip files…</b>, then <b>Save clips to Drive</b>, to put the clips in the song’s Google Drive folder.</li>
+<li>In Framecut, open the “From the song spec” box and press <b>Place clips from Drive…</b>, or <b>Place clips…</b> to pick the files from your computer.</li>
 </ol>
 </article>
 <article class="handoff">
@@ -398,6 +402,7 @@
 <li>Change the structure and anything built from the old one is marked out of date, so Lyricpad offers the new one first.</li>
 <li>Edit a part by hand and a tool asks before writing over it.</li>
 <li><b>Clear</b> a part, start a <b>New song</b>, or <b>Download</b> the file and <b>Open file…</b> it later or on another device.</li>
+<li><b>Save to Drive</b> and <b>Open from Drive…</b> keep the song spec in the song’s Google Drive folder, so you can pick it up on another device.</li>
 </ul>
 </article>
 <article class="handoff">
@@ -567,9 +572,9 @@
     <h2 id="why-h">Built the way tools should be</h2>
     <p class="section-intro">Every GP Song Tool follows the same rules.</p>
     <div class="principles">
-      <div class="principle"><div class="icon" aria-hidden="true">🔒</div><h3>Your music stays yours</h3><p>Everything runs in your browser. Audio is only ever sent to an AI service when you press the button that asks it to listen, and your song spec stays in this browser until you download it.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🔒</div><h3>Your music stays yours</h3><p>Everything runs in your browser. Audio is only ever sent to an AI service when you press the button that asks it to listen, and your song spec stays in this browser unless you download it or save it to your own Google Drive.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🔑</div><h3>Your own AI keys</h3><p>AI features use your own Gemini, Claude, Groq or OpenAI key, sent straight to that provider and nowhere else. Each tool says whether it remembers a key on your device (the <a href="privacy.html#keys">privacy page</a> lists them); GP Producer always does, until you press Forget keys. Gemini and Groq both have free tiers; Randomash’s Lyria music models need billing turned on.</p></div>
-      <div class="principle"><div class="icon" aria-hidden="true">🚪</div><h3>No accounts, no installs</h3><p>Open a link and start. There’s nothing to sign up for and nothing to install, on desktop or phone. The tools themselves have no accounts. Only the optional last step, Spec to Suno, needs one: either your own Claude account with the Suno connector, or, on the <a href="https://suno-oauth-poc.pcarenza.workers.dev/" target="_blank" rel="noopener">hosted Spec to Suno</a>, signing in to Suno.</p></div>
+      <div class="principle"><div class="icon" aria-hidden="true">🚪</div><h3>No accounts, no installs</h3><p>Open a link and start. There’s nothing to sign up for and nothing to install, on desktop or phone. The tools themselves have no accounts; Google sign-in appears only if you use the optional Drive buttons. Only the optional last step, Spec to Suno, needs one: either your own Claude account with the Suno connector, or, on the <a href="https://suno-oauth-poc.pcarenza.workers.dev/" target="_blank" rel="noopener">hosted Spec to Suno</a>, signing in to Suno.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🆓</div><h3>Free to use</h3><p>Every tool here is free. The visit counter is anonymous, uses no cookies and never sees your work.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🧭</div><h3>Honest about what it does</h3><p>Plain-language help pages, a changelog for every tool, and a <a href="privacy.html">privacy page</a> that lists exactly what goes where.</p></div>
       <div class="principle"><div class="icon" aria-hidden="true">🛠️</div><h3>Open on GitHub</h3><p>The code for every tool is <a href="https://github.com/gp-songtools" target="_blank" rel="noopener">public on GitHub</a>, so you can see exactly how it works.</p></div>

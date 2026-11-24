@@ -119,7 +119,7 @@ No dependency below is required. Every tool works the same as today when a secti
 | Lyricpad | Lyrics (with tags), `title` | Structure, Idea structure, Idea | Shows "Use structure from: Idea Wizard / GP Blueprint", defaulting to the newest structure that isn't out of date. Topic/feel starts from Idea. Title starts from Idea's `Title:` when empty. | Paste a structure and type a topic, as now |
 | Idea Wizard | Idea, Idea structure | Style, Structure, Analysis | Fills its style, structure and track-analysis boxes | You paste them, as now |
 | Earprint | Analysis; `bpm`, `key`, `bpm_key_by` only when its "Also set the song's BPM and key" option is ticked (off by default) | Lyrics | Fills its lyrics box (tags stripped) | You paste lyrics, or leave them out, as now |
-| Framecut | Timed lyrics (**Save Timed Lyrics to Song Spec**, after transcription or alignment) | Lyrics, Timed lyrics, `title`, `bpm`, `key`, `duration` (Video sequence in a later phase) | The "From the song spec" box shows each value; **Use in Import Lyrics** (or **Use Song Spec Lyrics** / **Use Song Spec Timed Lyrics** inside Import Lyrics) fills the importer with lyrics to transcribe and align, or sync them in AuraLyrics Studio | Paste or open timed LRC, as now |
+| Framecut | Timed lyrics (**Save Timed Lyrics to Song Spec**, after transcription or alignment) | Lyrics, Timed lyrics, `title`, `bpm`, `key`, `duration`, Video sequence | The "From the song spec" box shows each value; **Use in Import Lyrics** (or **Use Song Spec Lyrics** / **Use Song Spec Timed Lyrics** inside Import Lyrics) fills the importer with lyrics to transcribe and align, or sync them in AuraLyrics Studio | Paste or open timed LRC, as now |
 | GP Producer | Video sequence (**Save video sequence to song spec**) | Timed lyrics, `duration`, `title` | The Setup tab's "From the song spec" box offers **Use as lyrics**, **Use as runtime** and **Use as project name** | Paste or upload an `.lrc`, and type the runtime and name, as now |
 | AuraLyrics Studio | nothing (read only) | Lyrics | **Use these lyrics** fills the lyric editor, tags stripped | Transcribe, paste or upload, as now |
 
@@ -141,7 +141,7 @@ Written by Framecut after Whisper or audio alignment.
 
 ### Video sequence format
 
-Written by GP Producer. Framecut will read it in a later phase.
+Written by GP Producer. Framecut reads it: **Place clips…** (local files) and **Place clips from Drive…** (the Drive `clips/` folder) put the clips on the timeline.
 - One line per scene, in scene order: `[mm:ss.xx] <clip file name>`.
 - The time is the scene's start in song time.
 - The file name is the clip name from GP Producer's Production tab, `{NN}_{SectionSlug}_{startSec}-{endSec}.mp4`, from GP Producer's `buildFileTag`. Start and end seconds are zero-padded to at least 2 digits, so `[00:00.00] 01_Intro_00-12.mp4` and `[03:34.00] 04_Outro_214-230.mp4` (a 3-digit second isn't padded further). Example: `[00:26.00] 03_Verse1A_26-39.mp4`.
@@ -155,7 +155,7 @@ Written by GP Producer. Framecut will read it in a later phase.
 
 Both sections are warned about, never rejected, when a line doesn't match or times go backwards.
 
-**Planned:** Framecut will get a **Place clips…** button that puts the clips from the Drive song folder (section 8) on the timeline using this section. The Song spec panel already saves and opens the spec on Drive; the tools don't save clips there yet.
+Framecut's **Place clips…** and **Place clips from Drive…** use this section. Chosen files are matched to scenes by exact file name, then by the `NN_` scene number. Song time 0 is the start of the selected audio clip (timeline 0 if none). The clips come from local files or from the `clips/` folder of the Drive song folder (section 8).
 
 **Which structure Lyricpad uses** (`SongSpec.pickStructure`):
 - It picks the newest of Structure and Idea structure.
@@ -194,7 +194,7 @@ Framecut and GP Producer show the shared Song spec panel like the other tools. *
 
 ## 8. Song folder in Google Drive
 
-The owner decided the plan on 2026-11-23. Library 1.2.0 adds the `drive_folder` setting and the panel's Drive buttons; `songdrive.js` 1.0.0 does the work. Tools don't save their own files into the subfolders yet.
+The owner decided the plan on 2026-11-23. Library 1.2.0 adds the `drive_folder` setting and the panel's Drive buttons; `songdrive.js` 1.0.0 does the work. GP Producer saves into `clips/`, `images/` and `projects/`, and Framecut reads `clips/` and saves into `exports/` and `projects/`. The other tools don't yet: Lyricpad still uses its own Lyricpad folder, and GP Mastering, Randomash and AuraLyrics Studio don't use Drive yet.
 
 **Folder.** Every GP Song Tools app uses one Drive folder per song:
 
