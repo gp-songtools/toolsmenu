@@ -119,6 +119,7 @@ No dependency below is required. Every tool works the same as today when a secti
 | Lyricpad | Lyrics (with tags), `title` | Structure, Idea structure, Idea | Shows "Use structure from: Idea Wizard / GP Blueprint", defaulting to the newest structure that isn't out of date. Topic/feel starts from Idea. Title starts from Idea's `Title:` when empty. | Paste a structure and type a topic, as now |
 | Idea Wizard | Idea, Idea structure | Style, Structure, Analysis | Fills its style, structure and track-analysis boxes | You paste them, as now |
 | Earprint | Analysis; `bpm`, `key`, `bpm_key_by` only when its "Also set the song's BPM and key" option is ticked (off by default) | Lyrics | Fills its lyrics box (tags stripped) | You paste lyrics, or leave them out, as now |
+| GP Mastering | nothing (read only); saves masters to Drive `audio/` (**Save to Google Drive too**) | `title`, `bpm`, `key` | The Song panel's song spec box shows the title, BPM and key, with the panel's Drive buttons; the title names the Drive folder | Works on the audio alone, as now; asks for a song title before the first Drive save |
 | Framecut | Timed lyrics (**Save Timed Lyrics to Song Spec**, after transcription or alignment) | Lyrics, Timed lyrics, `title`, `bpm`, `key`, `duration`, Video sequence | The "From the song spec" box shows each value; **Use in Import Lyrics** (or **Use Song Spec Lyrics** / **Use Song Spec Timed Lyrics** inside Import Lyrics) fills the importer with lyrics to transcribe and align, or sync them in AuraLyrics Studio | Paste or open timed LRC, as now |
 | GP Producer | Video sequence (**Save video sequence to song spec**) | Timed lyrics, `duration`, `title` | The Setup tab's "From the song spec" box offers **Use as lyrics**, **Use as runtime** and **Use as project name** | Paste or upload an `.lrc`, and type the runtime and name, as now |
 | AuraLyrics Studio | nothing (read only) | Lyrics | **Use these lyrics** fills the lyric editor, tags stripped | Transcribe, paste or upload, as now |
@@ -165,7 +166,7 @@ Framecut's **Place clips…** and **Place clips from Drive…** use this section
 
 **Not in the spec:**
 - Earprint → GP Mastering edits stay in their own JSON.
-- GP Mastering works on audio and doesn't use the file.
+- GP Mastering works on audio. It reads only `title`, `bpm` and `key` (shown, never used to change its tempo grid) and writes no sections.
 - Randomash doesn't read or write the browser copy. Its **Download song spec (loop)** makes a new file for a loop, laid out like `templates/blank-sound.songspec.md`: `request: sound`, `loop: true`, `instrumental: true`, `bpm`, `key` (major or minor only) and `bpm_key_by: gp-randomash`, its prompt (vocals and length wording removed) as Sound, and its genres and settings in Notes.
 
 ## 5. Sharing between tools
@@ -194,7 +195,7 @@ Framecut and GP Producer show the shared Song spec panel like the other tools. *
 
 ## 8. Song folder in Google Drive
 
-The owner decided the plan on 2026-11-23. Library 1.2.0 adds the `drive_folder` setting and the panel's Drive buttons; `songdrive.js` does the work (now 1.1.0). GP Producer saves into `clips/`, `images/` and `projects/`, and Framecut reads `clips/` and saves into `exports/` and `projects/`. The other tools don't yet: Lyricpad still uses its own Lyricpad folder, and GP Mastering, Randomash and AuraLyrics Studio don't use Drive yet.
+The owner decided the plan on 2026-11-23. Library 1.2.0 adds the `drive_folder` setting and the panel's Drive buttons; `songdrive.js` does the work (now 1.1.0). GP Producer saves into `clips/`, `images/` and `projects/`, and Framecut reads `clips/` and saves into `exports/` and `projects/`. The other tools don't yet: Lyricpad still uses its own Lyricpad folder, GP Mastering saves masters into `audio/` (**Save to Google Drive too**, **Save last master to Drive**). Randomash and AuraLyrics Studio don't use Drive yet.
 
 **Folder.** Every GP Song Tools app uses one Drive folder per song:
 

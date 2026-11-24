@@ -10,6 +10,7 @@ const COPIES = {
   earprint: 'songspec.js',
   'auralyrics-studio': 'songspec.js',
   framecut: 'src/songspec.js',
+  'gp-master': 'songspec.js',
   'gp-producer': 'src/vendor/songspec.js',
 };
 const root = path.resolve(__dirname, '..', '..');
