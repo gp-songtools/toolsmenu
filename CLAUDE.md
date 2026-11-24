@@ -47,8 +47,8 @@
 - `earprint` — Earprint
 - `gp-master` — GP Mastering
 - `auralyrics-studio` — AuraLyrics Studio
-- `framecut` — Framecut (browser video editor; song spec consumer: writes Timed lyrics, reads Lyrics; receives AuraLyrics' "Send to Framecut")
-- `gp-producer` — GP Producer (plans an AI music video, does not generate it; the Claude skill folder is still `music-video-director`; song spec consumer: writes Video sequence, reads Timed lyrics; saving clips to Google Drive and Framecut placing them is planned, not shipped)
+- `framecut` — Framecut (browser video editor; song spec consumer: writes Timed lyrics, reads Lyrics and Video sequence and places the clips with Place clips / Place clips from Drive; Drive: reads `clips/`, writes `exports/` and `projects/`; receives AuraLyrics' "Send to Framecut")
+- `gp-producer` — GP Producer (plans an AI music video, does not generate it; the Claude skill folder is still `music-video-director`; song spec consumer: writes Video sequence, reads Timed lyrics; saves clips, images and the project to the song's Drive folder (`clips/`, `images/`, `projects/`); Framecut places the clips with Place clips / Place clips from Drive)
 
 ## Constraints
 - No frameworks, bundlers, or external scripts, except the Cloudflare Web Analytics snippet
