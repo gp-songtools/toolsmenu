@@ -1,4 +1,4 @@
-/* songdrive v1.0.0 — Google Drive for the GP Song Tools: one folder per song, the song spec in it.
+/* songdrive v1.1.0 — Google Drive for the GP Song Tools: one folder per song, the song spec in it.
  * Canonical copy: gp-songtools/toolsmenu/songspec/songdrive.js. Tools keep a byte-identical copy
  * next to their songspec.js; never edit a copy, change this file and copy it again. Format: songspec/SPEC.md, section 8.
  * No dependencies. Works as a classic <script> (global SongDrive) and from Node (tests inject a fake fetch).
@@ -8,6 +8,13 @@
  *   (Google's sign-in popup is blocked otherwise).
  * - The access token (one hour) is kept in localStorage, shared by every tool on the address. It never goes
  *   into a URL, a log or an error message.
+ * - A tool with its own Google sign-in can hand its token over: configure({ auth: { token, signIn, signOut? } }), where
+ *   token() returns the current access token (or null), signIn(opts) starts the tool's own sign-in (songdrive calls it
+ *   synchronously from signIn(), so a popup still opens from the click) and signOut() is optional. With auth set,
+ *   songdrive never loads Google's script, never stores or revokes a token, and reads auth.token() on every request.
+ *   configure({ auth: null }) restores the built-in sign-in.
+ * - Files and folders: move(fileId, toFolderId, {fromFolderId}), rename(fileId, name), trash(fileId),
+ *   findFolder(parentId, name) (exact name, not trashed, or null) and children(folderId, {foldersOnly, filesOnly, q}).
  */
 (function (root, factory) {
   const api = factory();
@@ -16,7 +23,7 @@
 })(typeof globalThis !== 'undefined' ? globalThis : typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
-  const VERSION = '1.0.0';
+  const VERSION = '1.1.0';
   let CLIENT_ID = '514325867394-f0mnkc7h7849iictdpbpb2pov8qp08fc.apps.googleusercontent.com'; // Lyricpad's; only names the app to Google
   const SCOPE = 'https://www.googleapis.com/auth/drive.file';
   const GIS_URL = 'https://accounts.google.com/gsi/client';
@@ -29,8 +36,10 @@
   const FOLDER = 'application/vnd.google-apps.folder';
   const SPEC_EXT = '.songspec.md';
   const FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,version';
+  const META_FIELDS = 'id,name,parents,mimeType,modifiedTime,version';
 
   let fetchImpl = null;
+  let auth = null; // a tool's own sign-in: { token, signIn, signOut }
   let chunkSize = 8 * 1024 * 1024; // a multiple of 256 KiB
   let sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -43,9 +52,18 @@
     }
   }
 
-  /** Override the client id, the fetch function (tests), the upload chunk size or the retry pause (tests). */
-  function configure({ clientId, fetch: f, chunk, sleep: s } = {}) {
+  /**
+   * Override the client id, the fetch function (tests), the upload chunk size or the retry pause (tests), or hand over
+   * the tool's own sign-in with `auth` ({ token(), signIn(opts), signOut?() }; null restores the built-in one).
+   */
+  function configure({ clientId, fetch: f, chunk, sleep: s, auth: a } = {}) {
     if (clientId) CLIENT_ID = clientId;
+    if (a !== undefined) {
+      if (a !== null && (typeof a !== 'object' || typeof a.token !== 'function' || typeof a.signIn !== 'function')) {
+        throw new SongDriveError('auth needs token() and signIn() functions.', { code: 'auth' });
+      }
+      auth = a;
+    }
     if (f) fetchImpl = f;
     if (chunk) chunkSize = chunk;
     if (s) sleep = s;
@@ -61,6 +79,7 @@
 
   /** True when a token is stored that has more than a minute left. */
   function signedIn() {
+    if (auth) return !!auth.token();
     const t = getToken();
     return !!(t && t.value && t.expires > Date.now() + 60_000);
   }
@@ -112,7 +131,14 @@
   }
 
   /** Make sure there is a token. Call it straight from a click: with Google's script already loaded, the popup opens at once. */
-  function signIn({ prompt } = {}) {
+  function signIn(opts = {}) {
+    if (auth) {
+      if (auth.token()) return Promise.resolve();
+      return Promise.resolve(auth.signIn(opts)).then(() => { // auth.signIn runs synchronously, in the click
+        if (!auth.token()) throw new SongDriveError('Google sign-in did not finish. Click again to sign in.', { code: 'auth' });
+      });
+    }
+    const { prompt } = opts || {};
     if (signedIn()) return Promise.resolve();
     if (signing) return signing;
     const loading = loadGis();
@@ -124,6 +150,11 @@
 
   /** Sign out of Drive on this device: revoke the token and forget the sync notes. */
   async function signOut() {
+    if (auth) {
+      lsSet(SYNC_KEY, null);
+      if (typeof auth.signOut === 'function') await auth.signOut();
+      return;
+    }
     const t = getToken();
     try { if (t?.value && globalThis.google?.accounts?.oauth2?.revoke) globalThis.google.accounts.oauth2.revoke(t.value, () => {}); } catch { /* ignore */ }
     setToken(null);
@@ -135,22 +166,22 @@
 
   /**
    * One authorised request. Retries 5xx, 429 and network failures with a pause unless retry is false.
-   * 401 clears the token. Statuses in `allow` (e.g. 308) are returned like successes.
+   * 401 clears the stored token (not a tool's own token from `auth`). Statuses in `allow` (e.g. 308) are returned like successes.
    */
   async function request(url, init = {}, { retry = true, allow = [] } = {}) {
     for (let attempt = 0; ; attempt++) {
-      const t = getToken();
-      if (!t || !t.value) throw authErr();
+      const tok = auth ? auth.token() : getToken()?.value;
+      if (!tok) throw authErr();
       let res;
       try {
-        res = await doFetch(url, { ...init, headers: { ...(init.headers || {}), Authorization: `Bearer ${t.value}` } });
+        res = await doFetch(url, { ...init, headers: { ...(init.headers || {}), Authorization: `Bearer ${tok}` } });
       } catch (e) {
         if (e && e.name === 'AbortError') throw new SongDriveError('Cancelled.', { code: 'cancelled' });
         if (retry && attempt < 2) { await sleep(500 * 2 ** attempt); continue; }
         throw new SongDriveError("Couldn't reach Google Drive. Check your connection.", { code: 'network' });
       }
       if (res.ok || allow.includes(res.status)) return res;
-      if (res.status === 401) { setToken(null); throw authErr(); }
+      if (res.status === 401) { if (!auth) setToken(null); throw authErr(); }
       if ((res.status >= 500 || res.status === 429) && retry && attempt < 2) { await sleep(500 * 2 ** attempt); continue; }
       let detail = '';
       try { detail = (await res.json())?.error?.message || ''; } catch { /* no body */ }
@@ -182,7 +213,7 @@
     } while (pageToken);
     return out;
   }
-  const findFolder = async (name, parentId) =>
+  const folderByName = async (name, parentId) =>
     (await listPages(`name = '${esc(name)}' and mimeType = '${FOLDER}' and '${esc(parentId)}' in parents and trashed = false`))[0] || null;
   const makeFolder = (name, parentId) => json(`${API}/files?${qs({ fields: 'id,name' })}`, {
     method: 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8' },
@@ -192,7 +223,7 @@
   /** The "GP Song Tools" folder in My Drive: {id, name} or null (when missing and create is false). */
   async function rootFolder({ create = true } = {}) {
     await signIn();
-    const f = await findFolder(ROOT_NAME, 'root');
+    const f = await folderByName(ROOT_NAME, 'root');
     if (f) return { id: f.id, name: f.name };
     if (create === false) return null;
     const c = await makeFolder(ROOT_NAME, 'root');
@@ -218,13 +249,13 @@
     if (!name) throw new SongDriveError('Give the song a title first: its Drive folder is named after it.', { code: 'notitle' });
     const root = await rootFolder({ create });
     if (!root) return null;
-    const found = await findFolder(name, root.id);
+    const found = await folderByName(name, root.id);
     let useName = name;
     if (found) {
       if (!confirm || (await confirm(name))) return { id: found.id, name: found.name, created: false };
       for (let n = 2; ; n++) {
         useName = `${name} (${n})`;
-        if (!(await findFolder(useName, root.id))) break;
+        if (!(await folderByName(useName, root.id))) break;
       }
     }
     if (!create) return null;
@@ -236,7 +267,7 @@
   async function subfolder(songFolderId, name, { create = true } = {}) {
     if (!SUBFOLDERS.includes(name)) throw new SongDriveError(`"${name}" is not a GP Song Tools subfolder.`, { code: 'http' });
     await signIn();
-    const f = await findFolder(name, songFolderId);
+    const f = await folderByName(name, songFolderId);
     if (f) return { id: f.id, name: f.name };
     if (create === false) return null;
     const c = await makeFolder(name, songFolderId);
@@ -398,10 +429,62 @@
     return { folderId: folder.id, fileId: f.id, fileName: f.name || fileName, created: !existing };
   }
 
+  // ---------- files and folders ----------
+
+  const patch = (fileId, query, body) => json(`${API}/files/${encodeURIComponent(fileId)}?${qs({ fields: META_FIELDS, ...query })}`, {
+    method: 'PATCH', headers: { 'Content-Type': 'application/json; charset=UTF-8' }, body: JSON.stringify(body),
+  });
+
+  /** Move a file or folder into toFolderId. Leaves fromFolderId (or, when not given, every folder it is in). Returns Drive's file record. */
+  async function move(fileId, toFolderId, { fromFolderId } = {}) {
+    await signIn();
+    let remove = fromFolderId ? [fromFolderId] : null;
+    if (!remove) {
+      const meta = await json(`${API}/files/${encodeURIComponent(fileId)}?${qs({ fields: 'id,parents' })}`);
+      remove = (meta.parents || []).filter((p) => p !== toFolderId);
+    }
+    const query = { addParents: toFolderId };
+    if (remove.length) query.removeParents = remove.join(',');
+    return patch(fileId, query, {});
+  }
+
+  /** Rename a file or folder. Returns Drive's file record. */
+  async function rename(fileId, name) {
+    await signIn();
+    return patch(fileId, {}, { name });
+  }
+
+  /** Move a file or folder to Drive's trash (it can be restored there). Returns Drive's file record. */
+  async function trash(fileId) {
+    await signIn();
+    return patch(fileId, {}, { trashed: true });
+  }
+
+  /** The folder named exactly `name` (not trashed) inside parentId: {id, name} or null. parentId 'root' is My Drive. */
+  async function findFolder(parentId, name) {
+    await signIn();
+    const f = await folderByName(name, parentId);
+    return f ? { id: f.id, name: f.name } : null;
+  }
+
+  /**
+   * What is in a folder (not trashed): {id, name, mimeType, size, modifiedTime, version}. foldersOnly: just subfolders;
+   * filesOnly: just files (what list() does); q: an extra Drive query clause, ANDed in.
+   */
+  async function children(folderId, { foldersOnly, filesOnly, q } = {}) {
+    await signIn();
+    let query = `'${esc(folderId)}' in parents and trashed = false`;
+    if (foldersOnly) query += ` and mimeType = '${FOLDER}'`;
+    else if (filesOnly) query += ` and mimeType != '${FOLDER}'`;
+    if (q) query += ` and (${q})`;
+    return (await listPages(query)).map(({ parents, ...f }) => f);
+  }
+
   return {
     VERSION, SCOPE, ROOT_NAME, SUBFOLDERS, TOKEN_KEY, SYNC_KEY, SongDriveError,
     configure, signedIn, signIn, signOut, folderName,
     rootFolder, songFolder, subfolder, list, download, downloadText, upload,
     listSongs, openSpec, saveSpec,
+    move, rename, trash, findFolder, children,
   };
 });

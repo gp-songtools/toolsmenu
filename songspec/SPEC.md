@@ -194,7 +194,7 @@ Framecut and GP Producer show the shared Song spec panel like the other tools. *
 
 ## 8. Song folder in Google Drive
 
-The owner decided the plan on 2026-11-23. Library 1.2.0 adds the `drive_folder` setting and the panel's Drive buttons; `songdrive.js` 1.0.0 does the work. GP Producer saves into `clips/`, `images/` and `projects/`, and Framecut reads `clips/` and saves into `exports/` and `projects/`. The other tools don't yet: Lyricpad still uses its own Lyricpad folder, and GP Mastering, Randomash and AuraLyrics Studio don't use Drive yet.
+The owner decided the plan on 2026-11-23. Library 1.2.0 adds the `drive_folder` setting and the panel's Drive buttons; `songdrive.js` does the work (now 1.1.0). GP Producer saves into `clips/`, `images/` and `projects/`, and Framecut reads `clips/` and saves into `exports/` and `projects/`. The other tools don't yet: Lyricpad still uses its own Lyricpad folder, and GP Mastering, Randomash and AuraLyrics Studio don't use Drive yet.
 
 **Folder.** Every GP Song Tools app uses one Drive folder per song:
 
@@ -231,7 +231,10 @@ My Drive/
 
 **Library.** `songdrive.js` sits next to `songspec.js` in this folder (global `SongDrive`, or `require`). Tools keep byte-identical copies next to their `songspec.js`, checked by `check-copies.js` (a tool without one is "not used yet"). It asks Google for `drive.file` access only, and only when you first click a Drive button: Google's script isn't loaded before that, and the sign-in popup opens from the click. The access token stays in this browser (`localStorage`, shared by the tools). It finds or creates the song folder and its subfolders, lists, downloads, uploads in resumable chunks (video), and saves and opens the spec. Tests: `node songspec/drive-test.js`.
 
+A tool with its own Google sign-in can hand its token to songdrive with `configure({ auth: { token, signIn, signOut } })`, so one sign-in covers both the tool and the shared Song spec panel. Version 1.1.0 also adds `move`, `rename`, `trash`, `findFolder` and `children`.
+
 ## Changes
 
 - **Library 1.1.0 (schema 1, additive):** added the `Timed lyrics` (Framecut) and `Video sequence` (GP Producer) sections. `schema_version` stays 1. Older copies keep these sections as unknown sections, unchanged.
 - **Library 1.2.0 (schema 1, additive):** added the `drive_folder` setting (any tool, only while empty; the person may change it), let the person set `title` as well, and added **Save to Drive** / **Open from Drive…** to the panel when `songdrive.js` is loaded. `songdrive.js` 1.0.0 is new. Older copies keep `drive_folder` as an unknown key, unchanged.
+- **songdrive 1.1.0 (additive):** `configure({ auth })` lets a tool use its own Google sign-in instead of the built-in one (`token()`, `signIn(opts)`, optional `signOut()`); new `move`, `rename`, `trash`, `findFolder(parentId, name)` and `children(folderId, {foldersOnly, filesOnly, q})`. Nothing changes for tools that don't use them. The song spec library stays 1.2.0.

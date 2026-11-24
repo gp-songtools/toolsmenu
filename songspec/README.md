@@ -5,7 +5,7 @@ One Markdown file per song that every GP Song Tool can read, and that each tool 
 - **Format:** [SPEC.md](SPEC.md). Read this first: settings, sections, who writes what, the marker line, and the rules.
 - **Example:** [example.songspec.md](example.songspec.md)
 - **Library:** [songspec.js](songspec.js), version 1.2.0 (adds the `drive_folder` setting and the panel's Save to Drive / Open from Drive; schema 1). No dependencies. Use it as a `<script>`, an import, or from Node.
-- **Google Drive:** [songdrive.js](songdrive.js), version 1.0.0. Sign-in (only on a click, `drive.file` scope), the song folder, uploads, and saving and opening the spec on Drive. Optional: the panel shows its buttons only when `SongDrive` is loaded. See SPEC.md section 8.
+- **Google Drive:** [songdrive.js](songdrive.js), version 1.1.0. Sign-in (only on a click, `drive.file` scope), the song folder, uploads, and saving and opening the spec on Drive; `move`, `rename`, `trash`, `findFolder` and `children` for tidying folders. A tool with its own Google sign-in can pass it in with `configure({ auth: { token, signIn, signOut } })`. Optional: the panel shows its buttons only when `SongDrive` is loaded. See SPEC.md section 8.
 - **Tests:** `node test.js` (library), `node drive-test.js` (Google Drive, against an in-memory fake; no network). **Chain test:** from a folder holding all the repos, `node toolsmenu/songspec/chain-test.mjs` passes one file through every tool, in every order, and checks each tool leaves everything it doesn't own unchanged. Each tool also has its own tests (see its CLAUDE.md).
 
 ## Check a file

@@ -97,6 +97,16 @@ function fakeDrive() {
     }
     const rec = files.get(decodeURIComponent(m[1]));
     if (!rec) return js({ error: { message: 'File not found' } }, 404);
+    if (method === 'PATCH') {
+      const b = JSON.parse(init.body || '{}');
+      const add = (u.searchParams.get('addParents') || '').split(',').filter(Boolean);
+      const del = (u.searchParams.get('removeParents') || '').split(',').filter(Boolean);
+      rec.parents = [...rec.parents.filter((p) => !del.includes(p)), ...add.filter((p) => !rec.parents.includes(p))];
+      if (b.name != null) rec.name = b.name;
+      if (b.trashed != null) rec.trashed = !!b.trashed;
+      rec.version++;
+      return js(out(rec));
+    }
     if (u.searchParams.get('alt') === 'media') return new Response(rec.content, { status: 200 });
     return js(out(rec));
   };
@@ -106,7 +116,7 @@ function fakeDrive() {
 function setup() {
   const fake = fakeDrive();
   globalThis.localStorage = fakeStorage();
-  D.configure({ fetch: fake.fetch, sleep: async () => {}, chunk: 8 * 1024 * 1024 });
+  D.configure({ auth: null, fetch: fake.fetch, sleep: async () => {}, chunk: 8 * 1024 * 1024 });
   localStorage.setItem(D.TOKEN_KEY, JSON.stringify({ value: 'good', expires: Date.now() + 3600e3 }));
   return fake;
 }
@@ -117,7 +127,7 @@ const rejects = async (p, code) => { try { await p; } catch (e) { assert.ok(e in
 
 // ---------- tests ----------
 test('version and exports', () => {
-  assert.strictEqual(D.VERSION, '1.0.0');
+  assert.strictEqual(D.VERSION, '1.1.0');
   assert.deepStrictEqual(D.SUBFOLDERS, ['lyrics', 'audio', 'images', 'clips', 'exports', 'projects']);
 });
 test('folderName', () => {
@@ -443,6 +453,155 @@ test('signIn: token client flow (fake Google script) stores the token and dedupe
     assert.ok(inits <= 1);
     assert.strictEqual(fake.calls.length, 0);
   } finally { delete globalThis.google; }
+});
+
+// ---------- 1.1.0: a tool's own sign-in, move, rename, trash, findFolder, children ----------
+function withAuth(fake, token, extra = {}) {
+  const log = { signIns: 0, signOuts: 0, opts: [] };
+  const auth = { token: () => token.value, signIn: (o) => { log.signIns++; log.opts.push(o); return extra.signIn ? extra.signIn(log) : Promise.resolve(); }, ...(extra.noSignOut ? {} : { signOut: async () => { log.signOuts++; } }) };
+  D.configure({ auth });
+  return log;
+}
+test('auth: Bearer comes from the provider on every request; own token storage is never used', async () => {
+  const fake = setup();
+  localStorage.removeItem(D.TOKEN_KEY);
+  const token = { value: 'good' };
+  withAuth(fake, token);
+  assert.strictEqual(D.signedIn(), true);
+  assert.strictEqual(await D.rootFolder({ create: false }), null);
+  token.value = 'other';
+  await rejects(D.rootFolder({ create: false }), 'auth'); // fake answers 401 for the new token
+  assert.strictEqual(localStorage.getItem(D.TOKEN_KEY), null);
+  token.value = 'good';
+  assert.strictEqual(await D.rootFolder({ create: false }), null);
+  D.configure({ auth: null });
+});
+test('auth: a 401 leaves songdrive\'s own stored token alone', async () => {
+  const fake = setup();
+  const token = { value: 'stale' };
+  withAuth(fake, token);
+  await rejects(D.list('x'), 'auth');
+  assert.ok(localStorage.getItem(D.TOKEN_KEY), 'own token untouched');
+  D.configure({ auth: null });
+});
+test('auth: signIn returns at once with a token; otherwise calls the provider synchronously, then needs a token', async () => {
+  const fake = setup();
+  const token = { value: null };
+  const log = withAuth(fake, token, { signIn: async () => { token.value = 'good'; } });
+  assert.strictEqual(D.signedIn(), false);
+  const p = D.signIn({ prompt: 'consent' });
+  assert.strictEqual(log.signIns, 1, 'provider called before any await');
+  assert.deepStrictEqual(log.opts[0], { prompt: 'consent' });
+  await p;
+  assert.strictEqual(D.signedIn(), true);
+  await D.signIn();
+  assert.strictEqual(log.signIns, 1, 'no second call when signed in');
+  D.configure({ auth: null });
+});
+test('auth: provider that leaves no token gives code auth; GIS is never loaded', async () => {
+  const fake = setup();
+  localStorage.removeItem(D.TOKEN_KEY);
+  let gis = 0;
+  globalThis.google = { accounts: { oauth2: { initTokenClient: () => { gis++; return { requestAccessToken() {} }; } } } };
+  globalThis.document = { createElement: () => { gis++; return {}; }, head: { appendChild: () => { gis++; } } };
+  try {
+    withAuth(fake, { value: null });
+    await rejects(D.signIn(), 'auth');
+    await rejects(D.rootFolder(), 'auth');
+    assert.strictEqual(gis, 0);
+    assert.strictEqual(fake.calls.length, 0);
+  } finally { delete globalThis.google; delete globalThis.document; D.configure({ auth: null }); }
+});
+test('auth: a rejecting provider passes its error through', async () => {
+  const fake = setup();
+  withAuth(fake, { value: null }, { signIn: async () => { throw new D.SongDriveError('popup closed', { code: 'popup' }); } });
+  await rejects(D.signIn(), 'popup');
+  D.configure({ auth: null });
+});
+test('auth: signOut calls the provider, clears sync notes, never revokes; works without a provider signOut', async () => {
+  const fake = setup();
+  let revoked = 0;
+  globalThis.google = { accounts: { oauth2: { revoke: () => { revoked++; } } } };
+  try {
+    localStorage.setItem(D.SYNC_KEY, '{"a":"1"}');
+    const log = withAuth(fake, { value: 'good' });
+    await D.signOut();
+    assert.strictEqual(log.signOuts, 1);
+    assert.strictEqual(localStorage.getItem(D.SYNC_KEY), null);
+    assert.strictEqual(revoked, 0);
+    assert.ok(localStorage.getItem(D.TOKEN_KEY), 'own token not touched');
+    withAuth(fake, { value: 'good' }, { noSignOut: true });
+    await D.signOut();
+  } finally { delete globalThis.google; D.configure({ auth: null }); }
+});
+test('auth: configure({auth:null}) restores the built-in sign-in; bad auth is refused', async () => {
+  const fake = setup();
+  withAuth(fake, { value: null });
+  assert.strictEqual(D.signedIn(), false);
+  D.configure({ auth: null });
+  assert.strictEqual(D.signedIn(), true); // stored token again
+  assert.throws(() => D.configure({ auth: { token: () => 'x' } }), (e) => e.code === 'auth');
+});
+test('findFolder: exact name, not trashed, per parent; null when missing; names with quotes', async () => {
+  const fake = setup();
+  const r = fake.add({ name: 'GP Song Tools', mimeType: FOLDER });
+  const a = fake.add({ name: "It's Me", mimeType: FOLDER, parents: [r.id] });
+  fake.add({ name: 'Old', mimeType: FOLDER, parents: [r.id], trashed: true });
+  fake.add({ name: 'Old', mimeType: 'text/plain', parents: [r.id] });
+  assert.deepStrictEqual(await D.findFolder(r.id, "It's Me"), { id: a.id, name: "It's Me" });
+  assert.strictEqual(await D.findFolder(r.id, 'Old'), null);
+  assert.strictEqual(await D.findFolder(r.id, 'it\'s me'), null);
+  assert.strictEqual((await D.findFolder('root', 'GP Song Tools')).id, r.id);
+  assert.strictEqual(await D.findFolder(a.id, 'lyrics'), null);
+});
+test('children: folders, files, both, with extra q; not trashed; follows pages', async () => {
+  const fake = setup();
+  const r = fake.add({ name: 'GP Song Tools', mimeType: FOLDER });
+  const s1 = fake.add({ name: 'Song A', mimeType: FOLDER, parents: [r.id] });
+  fake.add({ name: 'Song B', mimeType: FOLDER, parents: [r.id] });
+  fake.add({ name: 'Gone', mimeType: FOLDER, parents: [r.id], trashed: true });
+  fake.add({ name: 'x.txt', mimeType: 'text/plain', parents: [r.id] });
+  const names = (l) => l.map((x) => x.name).sort();
+  assert.deepStrictEqual(names(await D.children(r.id, { foldersOnly: true })), ['Song A', 'Song B']);
+  assert.deepStrictEqual(names(await D.children(r.id, { filesOnly: true })), ['x.txt']);
+  assert.deepStrictEqual(names(await D.children(r.id)), ['Song A', 'Song B', 'x.txt']);
+  assert.deepStrictEqual(names(await D.children(r.id, { foldersOnly: true, q: "name = 'Song A'" })), ['Song A']);
+  assert.ok(!('parents' in (await D.children(r.id))[0]));
+  assert.deepStrictEqual(await D.children(s1.id), []);
+  for (let i = 0; i < 1200; i++) fake.add({ name: `f${i}`, mimeType: 'text/plain', parents: [s1.id] });
+  assert.strictEqual((await D.children(s1.id)).length, 1200);
+});
+test('move: with fromFolderId removes only that parent; without, removes all current parents', async () => {
+  const fake = setup();
+  const a = fake.add({ name: 'A', mimeType: FOLDER }), b = fake.add({ name: 'B', mimeType: FOLDER }), c = fake.add({ name: 'C', mimeType: FOLDER });
+  const f1 = fake.add({ name: 'one.txt', parents: [a.id, c.id] });
+  const r1 = await D.move(f1.id, b.id, { fromFolderId: a.id });
+  assert.deepStrictEqual(r1.parents, [c.id, b.id]);
+  assert.strictEqual(r1.name, 'one.txt');
+  const patchCall = fake.calls.find((x) => x.method === 'PATCH');
+  assert.ok(patchCall.url.includes(`addParents=${b.id}`) && patchCall.url.includes(`removeParents=${a.id}`));
+  const f2 = fake.add({ name: 'two.txt', parents: [a.id, c.id] });
+  const r2 = await D.move(f2.id, b.id);
+  assert.deepStrictEqual(r2.parents, [b.id]);
+  assert.ok(fake.calls.some((x) => x.method === 'GET' && x.url.includes(`/files/${f2.id}?`) && x.url.includes('parents')), 'read the parents first');
+  const f3 = fake.add({ name: 'three.txt', parents: [b.id] });
+  assert.deepStrictEqual((await D.move(f3.id, b.id)).parents, [b.id], 'moving into the folder it is in changes nothing');
+  await rejects(D.move('nope', b.id), 'notfound');
+});
+test('rename and trash: PATCH, file record back, trashed files vanish from listings', async () => {
+  const fake = setup();
+  const r = fake.add({ name: 'Root', mimeType: FOLDER });
+  const f = fake.add({ name: 'old.txt', parents: [r.id] });
+  const out = await D.rename(f.id, "new 'name'.txt");
+  assert.strictEqual(out.name, "new 'name'.txt");
+  assert.strictEqual(fake.files.get(f.id).name, "new 'name'.txt");
+  assert.deepStrictEqual(JSON.parse(JSON.stringify({ n: 1 })), { n: 1 });
+  const t = await D.trash(f.id);
+  assert.strictEqual(fake.files.get(f.id).trashed, true);
+  assert.strictEqual(t.id, f.id);
+  assert.deepStrictEqual(await D.list(r.id), []);
+  await rejects(D.rename('nope', 'x'), 'notfound');
+  await rejects(D.trash('nope'), 'notfound');
 });
 
 (async () => {
